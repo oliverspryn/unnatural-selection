@@ -9,6 +9,18 @@ INITALIZERS
 **************************/
 Gun::Gun(): fireRate(gunNS::BASE_RPM)
 {
+	spriteData.width = 128;           // size of Ship1
+    spriteData.height = 32;
+    spriteData.x = 100;                   // location on screen
+    spriteData.y = 100;
+    spriteData.rect.bottom = 128;    // rectangle to select parts of an image
+    spriteData.rect.right = 32;
+    velocity.x = 0;
+    velocity.y = 0;
+	spriteData.angle = 0;
+    radius = 0;
+	collisionType = entityNS::NONE;
+ 
 	using namespace gunNS;
 
 	Gun(BASE_DAMAGE, BASE_RPM, BASE_MIN_RANGE, BASE_MAX_RANGE, BASE_MUZZEL_VELOCITY, BASE_RECOIL_REDUCTION, BASE_SPREAD, BASE_RELOAD_TIME, AUTO, ONE, 0);

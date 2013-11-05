@@ -4,6 +4,7 @@
 
 #include "weaponTest.h"
 #include <sstream>
+#include <math.h>
 
 //=============================================================================
 // Constructor
@@ -13,10 +14,13 @@ WeaponTest::WeaponTest()
     menuOn = true;
 	timer = 0;
 	frameCount = 0;
-	testGun = 0;
-	testMag = 0;
+	testGun = new Gun();
+	testMag = new Magazine();
 	testProjectile = 0;
     initialized = false;
+
+	//My initialize code
+	testGun->mag = testMag;
 }
 
 //=============================================================================
@@ -68,6 +72,7 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!projectileIM.initialize(graphics,0,0,0,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
 
+	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
     return;
 }
 
@@ -89,7 +94,7 @@ void WeaponTest::update()
     } 
     else 
     {
-        
+		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
     }
 }
 
@@ -127,6 +132,7 @@ void WeaponTest::render()
     graphics->spriteBegin();                // begin drawing sprites
 
 	graphics->setBackColor(graphicsNS::CYAN);
+	testGun->draw();
 
     graphics->spriteEnd();                  // end drawing sprites
 }

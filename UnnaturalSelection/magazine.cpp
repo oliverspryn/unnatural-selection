@@ -9,6 +9,7 @@ INITALIZERS
 **************************/
 Magazine::Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile): size(size), maxAmmo(maxAmmo), totalAmmo(totalAmmo), damage(damage), muzzelVelocity(muzzelVelocity), recoil(recoil), magType(magType), projectile(projectile)
 {
+
 	loadAmmo();
 }
 Magazine::Magazine()

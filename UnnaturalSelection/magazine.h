@@ -49,6 +49,8 @@ public:
 	Projectile *projectile;
 	//All the projectiles that the mag made
 	//Projectile *projectiles[];
+	//Keeps track of the index of the next projectile
+	int projectilesIndex;
 	//Projectile
 	//Mag Mods
 	//MagMods* magMods[];

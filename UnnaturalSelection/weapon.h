@@ -29,8 +29,11 @@ public:
 	//Input1 is fire, input2 reload, input3 is for gunMod1, input4 is for gunMod2, input 5 is for gunMod3;
 	virtual void act(float frameTime, bool &input1, bool &input2, bool &input3, bool &input4, bool &input5);
 	//Takes care of displaying
-	virtual void draw();
-
+	//virtual void draw();
+	void setAngle(float angle)
+	{
+		spriteData.angle = angle;
+	}
 	/**************************
 	INITALIZERS
 	**************************/
