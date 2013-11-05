@@ -65,8 +65,8 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
-	Magazine();
+	//Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
+	//Magazine();
 
 };
 

@@ -7,18 +7,18 @@
 /**************************
 INITALIZERS
 **************************/
-Gun::Gun(): fireRate(gunNS::BASE_RPM)
-{
-	using namespace gunNS;
-
-	Gun(BASE_DAMAGE, BASE_RPM, BASE_MIN_RANGE, BASE_MAX_RANGE, BASE_MUZZEL_VELOCITY, BASE_RECOIL_REDUCTION, BASE_SPREAD, BASE_RELOAD_TIME, AUTO, ONE, 0);
-}
-Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType), mag(mag)
-{
-	timeSinceLastFired = 0;
-	gunState = NONE;
-	gunTimer = 0;
-}
+//Gun::Gun(): fireRate(gunNS::BASE_RPM)
+//{
+//	using namespace gunNS;
+//
+//	Gun(BASE_DAMAGE, BASE_RPM, BASE_MIN_RANGE, BASE_MAX_RANGE, BASE_MUZZEL_VELOCITY, BASE_RECOIL_REDUCTION, BASE_SPREAD, BASE_RELOAD_TIME, AUTO, ONE, 0);
+//}
+//Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType), mag(mag)
+//{
+//	timeSinceLastFired = 0;
+//	gunState = NONE;
+//	gunTimer = 0;
+//}
 
 /*********************************************
 ALL FUNCTIONS

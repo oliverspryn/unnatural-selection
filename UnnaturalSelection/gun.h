@@ -97,9 +97,9 @@ public:
 	//Auto, semi, burstfire
 	FireMode fireMode;
 	//The mag type the gun can use
-	MagType magType;
+	//MagType magType;
 	//What Magazine is loaded
-	Magazine *mag;
+	//Magazine *mag;
 	//How long since it was last fired
 	float timeSinceLastFired;
 	//Tells you what the gun timer is being used for
@@ -120,8 +120,8 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	Gun();
-	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag);
+	//Gun();
+	//Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag);
 };
 
 

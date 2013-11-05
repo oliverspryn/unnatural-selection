@@ -39,7 +39,7 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position);
+	//Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position);
 };
 
 
