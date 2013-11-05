@@ -4,7 +4,6 @@
 
 #ifndef MAGAZINE_H
 #define MAGAZINE_H
-#include "gun.h"
 #include "projectile.h"
 
 //Contains the constatnts or defaults for Magazine
@@ -65,8 +64,8 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	//Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
-	//Magazine();
+	Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
+	Magazine();
 
 };
 

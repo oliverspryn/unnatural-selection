@@ -30,6 +30,7 @@ public:
 	float angle;
 	//Any Mods that change the projectile
 	//ProjectileMod* projectileMods[];
+	float lifeTime;
 
 	/*********************************************
 	ALL FUNCTIONS
@@ -39,7 +40,7 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	//Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position);
+	Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position);
 };
 
 
