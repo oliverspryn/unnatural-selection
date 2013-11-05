@@ -4,6 +4,7 @@
 
 #ifndef MAGAZINE_H
 #define MAGAZINE_H
+#define WIN32_LEAN_AND_MEAN
 #include "projectile.h"
 
 //Contains the constatnts or defaults for Magazine

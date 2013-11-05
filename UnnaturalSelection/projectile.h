@@ -3,12 +3,12 @@
 // 11/4/2013
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
+#define WIN32_LEAN_AND_MEAN
 #include "entity.h"
 
 //Constants for Projectile class
 namespace projectileNS
 {
-
 
 
 }

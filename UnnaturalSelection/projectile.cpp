@@ -9,7 +9,7 @@ INITALIZERS
 **************************/
 Projectile::Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position)
 {
-
+	
 }
 
 

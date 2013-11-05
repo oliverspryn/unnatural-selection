@@ -3,12 +3,15 @@
 // 11/4/2013
 #ifndef GUN_H
 #define GUN_H
+#define WIN32_LEAN_AND_MEAN
 #include "weapon.h"
 #include "magazine.h"
 
-//The constant values for Guns
+//The constant values for Guns also defaults
 namespace gunNS
 {
+	//Deafult Gun Immage
+	const char GUN_PICTURE[] =   "pictures\\AssultRifle(128x32).png"; 
 	/**************************
 	WEAPON BASE STATS
 	**************************/
