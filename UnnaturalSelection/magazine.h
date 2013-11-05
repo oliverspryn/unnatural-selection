@@ -1,0 +1,66 @@
+//Base class for all Magazines that are used and the interface
+//By Michael Wiegand
+// 11/4/2013
+
+#ifndef MAGAZINE_H
+#define MAGAZINE_H
+#include "gun.h"
+#include "projectile.h"
+
+//Contains the constatnts or defaults for Magazine
+namespace magazineNS
+{
+
+
+
+}
+
+//Enumberated types needed
+//enum MagType{5mm, 7mm, 7.62mm, 8mm, 9mm, 10mm, 11.43mm, 12.7mm};
+enum MagType{ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE};
+
+
+class Magazine: public Image
+{
+public:
+	/*********************************************
+	ALL VARIBLES
+	**********************************************/
+	//How many rounds are in the clip currently
+	int ammoCount;
+	//Max number of round the clip can hold
+	int size;
+	//Damage it adds
+	int damage;
+	//Muzzel Velocity it adds
+	int muzzelVelocity;
+	//Recoil when fired
+	int recoil;
+	//What type of mag it is
+	MagType magType;
+	//What projectile it makes
+	Projectile *projectile;
+	//All the projectiles that the mag made
+	//Projectile *projectiles[];
+	//Projectile
+	//Mag Mods
+	//MagMods* magMods[];
+
+	/*********************************************
+	ALL FUNCTIONS
+	**********************************************/
+	//Returns a pointer to the projectile made
+	//Projectile* fire();
+	//
+
+
+	/**************************
+	INITALIZERS
+	**************************/
+
+
+};
+
+
+
+#endif
