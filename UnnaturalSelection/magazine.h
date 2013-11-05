@@ -10,8 +10,11 @@
 //Contains the constatnts or defaults for Magazine
 namespace magazineNS
 {
-
-
+	const int MAG_SIZE = 30;
+	const int MUZZEL_VELOCITY = 0;
+	const int RECOIL = 30;
+	const int DAMAGE = 10;
+	const int MAX_AMMO = 300;
 
 }
 
@@ -30,6 +33,10 @@ public:
 	int ammoCount;
 	//Max number of round the clip can hold
 	int size;
+	//Total Ammo Max
+	int maxAmmo;
+	//Total ammo;
+	int totalAmmo;
 	//Damage it adds
 	int damage;
 	//Muzzel Velocity it adds
@@ -49,15 +56,17 @@ public:
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
-	//Returns a pointer to the projectile made
-	//Projectile* fire();
+	//Returns a *pointer to the projectile made
+	//Projectile fire();
 	//
-
+	//Puts ammo in the clip
+	void loadAmmo();
 
 	/**************************
 	INITALIZERS
 	**************************/
-
+	Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
+	Magazine();
 
 };
 
