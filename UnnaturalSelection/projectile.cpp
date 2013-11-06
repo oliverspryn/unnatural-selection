@@ -7,13 +7,9 @@
 /**************************
 INITALIZERS
 **************************/
-Projectile::Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position, TextureManager* tm, int hitBoxRadious, Game* gamePtr)
+Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadious)
 {
-	this->initialize(gamePtr, tm->getWidth(), tm->getHeight(), entityNS::CIRCLE, tm);
-}
-Projectile::Projectile()
-{
-
+	this->initialize(gamePtr, width, height, ncoils, tm);
 }
 
 

@@ -14,13 +14,8 @@ WeaponTest::WeaponTest()
     menuOn = true;
 	timer = 0;
 	frameCount = 0;
-	testProjectile = new Projectile();
-	testMag = new Magazine(30, 90, 90, 1, 10, 20, ONE, testProjectile);
-	testGun = new Gun(10, 60, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
+	
     initialized = false;
-
-	//My initialize code
-	testGun->mag = testMag;
 }
 
 //=============================================================================
@@ -72,8 +67,13 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!projectileIM.initialize(graphics,0,0,0,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
 
+	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
+	testMag = new Magazine(30, 90, 90, 1, 10, 20, ONE, testProjectile);
+	testGun = new Gun(10, 60, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
+	//My initialize code
+	testGun->mag = testMag;
+
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
-	testProjectile->initialize(this, 8, 8, entityNS::NONE, &projectileTM);
 	testGun->mag = testMag;
 	testMag->projectile = testProjectile;
 //	testMag->projArray[0] = testProjectile;
