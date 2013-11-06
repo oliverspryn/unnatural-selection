@@ -50,7 +50,7 @@ public:
 	//All the projectiles that the mag made
 	Projectile** projArray;
 	//Keeps track of the index of the next projectile
-	int projectilesIndex;
+	int projArrayIndex;
 	//Projectile
 	//Mag Mods
 	//MagMods* magMods[];
@@ -59,10 +59,11 @@ public:
 	ALL FUNCTIONS
 	**********************************************/
 	//Returns a *pointer to the projectile made
-	//Projectile fire();
-	//
+	virtual void fire(D3DXVECTOR2 initialPos, float angle);
+	//Calls update for all porjectiles that are active
+	virtual void updateMagsProjtiles(float frameTime);
 	//Puts ammo in the clip
-	void loadAmmo();
+	virtual void loadAmmo();
 
 	/**************************
 	INITALIZERS

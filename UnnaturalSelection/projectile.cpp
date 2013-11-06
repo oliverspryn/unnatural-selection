@@ -22,10 +22,18 @@ ALL FUNCTIONS
 **********************************************/
 void Projectile::update(float frameTime)
 {
-	spriteData.x += frameTime*velocity.x;
-	spriteData.y += frameTime*velocity.y;
 	lifeTime += frameTime;
 	distance += muzzelVelocity*frameTime;
+	//The bullet will stop 
+	if(distance > maxRange)
+	{
+		active = false;
+		visible = false;
+		return;
+	}
+
+	spriteData.x += frameTime*velocity.x;
+	spriteData.y += frameTime*velocity.y;
 }
 
 bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)

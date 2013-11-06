@@ -39,6 +39,7 @@ ALL FUNCTIONS
 void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input4, bool input5)
 {
 	timeSinceLastFired += frameTime*input1;
+
 	//timeSinceLastFired += frameTime;
 	//gunTimer -= frameTime;
 	////Forces player to reclick fire when using semi auto weapons
@@ -110,7 +111,7 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 }
 void Gun::fire(float frameTime)
 {
-	
+	mag->fire(D3DXVECTOR2(spriteData.x+fireLocation.x, spriteData.x+fireLocation.y), spriteData.angle);
 }
 void Gun::multiFire(float frameTime)
 {

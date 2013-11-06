@@ -42,6 +42,7 @@ public:
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	//Puts the Projectile in the position to act
 	virtual void fire(D3DXVECTOR2 initialPos, float angle);
+	//NEED COPY CONSTRUCTOR
 
 	/**************************
 	INITALIZERS
