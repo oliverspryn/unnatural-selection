@@ -49,7 +49,7 @@ public:
 	Projectile* projectile;
 	//All the projectiles that the mag made
 	Projectile** projArray;
-	//Keeps track of the index of the next projectile
+	//Keeps track of the index of the last active
 	int projArrayIndex;
 	//Projectile
 	//Mag Mods
@@ -61,15 +61,16 @@ public:
 	//Returns a *pointer to the projectile made
 	virtual void fire(D3DXVECTOR2 initialPos, float angle);
 	//Calls update for all porjectiles that are active
-	virtual void updateMagsProjtiles(float frameTime);
+	virtual void updateMagsProjectiles(float frameTime);
 	//Puts ammo in the clip
 	virtual void loadAmmo();
+	//Calls display for all active projectiles
+	virtual void displayMagsProjectiles();
 
 	/**************************
 	INITALIZERS
 	**************************/
 	Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
-	Magazine();
 	~Magazine();
 
 };

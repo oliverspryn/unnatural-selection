@@ -14,9 +14,9 @@ WeaponTest::WeaponTest()
     menuOn = true;
 	timer = 0;
 	frameCount = 0;
-	testGun = new Gun();
-	testMag = new Magazine();
-	testProjectile = 0;
+	testProjectile = new Projectile();
+	testMag = new Magazine(30, 90, 90, 1, 10, 20, ONE, testProjectile);
+	testGun = new Gun(10, 60, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
     initialized = false;
 
 	//My initialize code
@@ -73,6 +73,10 @@ void WeaponTest::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
 
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+	testProjectile->initialize(this, 8, 8, entityNS::NONE, &projectileTM);
+	testGun->mag = testMag;
+	testMag->projectile = testProjectile;
+//	testMag->projArray[0] = testProjectile;
     return;
 }
 
@@ -96,6 +100,7 @@ void WeaponTest::update()
     {
 		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
 		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+		testGun->mag->updateMagsProjectiles(frameTime);
     }
 }
 
@@ -134,6 +139,7 @@ void WeaponTest::render()
 
 	graphics->setBackColor(graphicsNS::CYAN);
 	testGun->draw();
+	testGun->mag->displayMagsProjectiles();
 
     graphics->spriteEnd();                  // end drawing sprites
 }

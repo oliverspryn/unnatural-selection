@@ -7,24 +7,6 @@
 /**************************
 INITALIZERS
 **************************/
-Gun::Gun(): fireRate(gunNS::BASE_RPM)
-{
-	spriteData.width = 128;           // size of Ship1
-    spriteData.height = 32;
-    spriteData.x = 100;                   // location on screen
-    spriteData.y = 100;
-    spriteData.rect.bottom = 128;    // rectangle to select parts of an image
-    spriteData.rect.right = 32;
-    velocity.x = 0;
-    velocity.y = 0;
-	spriteData.angle = 0;
-    radius = 0;
-	collisionType = entityNS::NONE;
- 
-	using namespace gunNS;
-
-	Gun(BASE_DAMAGE, BASE_RPM, BASE_MIN_RANGE, BASE_MAX_RANGE, BASE_MUZZEL_VELOCITY, BASE_RECOIL_REDUCTION, BASE_SPREAD, BASE_RELOAD_TIME, AUTO, ONE, 0);
-}
 Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType), mag(mag)
 {
 	timeSinceLastFired = 0;
@@ -39,6 +21,11 @@ ALL FUNCTIONS
 void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input4, bool input5)
 {
 	timeSinceLastFired += frameTime*input1;
+	if(timeSinceLastFired > 0 && input1)
+	{
+		fire(frameTime);
+		timeSinceLastFired = 0;
+	}
 
 	//timeSinceLastFired += frameTime;
 	//gunTimer -= frameTime;

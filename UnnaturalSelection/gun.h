@@ -137,7 +137,6 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	Gun();
 	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag);
 };
 

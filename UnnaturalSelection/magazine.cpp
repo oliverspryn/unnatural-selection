@@ -12,15 +12,10 @@ Magazine::Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelV
 	projArray = new Projectile*[size];
 	for(int i(0); i < size; i++)
 	{
-		projArray[i] = new Projectile();
+		projArray[i] = new Projectile(*projectile);
 	}
 	projArrayIndex = 0;
 	loadAmmo();
-}
-Magazine::Magazine()
-{
-	using namespace magazineNS;
-	Magazine(MAG_SIZE, MAX_AMMO, MAX_AMMO, DAMAGE, MUZZEL_VELOCITY, RECOIL, ONE, 0);
 }
 
 Magazine::~Magazine()
@@ -39,7 +34,7 @@ void Magazine::fire(D3DXVECTOR2 initialPos, float angle)
 
 }
 //Calls update for all porjectiles that are active
-void Magazine::updateMagsProjtiles(float frameTime)
+void Magazine::updateMagsProjectiles(float frameTime)
 {
 	for(int i(0); i <= projArrayIndex; i++)
 	{
@@ -51,4 +46,12 @@ void Magazine::loadAmmo()
 	totalAmmo += ammoCount;
 	ammoCount = min(totalAmmo, size);
 	totalAmmo -= ammoCount;
+}
+//Calls display for all active projectiles
+void Magazine::displayMagsProjectiles()
+{
+	for(int i(0); i <= projArrayIndex; i++)
+	{
+		projArray[i]->draw();
+	}
 }
