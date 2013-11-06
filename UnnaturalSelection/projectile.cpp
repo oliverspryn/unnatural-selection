@@ -7,15 +7,24 @@
 /**************************
 INITALIZERS
 **************************/
-Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadious)
+Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius)
 {
-	this->initialize(gamePtr, width, height, ncoils, tm);
+	initialize(gamePtr, width, height, ncoils, tm);
+	active = false;
+	visible = false;
+	this->radius = hitBoxRadius;
 }
 
 
 /*********************************************
 ALL FUNCTIONS
 **********************************************/
+//Used for copy constructor
+void Projectile::operator=(Projectile& in)
+{
+	spriteData = in.spriteData;
+	setStats(in.damage, in.minRange, in.maxRange, in.muzzelVelocity);
+}
 void Projectile::update(float frameTime)
 {
 	lifeTime += frameTime;
@@ -50,4 +59,15 @@ void Projectile::fire(D3DXVECTOR2 initialPos, float angle)
 	spriteData.angle = angle;
 	velocity = D3DXVECTOR2(muzzelVelocity*cos(angle), muzzelVelocity*sin(angle));
 
+}
+
+//Used to set stats of projectile
+void Projectile::setStats(int damage, int minRange, int maxRange, int muzzelVelocity)
+{
+	this->damage = damage;
+	this->minRange = minRange;
+	this->maxRange = maxRange;
+	this->muzzelVelocity = muzzelVelocity;
+	active = false;
+	visible = false;
 }

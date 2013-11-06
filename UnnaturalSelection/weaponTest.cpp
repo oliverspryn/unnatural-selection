@@ -68,15 +68,21 @@ void WeaponTest::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
 
 	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
-	testMag = new Magazine(30, 90, 90, 1, 10, 20, ONE, testProjectile);
-	testGun = new Gun(10, 60, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
+	testProjectile->setStats(10, 100, 200, 50);
+	testMag = 0;
+	//testMag = new Magazine(30, 90, 90, 1, 10, 20, ONE, testProjectile);
+	testGun = 0;
+	//testGun = new Gun(10, 60, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
 	//My initialize code
-	testGun->mag = testMag;
+	//testGun->mag = testMag;
 
-	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
-	testGun->mag = testMag;
-	testMag->projectile = testProjectile;
+	//testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+	//testGun->mag = testMag;
+	//testMag->projectile = testProjectile;
 //	testMag->projArray[0] = testProjectile;
+	//testProjectile->setX(300);
+	//testProjectile->setY(300);
+
     return;
 }
 
@@ -98,9 +104,22 @@ void WeaponTest::update()
     } 
     else 
     {
-		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
-		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
-		testGun->mag->updateMagsProjectiles(frameTime);
+		//testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+		//testGun->mag->updateMagsProjectiles(frameTime);
+		if(input->getMouseLButton())
+		{
+			testProjectile->fire(D3DXVECTOR2(input->getMouseX()+10, input->getMouseY() - 10), 0);
+		}
+		if(input->getMouseRButton())
+		{
+			testProjectile->setStats(10, 100, 200, 200);
+		}
+
+		if(testProjectile->getActive())
+		{
+			testProjectile->update(frameTime);
+		}
     }
 }
 
@@ -138,8 +157,9 @@ void WeaponTest::render()
     graphics->spriteBegin();                // begin drawing sprites
 
 	graphics->setBackColor(graphicsNS::CYAN);
-	testGun->draw();
-	testGun->mag->displayMagsProjectiles();
+	testProjectile->draw();
+	//testGun->draw();
+	//testGun->mag->displayMagsProjectiles();
 
     graphics->spriteEnd();                  // end drawing sprites
 }

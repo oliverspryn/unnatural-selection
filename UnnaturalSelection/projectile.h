@@ -37,17 +37,20 @@ public:
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
-	void update(float frameTime);
+	//Used for copy constructor
+	virtual void operator=(Projectile& in);
+	virtual void update(float frameTime);
 	//Takes care of hitbot, image, and collision
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	//Puts the Projectile in the position to act
 	virtual void fire(D3DXVECTOR2 initialPos, float angle);
-	//NEED COPY CONSTRUCTOR
+	//Used to set stats of projectile
+	virtual void setStats(int damage, int minRange, int maxRange, int muzzelVelocity);
 
 	/**************************
 	INITALIZERS
 	**************************/
-	Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadious);
+	Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius);
 };
 
 

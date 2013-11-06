@@ -31,14 +31,16 @@ ALL FUNCTIONS
 void Magazine::fire(D3DXVECTOR2 initialPos, float angle)
 {
 	projArray[projArrayIndex]->fire(initialPos, angle);
-
 }
 //Calls update for all porjectiles that are active
 void Magazine::updateMagsProjectiles(float frameTime)
 {
-	for(int i(0); i <= projArrayIndex; i++)
+	for(int i(0); i < size; i++)
 	{
-		projArray[i]->update(frameTime);
+		if(projArray[i]->getActive())
+		{
+			projArray[i]->update(frameTime);
+		}
 	}
 }
 void Magazine::loadAmmo()
@@ -50,8 +52,11 @@ void Magazine::loadAmmo()
 //Calls display for all active projectiles
 void Magazine::displayMagsProjectiles()
 {
-	for(int i(0); i <= projArrayIndex; i++)
+	for(int i(0); i < size; i++)
 	{
-		projArray[i]->draw();
+		if(projArray[i]->getVisible())
+		{
+			projArray[i]->draw();
+		}
 	}
 }
