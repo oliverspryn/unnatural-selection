@@ -35,12 +35,15 @@ public:
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
-	void act();
+	void act(float* frameTime);
+	//Takes care of hitbot, image, and collision
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 
 	/**************************
 	INITALIZERS
 	**************************/
-	Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position);
+	Projectile(int damage, int minRange, int maxRange, int muzzelVelocity, int angle, VECTOR2 position, TextureManager* tm, int hitBoxRadious, Game* gamePtr);
+	Projectile();
 };
 
 

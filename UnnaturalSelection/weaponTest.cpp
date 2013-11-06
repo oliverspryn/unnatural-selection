@@ -95,6 +95,7 @@ void WeaponTest::update()
     else 
     {
 		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
     }
 }
 

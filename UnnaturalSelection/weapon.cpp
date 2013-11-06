@@ -20,7 +20,7 @@ bool Weapon::initialize(Game *gamePtr, int width, int height, int ncols, Texture
 }
 
 //Input1 is fire, input2 reload, input3 is for gunMod1, input4 is for gunMod2, input 5 is for gunMod3;
-void Weapon::act(float frameTime, bool &input1, bool &input2, bool &input3, bool &input4, bool &input5)
+void Weapon::act(float frameTime, bool input1, bool input2, bool input3, bool input4, bool input5)
 {
 
 }

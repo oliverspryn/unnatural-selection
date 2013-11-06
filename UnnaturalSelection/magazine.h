@@ -23,7 +23,7 @@ namespace magazineNS
 enum MagType{ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE};
 
 
-class Magazine: public Image
+class Magazine
 {
 public:
 	/*********************************************
@@ -46,9 +46,9 @@ public:
 	//What type of mag it is
 	MagType magType;
 	//What projectile it makes
-	Projectile *projectile;
+	Projectile* projectile;
 	//All the projectiles that the mag made
-	//Projectile *projectiles[];
+	Projectile** projArray;
 	//Keeps track of the index of the next projectile
 	int projectilesIndex;
 	//Projectile
@@ -69,6 +69,7 @@ public:
 	**************************/
 	Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile);
 	Magazine();
+	~Magazine();
 
 };
 

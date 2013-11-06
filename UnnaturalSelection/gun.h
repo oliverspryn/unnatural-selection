@@ -111,14 +111,27 @@ public:
 	float gunTimer;
 	//Gun Mods
 	//GunMode* gunMods[];
+	//Where bullets come out
+	D3DXVECTOR2 fireLocation;
+	//tells if the player has let go of fire since fireing began, used for no auto weapons
+	bool canFireAgainSemiAuto;
+	//Keeps track of how many shots have been fired in the burst
+	int burstCount;
+
+
 
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
 	//Input1 is fire, input2 reload, input3 is for gunMod1, input4 is for gunMod2, input 5 is for gunMod3;
-	virtual void act(float frameTime, bool &input1, bool &input2, bool &input3, bool &input4, bool &input5);
-	virtual void fire();
-
+	virtual void act(float frameTime, bool input1, bool input2, bool input3, bool input4, bool input5);
+	virtual void fire(float frameTime);
+	//Accounts for if multiple bullets could leave the gun in one frame
+	virtual void multiFire(float frameTime);
+	virtual void reload(float frameTime);
+	virtual void switchMag(float frameTime, Magazine* newMag);
+	virtual void recoil(float frameTime);
+	
 
 
 	/**************************
