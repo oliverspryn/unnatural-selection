@@ -31,13 +31,17 @@ public:
 	//Any Mods that change the projectile
 	//ProjectileMod* projectileMods[];
 	float lifeTime;
+	//The speed the projectile travels at
+	int muzzelVelocity;
 
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
-	void act(float* frameTime);
+	void update(float frameTime);
 	//Takes care of hitbot, image, and collision
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	//Puts the Projectile in the position to act
+	virtual void fire(D3DXVECTOR2 initialPos, float angle);
 
 	/**************************
 	INITALIZERS
