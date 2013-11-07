@@ -30,7 +30,8 @@ ALL FUNCTIONS
 **********************************************/
 void Magazine::fire(D3DXVECTOR2 initialPos, float angle)
 {
-	projArray[projArrayIndex]->fire(initialPos, angle);
+	projArray[0]->fire(initialPos, angle);
+	projectile->fire(initialPos, 100);
 }
 //Calls update for all porjectiles that are active
 void Magazine::updateMagsProjectiles(float frameTime)

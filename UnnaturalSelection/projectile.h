@@ -51,6 +51,7 @@ public:
 	INITALIZERS
 	**************************/
 	Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius);
+	Projectile(Projectile& in);
 };
 
 

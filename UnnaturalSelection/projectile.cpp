@@ -10,9 +10,15 @@ INITALIZERS
 Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius)
 {
 	initialize(gamePtr, width, height, ncoils, tm);
+	distance = 0;
+	lifeTime = 0;
 	active = false;
 	visible = false;
 	this->radius = hitBoxRadius;
+}
+Projectile::Projectile(Projectile& in)
+{
+	(*this) = in;
 }
 
 
@@ -23,7 +29,9 @@ ALL FUNCTIONS
 void Projectile::operator=(Projectile& in)
 {
 	spriteData = in.spriteData;
+	textureManager = in.textureManager;
 	setStats(in.damage, in.minRange, in.maxRange, in.muzzelVelocity);
+
 }
 void Projectile::update(float frameTime)
 {
