@@ -12,6 +12,7 @@ Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, in
 	timeSinceLastFired = 0;
 	gunState = NONE;
 	gunTimer = 0;
+	fireLocation = D3DXVECTOR2(50, 0);
 }
 
 /*********************************************
@@ -21,7 +22,17 @@ ALL FUNCTIONS
 void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input4, bool input5)
 {
 	timeSinceLastFired += frameTime*input1;
-	if(timeSinceLastFired > 0 && input1)
+	if(!input1 && timeSinceLastFired > fireRate.fireTime)
+	{
+		gunState = NONE;
+	}
+	if(timeSinceLastFired > 0 && input1 && gunState == NONE)
+	{
+		fire(frameTime);
+		timeSinceLastFired = 0;
+		gunState = FIREING;
+	}
+	else if(timeSinceLastFired > fireRate.fireTime && input1 && gunState == FIREING)
 	{
 		fire(frameTime);
 		timeSinceLastFired = 0;
@@ -98,7 +109,7 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 }
 void Gun::fire(float frameTime)
 {
-	mag->fire(D3DXVECTOR2(spriteData.x+fireLocation.x, spriteData.x+fireLocation.y), spriteData.angle);
+	mag->fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 }
 void Gun::multiFire(float frameTime)
 {

@@ -70,7 +70,7 @@ struct FireRate
 	void set(int roundsPerMinute)
 	{
 		RPM = roundsPerMinute;
-		fireTime = RPM/60.0;
+		fireTime = 60.0/RPM;
 	}
 	//rounds per minute
 	int RPM;

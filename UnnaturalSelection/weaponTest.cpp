@@ -71,20 +71,20 @@ void WeaponTest::initialize(HWND hwnd)
 //	testMag = 0;
 	testProjectile->setStats(30, 100, 200, 200);
 
-	testMag = new Magazine(30, 90, 90, 1, 200, 20, ONE, testProjectile);
-	testGun = 0;
-	//testGun = new Gun(10, 60, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
+	testMag = new Magazine(400, 90, 90, 1, 200, 20, ONE, testProjectile);
+	//testGun = 0;
+	testGun = new Gun(10, 1400, 500, 600, 10, 20, 30, 2, AUTO, ONE, testMag);
 	//My initialize code
 	//testGun->mag = testMag;
 
-	//testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 	//testGun->mag = testMag;
 	//testMag->projectile = testProjectile;
 //	testMag->projArray[0] = testProjectile;
-	//testProjectile->setX(300);
-	//testProjectile->setY(300);
-
-    return;
+	testGun->setX(GAME_WIDTH/2-testGun->getWidth()/2);
+	testGun->setY(GAME_HEIGHT/2);
+    
+	return;
 }
 
 //=============================================================================
@@ -105,20 +105,20 @@ void WeaponTest::update()
     } 
     else 
     {
-		//testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
-		//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 		//testGun->mag->updateMagsProjectiles(frameTime);
 		if(input->getMouseLButton())
 		{
-			testMag->fire(D3DXVECTOR2(input->getMouseX()+10, input->getMouseY() - 10), 0);
-			//testMag->projectile->fire(D3DXVECTOR2(input->getMouseX()+10, input->getMouseY() - 10), 0);
+			//testMag->fire(D3DXVECTOR2(input->getMouseX()+10, input->getMouseY() - 10), PI*(((rand()%1000)-500)/1000.0)/6);
+		}
+		if(input->getMouseRButton())
+		{
+			//testGun->fire(frameTime);
 		}
 		testMag->updateMagsProjectiles(frameTime);
 		//testMag->projectile->update(frameTime);
-		if(input->getMouseRButton())
-		{
-			
-		}
+		
 
 		/*if(testProjectile->getActive())
 		{
@@ -164,7 +164,7 @@ void WeaponTest::render()
 	//testProjectile->draw();
 	testMag->displayMagsProjectiles();
 	//testMag->projectile->draw();
-	//testGun->draw();
+	testGun->draw();
 
     graphics->spriteEnd();                  // end drawing sprites
 }
