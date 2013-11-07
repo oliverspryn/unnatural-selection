@@ -34,7 +34,7 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 	}
 	else if(timeSinceLastFired > fireRate.fireTime && input1 && gunState == FIREING)
 	{
-		multiFire(frameTime);
+		multiFire(timeSinceLastFired);
 		/*timeSinceLastFired -= fireRate.fireTime;
 		if(timeSinceLastFired > fireRate.fireTime)
 		{
@@ -121,7 +121,7 @@ void Gun::multiFire(float frameTime)
 	timeSinceLastFired -= fireRate.fireTime*count;
 	while(count > 0)
 	{
-		mag->fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+(count*fireRate.fireTime*mag->projectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+(count*fireRate.fireTime*mag->projectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+		mag->fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 		
 		count--;
 	}
