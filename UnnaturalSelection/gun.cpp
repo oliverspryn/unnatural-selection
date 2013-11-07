@@ -30,7 +30,7 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 	}
 	if(timeSinceLastFired > 0 && input1 && gunState == NONE)
 	{
-		fire(frameTime);
+		fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 		timeSinceLastFired = 0;
 		gunState = FIREING;
 	}
@@ -113,9 +113,9 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 
 	//}
 }
-void Gun::fire(float frameTime)
+void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 {
-	chamberedProjectile->fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+	chamberedProjectile->fire(initialPos, angle);
 	chamberNextProjectile();
 }
 void Gun::multiFire(float frameTime)
@@ -124,8 +124,7 @@ void Gun::multiFire(float frameTime)
 	timeSinceLastFired -= fireRate.fireTime*count;
 	while(count > 0)
 	{
-		chamberedProjectile->fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
-		chamberNextProjectile();
+		fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 		count--;
 	}
 }
