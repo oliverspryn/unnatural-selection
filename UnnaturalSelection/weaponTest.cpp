@@ -69,11 +69,11 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
 //	testMag = 0;
-	testProjectile->setStats(30, 100, 200, 200);
+	//testProjectile->setStats(30, 100, 100, 200);
 
-	testMag = new Magazine(400, 90, 90, 1, 200, 20, ONE, testProjectile);
+	testMag = new Magazine(400, 90, 90, 1, 100, 20, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 3600, 500, 600, 10, 20, 5, 2, AUTO, ONE, testMag);
+	testGun = new Gun(10, 3600, 100, 200, 100, 20, 5, 2, AUTO, ONE, testMag);
 	//My initialize code
 	//testGun->mag = testMag;
 

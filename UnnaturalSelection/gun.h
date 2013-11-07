@@ -103,6 +103,8 @@ public:
 	MagType magType;
 	//What Magazine is loaded
 	Magazine *mag;
+	//The next round that will be fired
+	Projectile* chamberedProjectile;
 	//How long since it was last fired
 	float timeSinceLastFired;
 	//Tells you what the gun timer is being used for
@@ -131,6 +133,10 @@ public:
 	virtual void reload(float frameTime);
 	virtual void switchMag(float frameTime, Magazine* newMag);
 	virtual void recoil(float frameTime);
+	//Updates all the projectile in the clip to meet the guns stats
+	virtual void loadNewMag(Magazine* newMag);
+	//Puts the next projectile in the chamber and removes it from the mag
+	virtual void chamberNextProjectile();
 	
 
 

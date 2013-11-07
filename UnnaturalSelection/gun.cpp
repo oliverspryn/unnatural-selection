@@ -7,12 +7,14 @@
 /**************************
 INITALIZERS
 **************************/
-Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType), mag(mag)
+Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType)
 {
 	timeSinceLastFired = 0;
+	chamberedProjectile = 0;
 	gunState = NONE;
 	gunTimer = 0;
 	fireLocation = D3DXVECTOR2(50, 0);
+	loadNewMag(mag);
 }
 
 /*********************************************
@@ -113,7 +115,8 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 }
 void Gun::fire(float frameTime)
 {
-	mag->fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+	chamberedProjectile->fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+	chamberNextProjectile();
 }
 void Gun::multiFire(float frameTime)
 {
@@ -121,8 +124,8 @@ void Gun::multiFire(float frameTime)
 	timeSinceLastFired -= fireRate.fireTime*count;
 	while(count > 0)
 	{
-		mag->fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
-		
+		chamberedProjectile->fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*mag->projectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+		chamberNextProjectile();
 		count--;
 	}
 }
@@ -137,4 +140,19 @@ void Gun::switchMag(float frameTime, Magazine* newMag)
 void Gun::recoil(float frameTime)
 {
 
+}
+//Updates all the projectile in the clip to meet the guns stats
+void Gun::loadNewMag(Magazine* newMag)
+{
+	mag = newMag;
+	newMag->setProjectileStats(damage, minRange, maxRange, muzzelVelocity);
+	if(chamberedProjectile == 0)
+	{
+		chamberNextProjectile();
+	}
+}
+//Puts the next projectile in the chamber and removes it from the mag
+void Gun::chamberNextProjectile()
+{
+	chamberedProjectile = mag->getNextProjectile();
 }

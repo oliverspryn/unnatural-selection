@@ -58,7 +58,7 @@ public:
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
-	//Returns a *pointer to the projectile made
+	//Calls Fire on the round in the front of the clip, dont use
 	virtual void fire(D3DXVECTOR2 initialPos, float angle);
 	//Calls update for all porjectiles that are active
 	virtual void updateMagsProjectiles(float frameTime);
@@ -66,6 +66,10 @@ public:
 	virtual void loadAmmo();
 	//Calls display for all active projectiles
 	virtual void displayMagsProjectiles();
+	//Sets all Projectiles to the new stats
+	virtual void setProjectileStats(int damage, int minRange, int maxRange, int muzzelVelocity);
+	//Returns the next projectile, used to put in chamber and sets the index to the next
+	virtual Projectile* getNextProjectile();
 
 	/**************************
 	INITALIZERS

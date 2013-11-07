@@ -20,10 +20,7 @@ Magazine::Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelV
 
 Magazine::~Magazine()
 {
-	for(int i(0); i < size; i++)
-	{
-		delete projArray[i];
-	}
+	delete []projArray;
 }
 /*********************************************
 ALL FUNCTIONS
@@ -65,4 +62,25 @@ void Magazine::displayMagsProjectiles()
 			projArray[i]->draw();
 		}
 	}
+}
+//Sets all Projectiles to the new stats
+void Magazine::setProjectileStats(int damage, int minRange, int maxRange, int muzzelVelocity)
+{
+	damage += this->damage;
+	//minRange += this->minRange;
+	//maxRange += this->maxRange;
+	muzzelVelocity += this->muzzelVelocity;
+	for(int i(0); i < size; i++)
+	{
+		projArray[i]->setStats(damage, minRange, maxRange, muzzelVelocity);
+	}
+}
+//Returns the next projectile, used to put in chamber and sets the index to the next
+Projectile* Magazine::getNextProjectile()
+{
+	//Needs to see if there is a next round avaible, if none return 0;
+	Projectile* nextRound = projArray[projArrayIndex];
+	projArrayIndex++;
+	projArrayIndex %= size;
+	return nextRound;
 }
