@@ -15,6 +15,7 @@ Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, in
 	gunTimer = 0;
 	fireLocation = D3DXVECTOR2(50, 0);
 	loadNewMag(mag);
+	burstCount = 0;
 }
 
 /*********************************************
@@ -30,9 +31,9 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 	}
 	if(chamberedProjectile != 0)
 	{
-		if(input1)
+		if(fireMode == AUTO)
 		{
-			if(fireMode == AUTO)
+			if(input1)
 			{
 				if(gunState == NONE)
 				{
@@ -45,97 +46,37 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 				{
 					multiFire(timeSinceLastFired);
 				}
+				
+			}
+			else if(gunState == FIREING)
+			{
+				gunState = NONE;
 			}
 		}
-		else if(gunState == FIREING)
+		else//For Burst fire weapons
 		{
-			gunState = NONE;
+			if(gunState == NONE)
+			{
+				if(input1)
+				{
+					burstCount = fireMode;
+					multiFire(frameTime);
+					//fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+					timeSinceLastFired = 0;
+					gunState = FIREING;
+				}
+			}
+			else if(gunState == FIREING && burstCount > 0)
+			{
+				multiFire(timeSinceLastFired);
+			}
+			else if(!input1)
+			{
+				gunState = NONE;
+			}
 		}
+
 	}
-	//if(timeSinceLastFired > 0 && input1 && gunState == NONE)
-	//{
-	//	fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
-	//	timeSinceLastFired = 0;
-	//	gunState = FIREING;
-	//}
-	//else if(timeSinceLastFired > fireRate.fireTime && input1 && gunState == FIREING)
-	//{
-	//	multiFire(timeSinceLastFired);
-	//	/*timeSinceLastFired -= fireRate.fireTime;
-	//	if(timeSinceLastFired > fireRate.fireTime)
-	//	{
-	//		multiFire(timeSinceLastFired);
-	//	}*/
-	//}
-
-	//timeSinceLastFired += frameTime;
-	//gunTimer -= frameTime;
-	////Forces player to reclick fire when using semi auto weapons
-	//canFireAgainSemiAuto = (!input1 && gunState == NONE); 
-
-	////Handels what the gun should do if it is being used
-	//if(gunState != NONE)
-	//{
-	//	if(gunState == FIREING)
-	//	{
-	//		if(fireMode == AUTO)
-	//		{
-	//			if(input1)
-	//			{
-	//				//NEEDS UPDATE
-	//				if(timeSinceLastFired > fireRate.fireTime)
-	//				{
-	//					fire(frameTime);
-	//					timeSinceLastFired -= fireRate.fireTime;
-	//				}
-	//			}
-	//			else
-	//			{
-	//				gunState = NONE;
-	//				gunTimer = 0;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			
-	//		}
-	//	}
-	//	else if(gunState == RELOADING)
-	//	{
-
-
-	//	}
-	//}
-	//
-	//if(gunState == NONE)
-	//{
-	//	if(input1 && timeSinceLastFired > fireRate.fireTime)
-	//	{
-	//		if(fireMode == AUTO)
-	//		{
-	//			timeSinceLastFired = 0;
-	//			gunState = FIREING;
-	//			gunTimer = fireRate.fireTime;
-	//			fire(frameTime);
-	//			return;
-	//		}
-	//		else if(canFireAgainSemiAuto)
-	//		{
-	//			timeSinceLastFired = 0;
-	//			gunState = FIREING;
-	//			gunTimer = fireRate.fireTime*fireMode;
-	//			fire(frameTime);
-	//			return;
-	//		}
-	//	}
-	//	if(input2)
-	//	{
-	//		gunState = RELOADING;
-	//		gunTimer = reloadTime;
-	//		return;
-	//	}
-
-	//}
 }
 void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 {
@@ -146,6 +87,11 @@ void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 void Gun::multiFire(float frameTime)
 {
 	int count = frameTime/fireRate.fireTime;
+	if(fireMode != AUTO)//accounts for burst fire
+	{
+		count = min(burstCount, count);
+		burstCount -= count;
+	}
 	timeSinceLastFired -= fireRate.fireTime*count;
 	while(count > 0)
 	{
