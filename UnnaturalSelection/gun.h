@@ -57,7 +57,7 @@ namespace gunNS
 //Enumerated types needed
 
 //0 is automatic, then 1 is a burst of 1, 2 is a burst of 2, 3 is a burst of 3....
-enum FireMode{AUTO, SEMI_AUTO, BURST_TWO, BURST_THREE, BURST_FOUR, BURST_FIVE};
+enum FireMode{AUTO, SEMI_AUTO, BURST_TWO, BURST_THREE, BURST_FOUR, BURST_FIVE, BURST_SIX, BURST_SEVEN, BURST_EIGHT, BURST_NINE, BURST_TEN, BURST_ELEVEN};
 //Used for timers
 enum GunState{NONE, FIREING, RELOADING, SWITCHING, JAMMED, OTHER};
 

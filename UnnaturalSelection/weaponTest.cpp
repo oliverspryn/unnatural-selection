@@ -73,7 +73,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(400, 90, 90, 1, 100, 20, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 3600, 100, 200, 100, 20, 5, 2.0, BURST_THREE, ONE, testMag);
+	testGun = new Gun(10, 60*60, 100, 400, 700, 20, 5, 2.0, BURST_THREE, ONE, testMag);
 	//My initialize code
 	//testGun->mag = testMag;
 
