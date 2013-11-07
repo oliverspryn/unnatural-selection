@@ -114,7 +114,7 @@ void WeaponTest::update()
 			//testMag->projectile->fire(D3DXVECTOR2(input->getMouseX()+10, input->getMouseY() - 10), 0);
 		}
 		testMag->updateMagsProjectiles(frameTime);
-		testMag->projectile->update(frameTime);
+		//testMag->projectile->update(frameTime);
 		if(input->getMouseRButton())
 		{
 			
@@ -163,7 +163,7 @@ void WeaponTest::render()
 	graphics->setBackColor(graphicsNS::CYAN);
 	//testProjectile->draw();
 	testMag->displayMagsProjectiles();
-	testMag->projectile->draw();
+	//testMag->projectile->draw();
 	//testGun->draw();
 
     graphics->spriteEnd();                  // end drawing sprites

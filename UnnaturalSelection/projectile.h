@@ -40,6 +40,7 @@ public:
 	//Used for copy constructor
 	virtual void operator=(Projectile& in);
 	virtual void update(float frameTime);
+	Game* setGamePointer(Game* set);
 	//Takes care of hitbot, image, and collision
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	//Puts the Projectile in the position to act

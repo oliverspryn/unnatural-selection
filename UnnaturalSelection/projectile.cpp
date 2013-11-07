@@ -9,6 +9,7 @@ INITALIZERS
 **************************/
 Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius)
 {
+	setGamePointer(gamePtr);
 	initialize(gamePtr, width, height, ncoils, tm);
 	distance = 0;
 	lifeTime = 0;
@@ -19,6 +20,7 @@ Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height,
 Projectile::Projectile(Projectile& in)
 {
 	(*this) = in;
+	initialize(setGamePointer(0), in.spriteData.width, in.spriteData.height, in.collisionType, in.textureManager);
 }
 
 
@@ -33,6 +35,15 @@ void Projectile::operator=(Projectile& in)
 	setStats(in.damage, in.minRange, in.maxRange, in.muzzelVelocity);
 
 }
+Game* Projectile::setGamePointer(Game* set)
+{
+	static Game* gamePtr;
+	if(set != 0)
+	{
+		gamePtr = set;
+	}
+	return gamePtr;
+}
 void Projectile::update(float frameTime)
 {
 	lifeTime += frameTime;
@@ -40,7 +51,7 @@ void Projectile::update(float frameTime)
 	//The bullet will stop 
 	if(distance > maxRange)
 	{
-		active = false;
+ 		active = false;
 		visible = false;
 		return;
 	}
