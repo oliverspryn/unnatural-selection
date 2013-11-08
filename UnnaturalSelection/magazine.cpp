@@ -25,25 +25,23 @@ Magazine::~Magazine()
 /*********************************************
 ALL FUNCTIONS
 **********************************************/
-void Magazine::fire(D3DXVECTOR2 initialPos, float angle)
-{
-	projArray[projArrayIndex]->fire(initialPos, angle);
-	projArrayIndex++;
-	projArrayIndex %= size;
-}
 //Calls update for all porjectiles that are active
 void Magazine::updateMagsProjectiles(float frameTime)
 {
-	for(int i(0); i < size; i++)
+	for(int i(0); i < projArrayIndex; i++)
 	{
 		if(projArray[i]->getActive())
 		{
 			projArray[i]->update(frameTime);
 		}
-	}
-	if(projectile->getActive())
-	{
-		projectile->update(frameTime);
+		else if(i < projArrayIndex-1)
+		{
+			for(int x(i); x + 1 < projArrayIndex; x++)
+			{
+				std::swap(projArray[x], projArray[x+1]);
+			}
+			projArrayIndex--;
+		}
 	}
 }
 void Magazine::loadAmmo()
@@ -80,7 +78,13 @@ Projectile* Magazine::getNextProjectile()
 {
 	//Needs to see if there is a next round avaible, if none return 0;
 	Projectile* nextRound = projArray[projArrayIndex];
-	projArrayIndex++;
-	projArrayIndex %= size;
-	return nextRound;
+	if(projArrayIndex < size)
+	{
+		projArrayIndex++;
+		return nextRound;
+	}
+	else
+	{
+		return 0;
+	}
 }

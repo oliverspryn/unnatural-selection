@@ -58,8 +58,6 @@ public:
 	/*********************************************
 	ALL FUNCTIONS
 	**********************************************/
-	//Calls Fire on the round in the front of the clip, dont use
-	virtual void fire(D3DXVECTOR2 initialPos, float angle);
 	//Calls update for all porjectiles that are active
 	virtual void updateMagsProjectiles(float frameTime);
 	//Puts ammo in the clip

@@ -38,7 +38,6 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 				if(gunState == NONE)
 				{
 					multiFire(frameTime);
-					//fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 					timeSinceLastFired = 0;
 					gunState = FIREING;
 				}
@@ -61,7 +60,6 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 				{
 					burstCount = fireMode;
 					multiFire(frameTime);
-					//fire(D3DXVECTOR2(getCenterX()+fireLocation.x*cos(spriteData.angle), getCenterY()+fireLocation.x*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 					timeSinceLastFired = 0;
 					gunState = FIREING;
 				}
@@ -95,11 +93,10 @@ void Gun::multiFire(float frameTime)
 	timeSinceLastFired -= fireRate.fireTime*count;
 	while(count > 0)
 	{
-		fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 		chamberNextProjectile();
+		fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
 		count--;
 	}
-	chamberedProjectile = 0;
 }
 void Gun::reload(float frameTime)
 {
@@ -118,13 +115,14 @@ void Gun::loadNewMag(Magazine* newMag)
 {
 	mag = newMag;
 	newMag->setProjectileStats(damage, minRange, maxRange, muzzelVelocity);
-	if(chamberedProjectile == 0)
-	{
-		chamberNextProjectile();
-	}
+	chamberNextProjectile();
+	
 }
 //Puts the next projectile in the chamber and removes it from the mag
 void Gun::chamberNextProjectile()
 {
-	chamberedProjectile = mag->getNextProjectile();
+	if(chamberedProjectile == 0)
+	{
+		chamberedProjectile = mag->getNextProjectile();
+	}
 }
