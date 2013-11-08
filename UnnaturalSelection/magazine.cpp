@@ -15,6 +15,7 @@ Magazine::Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelV
 		projArray[i] = new Projectile(*projectile);
 	}
 	projArrayIndex = 0;
+	ammoCount = 0;
 	loadAmmo();
 }
 
@@ -77,10 +78,11 @@ void Magazine::setProjectileStats(int damage, int minRange, int maxRange, int mu
 Projectile* Magazine::getNextProjectile()
 {
 	//Needs to see if there is a next round avaible, if none return 0;
-	Projectile* nextRound = projArray[projArrayIndex];
-	if(projArrayIndex < size)
+	if(projArrayIndex < size && ammoCount > 0)
 	{
+		Projectile* nextRound = projArray[projArrayIndex];
 		projArrayIndex++;
+		ammoCount--;
 		return nextRound;
 	}
 	else

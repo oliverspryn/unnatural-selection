@@ -109,7 +109,11 @@ void Gun::multiFire(float frameTime)
 }
 void Gun::reload(float frameTime)
 {
-
+	if(mag != 0)
+	{
+		mag->loadAmmo();
+		chamberNextProjectile();
+	}
 }
 void Gun::switchMag(float frameTime, Magazine* newMag)
 {
