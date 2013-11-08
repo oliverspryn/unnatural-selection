@@ -9,8 +9,8 @@ INITALIZERS
 **************************/
 Magazine::Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelVelocity, int recoil, MagType magType, Projectile* projectile): size(size), maxAmmo(maxAmmo), totalAmmo(totalAmmo), damage(damage), muzzelVelocity(muzzelVelocity), recoil(recoil), magType(magType), projectile(projectile)
 {
-	projArray = new Projectile*[size];
-	for(int i(0); i < size; i++)
+	projArray = new Projectile*[size+1];
+	for(int i(0); i < size+1; i++)
 	{
 		projArray[i] = new Projectile(*projectile);
 	}
@@ -69,7 +69,7 @@ void Magazine::setProjectileStats(int damage, int minRange, int maxRange, int mu
 	//minRange += this->minRange;
 	//maxRange += this->maxRange;
 	muzzelVelocity += this->muzzelVelocity;
-	for(int i(0); i < size; i++)
+	for(int i(0); i < size+1; i++)
 	{
 		projArray[i]->setStats(damage, minRange, maxRange, muzzelVelocity);
 	}
@@ -78,7 +78,7 @@ void Magazine::setProjectileStats(int damage, int minRange, int maxRange, int mu
 Projectile* Magazine::getNextProjectile()
 {
 	//Needs to see if there is a next round avaible, if none return 0;
-	if(projArrayIndex < size && ammoCount > 0)
+	if(projArrayIndex < size+1 && ammoCount > 0)
 	{
 		Projectile* nextRound = projArray[projArrayIndex];
 		projArrayIndex++;
