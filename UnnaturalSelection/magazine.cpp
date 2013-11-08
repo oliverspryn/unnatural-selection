@@ -53,7 +53,7 @@ void Magazine::loadAmmo()
 //Calls display for all active projectiles
 void Magazine::displayMagsProjectiles()
 {
-	for(int i(0); i < size; i++)
+	for(int i(0); i < projArrayIndex; i++)
 	{
 		if(projArray[i]->getVisible())
 		{
