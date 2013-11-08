@@ -75,9 +75,15 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 		}
 
 	}
+	else if(gunState == FIREING)
+	{
+		gunState = NONE;
+	}
+
 }
 void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 {
+
 	chamberedProjectile->fire(initialPos, angle);
 	chamberedProjectile = 0;
 
@@ -94,7 +100,10 @@ void Gun::multiFire(float frameTime)
 	while(count > 0)
 	{
 		chamberNextProjectile();
-		fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+		if(chamberedProjectile != 0)
+		{
+			fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+		}
 		count--;
 	}
 }
