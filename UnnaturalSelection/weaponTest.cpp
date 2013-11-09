@@ -9,7 +9,7 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-WeaponTest::WeaponTest(): camera(400, 400, 100, 100, 0, 0, 1)
+WeaponTest::WeaponTest(): camera(400, 400, 0, 0, GAME_WIDTH/2, GAME_HEIGHT/2, 1)
 {
     menuOn = true;
 	timer = 0;
@@ -70,9 +70,9 @@ void WeaponTest::initialize(HWND hwnd)
 //	testMag = 0;
 	//testProjectile->setStats(30, 100, 100, 200);
 
-	testMag = new Magazine(4000, 4000, 4000, 1, 100, 20, ONE, testProjectile);
+	testMag = new Magazine(4000, 4000, 4000, 1, 100, 200, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 60*60, 100, 600, 300, 20, 5, 2.0, AUTO, ONE);
+	testGun = new Gun(10, 180*60, 100, 600, 700, 100, 0, 2.0, 500, ONE);
 	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
@@ -132,8 +132,7 @@ void WeaponTest::update()
 			testProjectile->update(frameTime);
 		}*/
 
-		camera.centerPosition.x = input->getMouseX();
-		camera.centerPosition.y = input->getMouseY();
+		
     }
 }
 
