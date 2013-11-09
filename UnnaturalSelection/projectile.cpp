@@ -7,7 +7,7 @@
 /**************************
 INITALIZERS
 **************************/
-Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius)
+Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius) : Entity()
 {
 	setGamePointer(gamePtr);
 	initialize(gamePtr, width, height, ncoils, tm);
@@ -17,7 +17,7 @@ Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height,
 	visible = false;
 	this->radius = hitBoxRadius;
 }
-Projectile::Projectile(Projectile& in)
+Projectile::Projectile(Projectile& in) : Entity(in)
 {
 	(*this) = in;
 	initialize(setGamePointer(0), in.spriteData.width, in.spriteData.height, in.collisionType, in.textureManager);

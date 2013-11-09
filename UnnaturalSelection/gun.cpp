@@ -7,14 +7,15 @@
 /**************************
 INITALIZERS
 **************************/
-Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType)
+Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType)
 {
 	timeSinceLastFired = 0;
+	mag = 0;
+	isMagInGun = false;
 	chamberedProjectile = 0;
 	gunState = NONE;
 	gunTimer = 0;
 	fireLocation = D3DXVECTOR2(50, 0);
-	loadNewMag(mag);
 	burstCount = 0;
 }
 
@@ -107,17 +108,19 @@ void Gun::multiFire(float frameTime)
 		count--;
 	}
 }
-void Gun::reload(float frameTime)
+//Takes the mag out of the gun
+void Gun::removeMag()
+{
+	isMagInGun = false;
+}
+//Places the mag in the gun
+void Gun::loadMag()
 {
 	if(mag != 0)
 	{
-		mag->loadAmmo();
+		isMagInGun = true;
 		chamberNextProjectile();
 	}
-}
-void Gun::switchMag(float frameTime, Magazine* newMag)
-{
-
 }
 void Gun::recoil(float frameTime)
 {
@@ -127,14 +130,14 @@ void Gun::recoil(float frameTime)
 void Gun::loadNewMag(Magazine* newMag)
 {
 	mag = newMag;
+	isMagInGun = true;
 	newMag->setProjectileStats(damage, minRange, maxRange, muzzelVelocity);
 	chamberNextProjectile();
-	
 }
 //Puts the next projectile in the chamber and removes it from the mag
 void Gun::chamberNextProjectile()
 {
-	if(chamberedProjectile == 0)
+	if(chamberedProjectile == 0 && isMagInGun)
 	{
 		chamberedProjectile = mag->getNextProjectile();
 	}

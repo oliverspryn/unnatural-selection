@@ -9,12 +9,11 @@
 //=============================================================================
 // Constructor
 //=============================================================================
-WeaponTest::WeaponTest()
+WeaponTest::WeaponTest(): camera(400, 400, 100, 100, 0, 0, 1)
 {
     menuOn = true;
 	timer = 0;
 	frameCount = 0;
-	
     initialized = false;
 }
 
@@ -71,9 +70,10 @@ void WeaponTest::initialize(HWND hwnd)
 //	testMag = 0;
 	//testProjectile->setStats(30, 100, 100, 200);
 
-	testMag = new Magazine(400, 90, 90, 1, 100, 20, ONE, testProjectile);
+	testMag = new Magazine(4000, 4000, 4000, 1, 100, 20, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 60*60, 100, 400, 700, 20, 5, 2.0, BURST_THREE, ONE, testMag);
+	testGun = new Gun(10, 60*60, 100, 600, 300, 20, 5, 2.0, AUTO, ONE);
+	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
 
@@ -105,7 +105,7 @@ void WeaponTest::update()
     } 
     else 
     {
-		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		//testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
 		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 		//testGun->mag->updateMagsProjectiles(frameTime);
 		if(input->getMouseLButton())
@@ -118,12 +118,22 @@ void WeaponTest::update()
 		}
 		testMag->updateMagsProjectiles(frameTime);
 		//testMag->projectile->update(frameTime);
-		
+		if(input->isKeyDown('1'))
+		{
+			camera.zoom = max(0.1, camera.zoom - frameTime*.5);
+		}
+		if(input->isKeyDown('2'))
+		{
+			camera.zoom = min(10, camera.zoom + frameTime*.5);
+		}
 
 		/*if(testProjectile->getActive())
 		{
 			testProjectile->update(frameTime);
 		}*/
+
+		camera.centerPosition.x = input->getMouseX();
+		camera.centerPosition.y = input->getMouseY();
     }
 }
 
@@ -165,6 +175,12 @@ void WeaponTest::render()
 	testMag->displayMagsProjectiles();
 	//testMag->projectile->draw();
 	testGun->draw();
+	camera.draw(*testGun);
+	for(int i(0); i < testMag->size+1; i++)
+	{
+		camera.draw(*testMag->projArray[i]);
+
+	}
 
     graphics->spriteEnd();                  // end drawing sprites
 }

@@ -12,6 +12,7 @@
 #include "image.h"
 #include "dashboard.h"
 #include "gun.h"
+#include "camera.h"
 
 
 namespace weapontestNS
@@ -37,7 +38,7 @@ public:
 	char buffer[weapontestNS::BUFFER_SIZE];
     float   timer;         // time until new round starts
 	int frameCount;
-
+	Camera camera;
 
 	/*********************************************
 	ALL FUNCTIONS

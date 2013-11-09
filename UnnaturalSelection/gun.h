@@ -119,6 +119,8 @@ public:
 	bool canFireAgainSemiAuto;
 	//Keeps track of how many shots have been fired in the burst
 	int burstCount;
+	//Keeps track of if the mag is in or out of the gun
+	bool isMagInGun;
 
 
 
@@ -130,20 +132,23 @@ public:
 	virtual void fire(D3DXVECTOR2 initialPos, float angle);
 	//Accounts for if multiple bullets could leave the gun in one frame
 	virtual void multiFire(float frameTime);
-	virtual void reload(float frameTime);
-	virtual void switchMag(float frameTime, Magazine* newMag);
+	//Takes the mag out of the gun
+	virtual void removeMag();
+	//Places the mag in the gun
+	virtual void loadMag();
 	virtual void recoil(float frameTime);
 	//Updates all the projectile in the clip to meet the guns stats
 	virtual void loadNewMag(Magazine* newMag);
 	//Puts the next projectile in the chamber and removes it from the mag
 	virtual void chamberNextProjectile();
+	//
 	
 
 
 	/**************************
 	INITALIZERS
 	**************************/
-	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType, Magazine* mag);
+	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType);
 };
 
 
