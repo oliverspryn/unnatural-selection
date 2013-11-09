@@ -84,7 +84,6 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 }
 void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 {
-
 	chamberedProjectile->fire(initialPos, angle);
 	chamberedProjectile = 0;
 
@@ -92,6 +91,7 @@ void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 void Gun::multiFire(float frameTime)
 {
 	int count = frameTime/fireRate.fireTime;
+	float recoilTime = frameTime/count;
 	if(fireMode != AUTO)//accounts for burst fire
 	{
 		count = min(burstCount, count);
@@ -104,6 +104,7 @@ void Gun::multiFire(float frameTime)
 		if(chamberedProjectile != 0)
 		{
 			fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+			recoil(recoilTime);
 		}
 		count--;
 	}
@@ -124,7 +125,14 @@ void Gun::loadMag()
 }
 void Gun::recoil(float frameTime)
 {
-
+	if(mag != 0)
+	{
+		int recoil = mag->recoil - recoilReduction;
+		if(recoil > 0)
+		{
+			setRadians(getRadians() + frameTime*((rand()%recoil)-recoil/2)*PI/180);
+		}
+	}
 }
 //Updates all the projectile in the clip to meet the guns stats
 void Gun::loadNewMag(Magazine* newMag)
