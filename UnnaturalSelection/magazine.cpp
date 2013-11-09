@@ -35,12 +35,10 @@ void Magazine::updateMagsProjectiles(float frameTime)
 		{
 			projArray[i]->update(frameTime);
 		}
-		else if(i < projArrayIndex-1)
+		else if(i < projArrayIndex-2)
 		{
-			for(int x(i); x + 1 < projArrayIndex; x++)
-			{
-				std::swap(projArray[x], projArray[x+1]);
-			}
+			std::swap(projArray[i], projArray[projArrayIndex-2]);
+			std::swap(projArray[projArrayIndex-2], projArray[projArrayIndex-1]);
 			projArrayIndex--;
 		}
 	}
