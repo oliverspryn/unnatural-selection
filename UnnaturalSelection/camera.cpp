@@ -3,7 +3,7 @@
 // 11/8/2013
 #include "camera.h"
 
-Camera::Camera(int width, int height, int xReal, int yReal, int x, int y, float zoom): width(width), height(height), realPosition(xReal, yReal), centerPosition(x+width/2, y+height/2), zoom(zoom)
+Camera::Camera(int width, int height, int xReal, int yReal, int x, int y, float zoom): width(width), height(height), realPosition(xReal, yReal), centerPosition(x, y), zoom(zoom)
 {
 	
 }
