@@ -98,7 +98,7 @@ public:
 	int spread;
 	float reloadTime;
 	//Auto, semi, burstfire
-	FireMode fireMode;
+	int fireMode;
 	//The mag type the gun can use
 	MagType magType;
 	//What Magazine is loaded
@@ -148,7 +148,7 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
-	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, FireMode fireMode, MagType magType);
+	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, int fireMode, MagType magType);
 };
 
 
