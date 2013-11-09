@@ -28,3 +28,10 @@ void Camera::draw(Image in)
 		}
 	}
 }
+D3DXVECTOR2 Camera::getRealPos(float xIn, float yIn)
+{
+	//return D3DXVECTOR2(xIn, yIn);
+	float relX = (xIn-(realPosition.x+width/2))/zoom;
+	float relY = (yIn-(realPosition.y+height/2))/zoom;
+	return D3DXVECTOR2(relX + centerPosition.x, relY + centerPosition.y);
+}
