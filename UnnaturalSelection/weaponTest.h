@@ -27,13 +27,15 @@ public:
 	/*********************************************
 	ALL VARIBLES
 	**********************************************/
-	TextureManager gunTM, magTM, projectileTM;   // textures
+	TextureManager gunTM, magTM, projectileTM, boxTM;   // textures
 	Image   gunIM;
     Image   magIM;
     Image   projectileIM;
+	Image	boxIM;
     Gun* testGun;
 	Magazine* testMag;
 	Projectile* testProjectile;
+	Entity* testBox;
     bool    menuOn;
 	char buffer[weapontestNS::BUFFER_SIZE];
     float   timer;         // time until new round starts

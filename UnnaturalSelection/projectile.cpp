@@ -15,12 +15,14 @@ Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height,
 	lifeTime = 0;
 	active = false;
 	visible = false;
+	//this->radius = 1;
 	this->radius = hitBoxRadius;
 }
 Projectile::Projectile(Projectile& in) : Entity(in)
 {
 	(*this) = in;
 	initialize(setGamePointer(0), in.spriteData.width, in.spriteData.height, in.collisionType, in.textureManager);
+	radius = in.radius;
 }
 
 

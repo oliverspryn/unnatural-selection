@@ -127,10 +127,11 @@ void Gun::recoil(float frameTime)
 {
 	if(mag != 0)
 	{
+		frameTime = 1;
 		int recoil = mag->recoil - recoilReduction;
 		if(recoil > 0)
 		{
-			setRadians(getRadians() + frameTime*((rand()%recoil)-(5*recoil/8))*PI/180);
+			setRadians(getRadians() + frameTime*((rand()%recoil)-(510*recoil/1000))*PI/180);
 		}
 	}
 }
