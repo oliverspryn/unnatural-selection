@@ -29,11 +29,16 @@ void TerrainElement::generateSideEquations()
 	y = this->getCenterY() + sin(this->getRadians())*edge.right;
 	b[3] = y - m[3]*x;
 
-	for(int i = 0; i < 4; i++)
+	/*for(int i = 0; i < 4; i++)
 	{
 		float x = getXCorner(m[i],b[i],m[(i+1)%4],b[(i+1)%4]);
 		corners[i] = VECTOR2(x, m[i]*x+b[i]);
-	}
+	}*/
+	corners[3] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.right - sin(this->getRadians())*edge.top, this->getCenterY() + cos(this->getRadians())*edge.top + sin(this->getRadians())*edge.right);
+	corners[2] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.right - sin(this->getRadians())*edge.bottom, this->getCenterY() + cos(this->getRadians())*edge.bottom + sin(this->getRadians())*edge.right);
+	corners[1] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.left - sin(this->getRadians())*edge.bottom, this->getCenterY() + cos(this->getRadians())*edge.bottom + sin(this->getRadians())*edge.left);
+	corners[0] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.left - sin(this->getRadians())*edge.top, this->getCenterY() + cos(this->getRadians())*edge.top + sin(this->getRadians())*edge.left);
+
 }
 
 float TerrainElement::getXCorner(float m1, float b1, float m2, float b2)
