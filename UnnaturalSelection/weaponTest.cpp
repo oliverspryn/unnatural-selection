@@ -108,8 +108,8 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new Boxxy();
-	testBox->initialize(this, 32, 64, 0, &boxTM);
+	testBox = new StraightPath(64, 32, D3DXVECTOR2(GAME_WIDTH/2+300, 400));
+	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
 	
 	//testBox->setSpriteDataRect(r);*/
 	
@@ -178,10 +178,12 @@ void WeaponTest::update()
 		if(input->isKeyDown('3'))
 		{
 			testBox->setDegrees(testBox->getDegrees()+45*frameTime);
+			testBox->generateSideEquations();
 		}
 		if(input->isKeyDown('4'))
 		{
 			testBox->setDegrees(testBox->getDegrees()-45*frameTime);
+			testBox->generateSideEquations();
 		}
 
 		/*if(testProjectile->getActive())
@@ -197,6 +199,7 @@ void WeaponTest::update()
 			if(testMag->projArray[i]->getActive())
 			{
 				if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, frameTime))
+//				if(collidesWithMovingRay(testMag->projArray[i], testBox->m[0], testBox->b[0], testBox->corners[0], testBox->corners[3], collisionVector, frameTime))
 				{
 					//throw "GHJKL:";
 					testMag->projArray[i]->setActive(false);
@@ -343,51 +346,49 @@ float getXIntersept(float m1, float b1, float m2, float b2)
 }
 
 
-bool WeaponTest::collidesWithMoving(Entity* moving, Entity* object, D3DXVECTOR2 &collisionVector, float &frameTime)
+bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVECTOR2 &collisionVector, float &frameTime)
 {
-	if(moving->getCollisionType() == entityNS::CIRCLE && object->getCollisionType() == entityNS::ROTATED_BOX)
-	{
-		//First checks all edges to see if they collide
-		float k = moving->getCenterX();
-		float h = moving->getCenterY();
-		float r = moving->getRadius();
-		auto box = object->getEdge();
-		//the angle between the box and projectile
-		float m1 = moving->getVelocity().y/moving->getVelocity().x;
-		float x1 = moving->getCenterX();
-		float y1 = moving->getCenterY();
-		float b1 = y1 - m1*x1;
-		float m2 = sin(object->getRadians()+PI/2)/cos(object->getRadians()+PI/2);
-		float x2 = object->getCenterX() + cos(object->getRadians()+PI)*box.right;
-		float y2 = object->getCenterY() + sin(object->getRadians()+PI)*box.right;
-		float b2 = y2 - m2*x2;
-		float d = moving->getDegrees();
-		//Gives the place that intersects on the circle
-		//float x = (k+k*(a*a)-sqrt(r*r*a*a+r*r*a*a*a*a))/(1+a*a);
-		//float y = sqrt(r*r-(x-k)*(x-k))+h;
-		//Equation for one 
-		float x = getXIntersept(m1, b1, m2, b2);
-		int i = 0;
 
-		
-		//if(frameTime*moving->getVelocity().x + x1 > x && box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
-		//Limits based on x
-		if(abs(cos(object->getRadians()+PI/2)*box.top) >= abs(((((object->getCenterY()+cos(object->getRadians()+PI/2)*box.right))-b2)/m2)-x1)-abs(moving->getVelocity().x*frameTime))
-		//if(box.right > abs(((((object->getCenterY()+cos(object->getRadians())*box.top))-b2)/m2)-x1))
-		//if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right)-b2)/m2)
-		//if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)-sin(object->getRadians())*box.right)-b2)/m2)
-		//Limits based on y
-		//if(y1 > (object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right)
-		//Both up and down
-		if(abs(sin(object->getRadians()+PI/2)*box.top) > abs((object->getCenterY()+cos(object->getRadians()+PI/2)*box.right)-y1))
-		//if(box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
-		//Limits based on time
-		if(frameTime*moving->getVelocity().x + x1 > x)
+	//Gives the place that intersects on the circle
+	//float x = (k+k*(a*a)-sqrt(r*r*a*a+r*r*a*a*a*a))/(1+a*a);
+	//float y = sqrt(r*r-(x-k)*(x-k))+h;
+	//Equation for one 
+	bool hit(false);
+	for(int i(0); i < 4; i++)
+	{
+		if(collidesWithMovingRay(moving, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], collisionVector, frameTime))
 		{
-			return true;
-		}else{
-			return false;
+			hit = true;
 		}
 	}
+	if(hit)
+	{
+		return true;
+	}
+	return false;
+	
+}
+
+bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, D3DXVECTOR2 &collisionVector, float &frameTime)
+{
+	//the angle between the box and projectile
+	float m1 = moving->getVelocity().y/moving->getVelocity().x;
+	float x1 = moving->getCenterX();
+	float y1 = moving->getCenterY();
+	float b1 = y1 - m1*x1;
+
+	float x = getXIntersept(m1, b1, slope, b);
+
+	if(min(corner1.y, corner2.y) < slope*x + b && slope*x + b < max(corner1.y, corner2.y))
+	if(min(corner1.x, corner2.x) < x1 + moving->getVelocity().x*frameTime && x1 - moving->getVelocity().x*frameTime < max(corner1.x, corner2.x))
+	//makes sure it is with in the frame time
+	if(frameTime*moving->getVelocity().x + x1 > x)
+	{
+		return true;
+		frameTime = (x1-x)/moving->getVelocity().x;
+	}else{
+		return false;
+	}
+
 	return false;
 }
