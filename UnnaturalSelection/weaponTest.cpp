@@ -108,7 +108,7 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2-50, 200));
+	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 400));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
 	//testBox->setRadians(PI/2);
 	//testBox->setDegrees(0.001);
@@ -124,7 +124,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 30*60*60, 100, 400, 1000, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 10*60*60, 100, 600, 1000, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
@@ -202,7 +202,8 @@ void WeaponTest::update()
 		{
 			if(testMag->projArray[i]->getActive())
 			{
-				if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, frameTime))
+				float ft = frameTime;
+				if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, ft))
 //				if(collidesWithMovingRay(testMag->projArray[i], testBox->m[0], testBox->b[0], testBox->corners[0], testBox->corners[3], collisionVector, frameTime))
 				{
 					//throw "GHJKL:";
@@ -399,8 +400,8 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 		//makes sure it is with in the frame time
 		if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
 		{
-			return true;
 			frameTime = (x1-x)/moving->getVelocity().x;
+			return true;
 		}else{
 			return false;
 		}
@@ -411,8 +412,8 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 	//makes sure it is with in the frame time
 	if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
 	{
-		return true;
 		frameTime = (x1-x)/moving->getVelocity().x;
+		return true;
 	}else{
 		return false;
 	}

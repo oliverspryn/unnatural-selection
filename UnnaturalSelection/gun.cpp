@@ -76,10 +76,6 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 		}
 
 	}
-	else if(gunState == FIREING)
-	{
-		gunState = NONE;
-	}
 
 }
 void Gun::fire(D3DXVECTOR2 initialPos, float angle)
