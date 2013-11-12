@@ -108,8 +108,11 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(64, 32, D3DXVECTOR2(GAME_WIDTH/2+300, 400));
+	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300*0, 200));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
+	//testBox->setRadians(PI/2);
+	//testBox->setDegrees(0.001);
+	testBox->generateSideEquations();
 	
 	//testBox->setSpriteDataRect(r);*/
 	
@@ -164,6 +167,7 @@ void WeaponTest::update()
 		if(input->getMouseRButton())
 		{
 			//testGun->fire(frameTime);
+			camera.centerPosition = D3DXVECTOR2(input->getMouseX(), input->getMouseY());
 		}
 		//testMag->updateMagsProjectiles(frameTime);
 		//testMag->projectile->update(frameTime);
@@ -205,11 +209,15 @@ void WeaponTest::update()
 					testMag->projArray[i]->setActive(false);
 					testMag->projArray[i]->setVisible(false); 
 				}else{
-					testMag->projArray[i]->update(frameTime);
+					//Need to use mag update just for this
+					//testMag->projArray[i]->update(frameTime);
 				}
 			}
 		}
-
+		if(testMag != 0)
+		{
+			testMag->updateMagsProjectiles(frameTime);
+		}
     }
 }
 
@@ -362,7 +370,7 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVE
 		}
 	}
 	//Only one Plane
-	/*if(collidesWithMovingRay(moving, object->m[1], object->b[1], object->corners[1], object->corners[(3+1)%4], collisionVector, frameTime))
+  	/*if(collidesWithMovingRay(moving, object->m[1], object->b[1], object->corners[1], object->corners[(3+1)%4], collisionVector, frameTime))
 	{
 		return true;
 	}*/
@@ -384,7 +392,7 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 
 	float x = getXIntersept(m1, b1, slope, b);
 
-	if(min(corner1.y, corner2.y) < slope*x + b && slope*x + b < max(corner1.y, corner2.y))
+	if(min(corner1.y, corner2.y) < m1*x + b1 && m1*x + b1 < max(corner1.y, corner2.y))
 	if(min(corner1.x, corner2.x) < x1 + abs(moving->getVelocity().x*frameTime) && x1 - abs(moving->getVelocity().x*frameTime) < max(corner1.x, corner2.x))
 	//makes sure it is with in the frame time
 	if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
