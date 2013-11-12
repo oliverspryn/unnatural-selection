@@ -3,6 +3,7 @@
 
 #include "projectile.h"
 #include "terrainElement.h"
+#include "camera.h"
 
 class Character : public Entity
 {
@@ -33,13 +34,7 @@ public:
 
 };
 
-class MapElement : public Entity
-{};
-
 class PickUp : public Entity
-{};
-
-class Camera : public Entity
 {};
 
 class GameType
@@ -49,7 +44,7 @@ namespace levelNS
 {
 	const int NUM_PROJECTILES = 10;
 	const int NUM_CHARACTERS = 10;
-	const int NUM_ITEMS = 10;
+	const int NUM_SPAWNS = 10;
 	const int NUM_TERRAIN = 10;
 	const int NUM_PICKUP = 10;
 }
@@ -58,12 +53,14 @@ class LMap
 {
 	Projectile* projectiles[levelNS::NUM_PROJECTILES];
 	Character* characters[levelNS::NUM_CHARACTERS];
-	MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
+	//MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
 	TerrainElement* terrain[levelNS::NUM_TERRAIN];
 	PickUp* dropped[levelNS::NUM_PICKUP];//if they are touching it and choose to pick it up pick it up
+	VECTOR2* spawnPoints[levelNS::NUM_SPAWNS];
 	int player;
 	//has a pointer to input so that it can easily run all the updating and what not
 	Input* input;
+	Camera* camera;
 
 public:
 	LMap(Input* i);
