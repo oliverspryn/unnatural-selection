@@ -108,7 +108,7 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300*0, 200));
+	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2-50, 200));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
 	//testBox->setRadians(PI/2);
 	//testBox->setDegrees(0.001);
@@ -370,7 +370,7 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVE
 		}
 	}
 	//Only one Plane
-  	/*if(collidesWithMovingRay(moving, object->m[1], object->b[1], object->corners[1], object->corners[(3+1)%4], collisionVector, frameTime))
+  	/*if(collidesWithMovingRay(moving, object->m[2], object->b[2], object->corners[2], object->corners[(3+2)%4], collisionVector, frameTime))
 	{
 		return true;
 	}*/
@@ -391,6 +391,20 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 	float b1 = y1 - m1*x1;
 
 	float x = getXIntersept(m1, b1, slope, b);
+
+	//If the plane is horizontal 
+	if(corner1.y == corner2.y)
+	{
+		if(min(corner1.x, corner2.x) < x1 && x1 < max(corner1.x, corner2.x))
+		//makes sure it is with in the frame time
+		if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
+		{
+			return true;
+			frameTime = (x1-x)/moving->getVelocity().x;
+		}else{
+			return false;
+		}
+	}
 
 	if(min(corner1.y, corner2.y) < m1*x + b1 && m1*x + b1 < max(corner1.y, corner2.y))
 	if(min(corner1.x, corner2.x) < x1 + abs(moving->getVelocity().x*frameTime) && x1 - abs(moving->getVelocity().x*frameTime) < max(corner1.x, corner2.x))
