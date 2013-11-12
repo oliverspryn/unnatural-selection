@@ -357,9 +357,9 @@ bool WeaponTest::collidesWithMoving(Entity* moving, Entity* object, D3DXVECTOR2 
 		float x1 = moving->getCenterX();
 		float y1 = moving->getCenterY();
 		float b1 = y1 - m1*x1;
-		float m2 = sin(object->getRadians())/cos(object->getRadians());
-		float x2 = object->getCenterX() + cos(object->getRadians()+PI/2)*box.top;
-		float y2 = object->getCenterY() + sin(object->getRadians()+PI/2)*box.top;
+		float m2 = sin(object->getRadians()+PI/2)/cos(object->getRadians()+PI/2);
+		float x2 = object->getCenterX() + cos(object->getRadians()+PI)*box.right;
+		float y2 = object->getCenterY() + sin(object->getRadians()+PI)*box.right;
 		float b2 = y2 - m2*x2;
 		float d = moving->getDegrees();
 		//Gives the place that intersects on the circle
@@ -370,16 +370,16 @@ bool WeaponTest::collidesWithMoving(Entity* moving, Entity* object, D3DXVECTOR2 
 		int i = 0;
 
 		
-//		if(frameTime*moving->getVelocity().x + x1 > x && box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
+		//if(frameTime*moving->getVelocity().x + x1 > x && box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
 		//Limits based on x
-		if(abs(cos(object->getRadians())*box.right) >= abs(((((object->getCenterY()+cos(object->getRadians())*box.top))-b2)/m2)-x1)-abs(moving->getVelocity().x*frameTime))
-//		if(box.right > abs(((((object->getCenterY()+cos(object->getRadians())*box.top))-b2)/m2)-x1))
-//		if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right)-b2)/m2)
-//		if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)-sin(object->getRadians())*box.right)-b2)/m2)
+		if(abs(cos(object->getRadians()+PI/2)*box.top) >= abs(((((object->getCenterY()+cos(object->getRadians()+PI/2)*box.right))-b2)/m2)-x1)-abs(moving->getVelocity().x*frameTime))
+		//if(box.right > abs(((((object->getCenterY()+cos(object->getRadians())*box.top))-b2)/m2)-x1))
+		//if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right)-b2)/m2)
+		//if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)-sin(object->getRadians())*box.right)-b2)/m2)
 		//Limits based on y
-//		if(y1 > (object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right
+		//if(y1 > (object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right)
 		//Both up and down
-		if(abs(sin(object->getRadians())*box.right) > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
+		if(abs(sin(object->getRadians()+PI/2)*box.top) > abs((object->getCenterY()+cos(object->getRadians()+PI/2)*box.right)-y1))
 		//if(box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
 		//Limits based on time
 		if(frameTime*moving->getVelocity().x + x1 > x)
