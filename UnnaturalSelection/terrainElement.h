@@ -16,9 +16,9 @@ namespace terrainNS
 
 class TerrainElement : public Entity
 {
+public:
 	void generateSideEquations();
 	float getXCorner(float m1, float b1, float m2, float b2);
-public:
 	TerrainElement();
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	bool initialize(Game*, TextureManager*, int nCol);
