@@ -121,7 +121,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 10*60*60, 100, 800, 1000, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 30*60*60, 100, 400, 1000, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
@@ -154,7 +154,7 @@ void WeaponTest::update()
     } 
     else 
     {
-		//testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
 		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 		//testGun->mag->updateMagsProjectiles(frameTime);
 		if(input->getMouseLButton())
@@ -361,6 +361,11 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVE
 			hit = true;
 		}
 	}
+	//Only one Plane
+	/*if(collidesWithMovingRay(moving, object->m[1], object->b[1], object->corners[1], object->corners[(3+1)%4], collisionVector, frameTime))
+	{
+		return true;
+	}*/
 	if(hit)
 	{
 		return true;
@@ -380,9 +385,9 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 	float x = getXIntersept(m1, b1, slope, b);
 
 	if(min(corner1.y, corner2.y) < slope*x + b && slope*x + b < max(corner1.y, corner2.y))
-	if(min(corner1.x, corner2.x) < x1 + moving->getVelocity().x*frameTime && x1 - moving->getVelocity().x*frameTime < max(corner1.x, corner2.x))
+	if(min(corner1.x, corner2.x) < x1 + abs(moving->getVelocity().x*frameTime) && x1 - abs(moving->getVelocity().x*frameTime) < max(corner1.x, corner2.x))
 	//makes sure it is with in the frame time
-	if(frameTime*moving->getVelocity().x + x1 > x)
+	if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
 	{
 		return true;
 		frameTime = (x1-x)/moving->getVelocity().x;
