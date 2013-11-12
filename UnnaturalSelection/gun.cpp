@@ -99,7 +99,8 @@ void Gun::multiFire(float frameTime)
 		chamberNextProjectile();
 		if(chamberedProjectile != 0)
 		{
-			fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(spriteData.angle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(spriteData.angle)), spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180);
+			float fireAngle = spriteData.angle + spread*PI*(((rand()%1000)-500)/1000.0)/180;
+			fire(D3DXVECTOR2(getCenterX()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*cos(fireAngle), getCenterY()+(fireLocation.x+((count-1)*fireRate.fireTime*chamberedProjectile->muzzelVelocity))*sin(fireAngle)), fireAngle);
 			recoil(recoilTime);
 		}
 		count--;
