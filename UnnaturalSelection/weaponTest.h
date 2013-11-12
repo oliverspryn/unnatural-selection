@@ -20,6 +20,17 @@ namespace weapontestNS
 	const int BUFFER_SIZE = 20;
 }
 
+class LineEq
+{
+public:
+	float yInter;
+	float xInter;
+	float getSlope()
+	{
+		return yInter/xInter;
+	}
+
+};
 
 class WeaponTest: public Game
 {
@@ -60,6 +71,7 @@ public:
     void roundStart();  // start a new round of play
     void releaseAll();
     void resetAll();
+	bool collidesWithMoving(Entity* moving, Entity* object, D3DXVECTOR2 &collisionVector, float &frameTime);
 };
 
 #endif

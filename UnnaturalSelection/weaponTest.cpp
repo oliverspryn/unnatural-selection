@@ -119,9 +119,9 @@ void WeaponTest::initialize(HWND hwnd)
 //	testMag = 0;
 	//testProjectile->setStats(30, 100, 100, 200);
 
-	testMag = new Magazine(4000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
+	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 10*60*60, 100, 600, 100, 100, 45, 2.0, 0, ONE);
+	testGun = new Gun(10, 10*60*60, 100, 800, 1000, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
@@ -130,7 +130,7 @@ void WeaponTest::initialize(HWND hwnd)
 	//testGun->mag = testMag;
 	//testMag->projectile = testProjectile;
 //	testMag->projArray[0] = testProjectile;
-	testGun->setX(GAME_WIDTH/2-testGun->getWidth()/2);
+	testGun->setX(GAME_WIDTH/2-testGun->getWidth()/2-0);
 	testGun->setY(GAME_HEIGHT/2);
     
 	return;
@@ -165,7 +165,7 @@ void WeaponTest::update()
 		{
 			//testGun->fire(frameTime);
 		}
-		testMag->updateMagsProjectiles(frameTime);
+		//testMag->updateMagsProjectiles(frameTime);
 		//testMag->projectile->update(frameTime);
 		if(input->isKeyDown('1'))
 		{
@@ -189,7 +189,24 @@ void WeaponTest::update()
 			testProjectile->update(frameTime);
 		}*/
 		testBox->update(frameTime);
-		collisions();
+
+		//Used for collisions
+		VECTOR2 collisionVector;
+		for(int i(0); i < testMag->size+1; i++)
+		{
+			if(testMag->projArray[i]->getActive())
+			{
+				if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, frameTime))
+				{
+					//throw "GHJKL:";
+					testMag->projArray[i]->setActive(false);
+					testMag->projArray[i]->setVisible(false); 
+				}else{
+					testMag->projArray[i]->update(frameTime);
+				}
+			}
+		}
+
     }
 }
 
@@ -216,13 +233,17 @@ void WeaponTest::ai()
 void WeaponTest::collisions()
 {
     VECTOR2 collisionVector;
+	float frameTime = 0;
     for(int i(0); i < testMag->size+1; i++)
 	{
-		if(testMag->projArray[i]->collidesWith(*testBox, collisionVector))
+		if(testMag->projArray[i]->getActive())
 		{
-			//throw "GHJKL:";
-			testMag->projArray[i]->setActive(false);
-			testMag->projArray[i]->setVisible(false);
+			if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, frameTime))
+			{
+				//throw "GHJKL:";
+				testMag->projArray[i]->setActive(false);
+				testMag->projArray[i]->setVisible(false); 
+			}
 		}
 	}
 }
@@ -311,4 +332,62 @@ void WeaponTest::resetAll()
 
     Game::resetAll();
     return;
+}
+
+
+
+
+float getXIntersept(float m1, float b1, float m2, float b2)
+{
+	return ((b2-b1)/(m1-m2));
+}
+
+
+bool WeaponTest::collidesWithMoving(Entity* moving, Entity* object, D3DXVECTOR2 &collisionVector, float &frameTime)
+{
+	if(moving->getCollisionType() == entityNS::CIRCLE && object->getCollisionType() == entityNS::ROTATED_BOX)
+	{
+		//First checks all edges to see if they collide
+		float k = moving->getCenterX();
+		float h = moving->getCenterY();
+		float r = moving->getRadius();
+		auto box = object->getEdge();
+		//the angle between the box and projectile
+		float m1 = moving->getVelocity().y/moving->getVelocity().x;
+		float x1 = moving->getCenterX();
+		float y1 = moving->getCenterY();
+		float b1 = y1 - m1*x1;
+		float m2 = sin(object->getRadians())/cos(object->getRadians());
+		float x2 = object->getCenterX() + cos(object->getRadians()+PI/2)*box.top;
+		float y2 = object->getCenterY() + sin(object->getRadians()+PI/2)*box.top;
+		float b2 = y2 - m2*x2;
+		float d = moving->getDegrees();
+		//Gives the place that intersects on the circle
+		//float x = (k+k*(a*a)-sqrt(r*r*a*a+r*r*a*a*a*a))/(1+a*a);
+		//float y = sqrt(r*r-(x-k)*(x-k))+h;
+		//Equation for one 
+		float x = getXIntersept(m1, b1, m2, b2);
+		int i = 0;
+
+		
+//		if(frameTime*moving->getVelocity().x + x1 > x && box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
+		//Limits based on x
+		if(abs(cos(object->getRadians())*box.right) >= abs(((((object->getCenterY()+cos(object->getRadians())*box.top))-b2)/m2)-x1)-abs(moving->getVelocity().x*frameTime))
+//		if(box.right > abs(((((object->getCenterY()+cos(object->getRadians())*box.top))-b2)/m2)-x1))
+//		if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right)-b2)/m2)
+//		if(x1 > (((object->getCenterY()+cos(object->getRadians())*box.top)-sin(object->getRadians())*box.right)-b2)/m2)
+		//Limits based on y
+//		if(y1 > (object->getCenterY()+cos(object->getRadians())*box.top)+sin(object->getRadians())*box.right
+		//Both up and down
+		if(abs(sin(object->getRadians())*box.right) > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
+		//if(box.right > abs((object->getCenterY()+cos(object->getRadians())*box.top)-y1))
+		//Limits based on time
+		if(frameTime*moving->getVelocity().x + x1 > x)
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}
+	return false;
 }
