@@ -86,6 +86,7 @@ LMap::LMap(Input* i)
 void LMap::collision()
 {
 	VECTOR2 collisionVector;
+	float angle, frameTime;
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
 		//getting hit
@@ -99,7 +100,7 @@ void LMap::collision()
 		//being on level
 		for(int j = 0; j < levelNS::NUM_TERRAIN; j++)
 		{
-			if(characters[i]->collidesWith(*terrain[j],collisionVector))
+			if(collidesWithMoving(characters[i],terrain[j],angle,frameTime))
 			{
 				//stop them from falling through...
 				//characters[i]->setVisible(false);
@@ -136,4 +137,77 @@ void LMap::collision()
 			//}
 		}
 	}
+}
+
+bool LMap::collidesWithMoving(Entity* moving, TerrainElement* object, float &angle, float &frameTime)
+{
+
+	//Gives the place that intersects on the circle
+	//float x = (k+k*(a*a)-sqrt(r*r*a*a+r*r*a*a*a*a))/(1+a*a);
+	//float y = sqrt(r*r-(x-k)*(x-k))+h;
+	//Equation for one 
+	bool hit(false);
+	for(int i(0); i < 4; i++)
+	{
+		if(collidesWithMovingRay(moving, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
+		{
+			hit = true;
+			angle = (i*PI/2)+ object->getRadians();
+//			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
+		}
+	}
+	//Only one Plane
+  	/*if(collidesWithMovingRay(moving, object->m[2], object->b[2], object->corners[2], object->corners[(3+2)%4], collisionVector, frameTime))
+	{
+		return true;
+	}*/
+	if(hit)
+	{
+		return true;
+	}
+	return false;
+	
+}
+
+bool LMap::collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime)
+{
+	//the angle between the box and projectile
+	float m1 = moving->getVelocity().y/moving->getVelocity().x;
+	float x1 = moving->getCenterX();
+	float y1 = moving->getCenterY();
+	float b1 = y1 - m1*x1;
+
+	float x = getXIntercept(m1, b1, slope, b);
+
+	//If the plane is horizontal 
+	if(corner1.y == corner2.y)
+	{
+		if(min(corner1.x, corner2.x) < x1 && x1 < max(corner1.x, corner2.x))
+		//makes sure it is with in the frame time
+		if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
+		{
+			frameTime = (x1-x)/moving->getVelocity().x;
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	if(min(corner1.y, corner2.y) < m1*x + b1 && m1*x + b1 < max(corner1.y, corner2.y))
+	if(min(corner1.x, corner2.x) < x1 + abs(moving->getVelocity().x*frameTime) && x1 - abs(moving->getVelocity().x*frameTime) < max(corner1.x, corner2.x))
+	//makes sure it is with in the frame time
+	if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
+	{
+		frameTime = (x1-x)/moving->getVelocity().x;
+		return true;
+	}else{
+		return false;
+	}
+
+	return false;
+}
+
+float LMap::getXIntercept(float m1, float b1, float m2, float b2)
+{
+	return ((b2-b1)/(m1-m2));
 }

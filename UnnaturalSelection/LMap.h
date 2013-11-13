@@ -8,6 +8,7 @@
 class Character : public Entity
 {
 public:
+
 	Character(int height, int width, VECTOR2 center)
 	{
 		spriteData.height = height;
@@ -61,7 +62,9 @@ class LMap
 	//has a pointer to input so that it can easily run all the updating and what not
 	Input* input;
 	Camera* camera;
-
+	bool collidesWithMoving(Entity* moving, TerrainElement* object, float &angle, float &frameTime);
+	bool collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
+	float getXIntercept(float m1, float b1, float m2, float b2);
 public:
 	LMap(Input* i);
 	void update(float frameTime);
