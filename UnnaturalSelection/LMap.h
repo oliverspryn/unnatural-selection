@@ -3,6 +3,14 @@
 
 #include "projectile.h"
 #include "terrainElement.h"
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+//std::cout;
+//std::endl;
+using std::fstream;
+using std::ofstream;
+using std::string;
 #include "camera.h"
 
 class CharacterJ : public Entity
@@ -30,11 +38,11 @@ public:
 	}
 	void right()
 	{
-		velocity.x = 50;
+		velocity.x = 100;
 	}
 	void left()
 	{
-		velocity.x = -50;
+		velocity.x = -100;
 	}
 };
 
@@ -55,6 +63,8 @@ namespace levelNS
 
 class LMap
 {
+	int numTerrain, numCharacters, numSpawns;
+	int addedElements;
 	Projectile* projectiles[levelNS::NUM_PROJECTILES];
 	CharacterJ* characters[levelNS::NUM_CHARACTERS];
 	//MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
@@ -73,7 +83,11 @@ public:
 	LMap(Input* i);
 	void update(float frameTime);
 	void draw();
+	bool addTerrain(TerrainElement* t);
+	void buildFromFile(std::string fileName);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
+	void createFileFromLevel();
+
 	void collision();
 };
 
