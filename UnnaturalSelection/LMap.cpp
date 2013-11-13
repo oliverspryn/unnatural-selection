@@ -78,6 +78,10 @@ void LMap::update(float frameTime)
 		{
 			characters[i]->right();
 		}
+		if(input->isKeyDown(VK_LEFT))
+		{
+			characters[i]->left();
+		}
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{

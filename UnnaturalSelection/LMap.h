@@ -32,6 +32,10 @@ public:
 	{
 		velocity.x = 50;
 	}
+	void left()
+	{
+		velocity.x = -50;
+	}
 };
 
 class PickUp : public Entity
