@@ -8,6 +8,7 @@
 #include "game.h"
 #include "Head.h"
 #include "textDX.h"
+#include "terrainElement.h"
 
 namespace characterNS {
 //Character gameplay configuration
@@ -20,15 +21,15 @@ namespace characterNS {
 	const float HEALTH_POINTS     = 100.0f;  // Initial starting health
 	const float HEALTH_REGEN_RATE = 1.0f;    // The rate, per frame, which the Character regerates health
 	const float GRAVITY_X         = 1.0f;    // Direction and speed of gravity, in the X direction
-	const float GRAVITY_Y         = 0.98f;   // Direction and speed of gravity, in the Y direction
+	const float GRAVITY_Y         = 98.0f;   // Direction and speed of gravity, in the Y direction
 	const float INITIAL_SPEED     = 1.0f;    // The speed at which the Character starting moving
 	const float JUMP_TIME         = 2.0f;    // Amount of time for the jump to reach max height
 	const float MASS              = 1.0f;    // The mass of the Character
 	const float RUN_ACCELERATION  = 2.0f;    // The rate, per frame, which the speed will increase to running
 	const float RUN_SPEED         = 30.0f;   // The maximum running speed
 	const float STOP_SPEED        = 2.0f;    // The rate, per frame, which the speed will decrease to 0
-	const float WALK_ACCELERATION = 0.1f;    // The rate, per frame, which the speed will increase to walking
-	const float WALK_SPEED        = 7.0f;    // The maximum walkling speed
+	const float WALK_ACCELERATION = 2.0f;    // The rate, per frame, which the speed will increase to walking
+	const float WALK_SPEED        = 300.0f;  // The maximum walkling speed
 
 //Input keys
 	const UCHAR CROUCH            = VK_DOWN;
@@ -63,6 +64,8 @@ public :
 	virtual void initialize();
 	//virtual void onHit();
 
+	virtual void setVelocity(D3DXVECTOR2 v);
+
 	void setX(float x);
 	void setY(float y);
 	void setXY(float x, float y);
@@ -84,7 +87,7 @@ public :
 	D3DXVECTOR2*    motion;
 	float           runAcceleration;
 	float           runSpeed;
-	//TerrianElement* standingOn;
+	StraightPath*   standingOn;
 	float           stopSpeed;
 	float           walkAcceleration;
 	float           walkSpeed;

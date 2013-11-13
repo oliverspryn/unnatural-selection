@@ -3,10 +3,18 @@
 
 #include "Character.h"
 #include "game.h"
+#include "terrainElement.h"
 
 class TestCharacterLameGame : public Game {
 private : 
 	Character* character;
+	StraightPath* testBox;
+
+	TextureManager gunTM, magTM, projectileTM, boxTM;   // textures
+	Image   gunIM;
+    Image   magIM;
+    Image   projectileIM;
+	Image	boxIM;
 
 public : 
 	TestCharacterLameGame();

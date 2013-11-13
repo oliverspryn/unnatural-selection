@@ -21,7 +21,9 @@ Character::Character(Graphics* graphics, Game* game) :
 	runSpeed(characterNS::RUN_SPEED),
 	stopSpeed(characterNS::STOP_SPEED),
 	walkAcceleration(characterNS::WALK_ACCELERATION),
-	walkSpeed(characterNS::WALK_SPEED) { }
+	walkSpeed(characterNS::WALK_SPEED) {
+		standingOn = 0;
+}
 
 Character::~Character() {
 	SAFE_DELETE(body);
@@ -52,6 +54,11 @@ void Character::draw() {
 }
 
 void Character::update(float frameTime) {
+	if (standingOn == 0) {
+		body->setVelocity(D3DXVECTOR2(body->getVelocity().x, body->getVelocity().y + frameTime*characterNS::GRAVITY_Y));
+		head->setVelocity(D3DXVECTOR2(head->getVelocity().x, head->getVelocity().y + frameTime*characterNS::GRAVITY_Y));
+	}
+
 	body->update(frameTime);
 	head->update(frameTime);
 }
@@ -71,9 +78,9 @@ void Character::act() {
 		jump();
 //No buttons pressed? Don't move
 	} else {
-		D3DXVECTOR2 v(0.0f, 0.0f);
-		body->setVelocity(v);
-		head->setVelocity(v);
+		//D3DXVECTOR2 v(0.0f, 0.0f);
+		//body->setVelocity(v);
+		//head->setVelocity(v);
 	}
 
 //Ready? Aim... <insert "fire" statement here, when ready>
@@ -139,13 +146,17 @@ void Character::walkRight() {
 }
 
 void Character::jump() {
-	D3DXVECTOR2 v;
-	oldVel = body->getVelocity();
-	v.x = oldVel.x;	
-	v.y = oldVel.y - characterNS::GRAVITY_Y * characterNS::JUMP_TIME;
+	if (standingOn != 0) {
+		D3DXVECTOR2 v;
+		oldVel = body->getVelocity();
+		standingOn = 0;
+	
+		v.x = oldVel.x;	
+		v.y = oldVel.y - characterNS::GRAVITY_Y * characterNS::JUMP_TIME;
 
-	body->setVelocity(v);
-	head->setVelocity(v);
+		body->setVelocity(v);
+		head->setVelocity(v);
+	}
 }
 
 void Character::setX(float x) {
@@ -164,4 +175,9 @@ void Character::setXY(float x, float y) {
 
 	body->setY(y + head->getHeight());
 	head->setY(y);
+}
+
+void Character::setVelocity(D3DXVECTOR2 v) {
+	body->setVelocity(v);
+	head->setVelocity(v);
 }

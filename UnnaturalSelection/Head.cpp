@@ -34,8 +34,8 @@ void Head::initialize() {
 void Head::update(float frametime) {
 	Entity::update(frametime);
 
-	spriteData.x += velocity.x;
-	spriteData.y += velocity.y;
+	spriteData.x += velocity.x * frametime;
+	spriteData.y += velocity.y * frametime;
 }
 
 void Head::crouchLeft() {
