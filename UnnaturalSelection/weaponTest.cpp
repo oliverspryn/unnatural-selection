@@ -124,7 +124,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 3*60*60, 100, 600, 300, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 1*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
@@ -204,7 +204,7 @@ void WeaponTest::update()
 			{
 				float ft = frameTime;
 				float angle = 0;
-				if(collidesWithMoving(testMag->projArray[i], testBox, angle, ft))
+				if(collidesWithMoving(const_cast<D3DXVECTOR2*>(testMag->projArray[i]->getCenter()), const_cast<D3DXVECTOR2*>(&testMag->projArray[i]->getVelocity()), testBox, angle, ft))
 //				if(collidesWithMovingRay(testMag->projArray[i], testBox->m[0], testBox->b[0], testBox->corners[0], testBox->corners[3], collisionVector, frameTime))
 				{
 					//throw "GHJKL:";
@@ -365,7 +365,7 @@ float getXIntersept(float m1, float b1, float m2, float b2)
 }
 
 
-bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, float &angle, float &frameTime)
+bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, TerrainElement* object, float &angle, float &frameTime)
 {
 
 	//Gives the place that intersects on the circle
@@ -375,7 +375,7 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, float 
 	bool hit(false);
 	for(int i(0); i < 4; i++)
 	{
-		if(collidesWithMovingRay(moving, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
+		if(collidesWithMovingRay(movingPos, movingVelocity, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
 		{
 			hit = true;
 			angle = (i*PI/2)+ object->getRadians();
@@ -395,12 +395,12 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, float 
 	
 }
 
-bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime)
+bool WeaponTest::collidesWithMovingRay(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime)
 {
 	//the angle between the box and projectile
-	float m1 = moving->getVelocity().y/moving->getVelocity().x;
-	float x1 = moving->getCenterX();
-	float y1 = moving->getCenterY();
+	float m1 = movingVelocity->y/movingVelocity->x;
+	float x1 = movingPos->x;
+	float y1 = movingPos->y;
 	float b1 = y1 - m1*x1;
 
 	float x = getXIntersept(m1, b1, slope, b);
@@ -410,9 +410,9 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 	{
 		if(min(corner1.x, corner2.x) < x1 && x1 < max(corner1.x, corner2.x))
 		//makes sure it is with in the frame time
-		if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
+		if(abs(frameTime*movingVelocity->x) > abs(x-x1))
 		{
-			frameTime = (x1-x)/moving->getVelocity().x;
+			frameTime = (x1-x)/movingVelocity->x;
 			return true;
 		}else{
 			return false;
@@ -420,11 +420,11 @@ bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3D
 	}
 
 	if(min(corner1.y, corner2.y) < m1*x + b1 && m1*x + b1 < max(corner1.y, corner2.y))
-	if(min(corner1.x, corner2.x) < x1 + abs(moving->getVelocity().x*frameTime) && x1 - abs(moving->getVelocity().x*frameTime) < max(corner1.x, corner2.x))
+	if(min(corner1.x, corner2.x) < x1 + abs(movingVelocity->x*frameTime) && x1 - abs(movingVelocity->x*frameTime) < max(corner1.x, corner2.x))
 	//makes sure it is with in the frame time
-	if(abs(frameTime*moving->getVelocity().x) > abs(x-x1))
+	if(abs(frameTime*movingVelocity->x) > abs(x-x1))
 	{
-		frameTime = (x1-x)/moving->getVelocity().x;
+		frameTime = (x1-x)/movingVelocity->x;
 		return true;
 	}else{
 		return false;
