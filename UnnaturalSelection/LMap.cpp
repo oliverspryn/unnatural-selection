@@ -141,7 +141,7 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 LMap::LMap(Input* i)
 {
 	input = i;
-	for(int i = 0; i < levelNS::NUM_TERRAIN-1; i++)
+	for(int i = 0; i < levelNS::NUM_TERRAIN-2; i++)
 	{
 		terrain[i] = new StraightPath(50,5000,VECTOR2((i*5000),500));
 		//terrain[i]->setDegrees(0.001);
@@ -150,9 +150,13 @@ LMap::LMap(Input* i)
 	terrain[levelNS::NUM_TERRAIN-1] = new Wall(1000,50,VECTOR2(500,-500));
 	terrain[levelNS::NUM_TERRAIN-1]->setDegrees(0.001);
 	terrain[levelNS::NUM_TERRAIN-1]->generateSideEquations();
+
+	terrain[levelNS::NUM_TERRAIN-2] = new Wall(1000,50,VECTOR2(0,-500));
+	terrain[levelNS::NUM_TERRAIN-2]->setDegrees(0.001);
+	terrain[levelNS::NUM_TERRAIN-2]->generateSideEquations();
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
-		characters[i] = new CharacterJ(50,50,VECTOR2(0,0));
+		characters[i] = new CharacterJ(50,50,VECTOR2(60,0));
 		//characters[i]->setDegrees(0.001);
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)

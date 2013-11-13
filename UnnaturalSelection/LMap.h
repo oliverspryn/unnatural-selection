@@ -61,10 +61,10 @@ class LMap
 	//has a pointer to input so that it can easily run all the updating and what not
 	Input* input;
 	Camera* camera;
-	bool collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, TerrainElement* object, float &angle, float &frameTime);
-	bool collidesWithMovingRay(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
+	static bool collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, TerrainElement* object, float &angle, float &frameTime);
+	static bool collidesWithMovingRay(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
 	bool checkCornerCollision(float& fT, TerrainElement* t, CharacterJ* c);
-	float getXIntercept(float m1, float b1, float m2, float b2);
+	static float getXIntercept(float m1, float b1, float m2, float b2);
 public:
 	LMap(Input* i);
 	void update(float frameTime);
