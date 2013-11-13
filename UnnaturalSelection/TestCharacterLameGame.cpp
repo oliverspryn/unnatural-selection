@@ -15,7 +15,7 @@ void TestCharacterLameGame::ai() {
 
 void TestCharacterLameGame::collisions() {
 	D3DXVECTOR2 v;
-
+	
 	if (character->collidesWith(*testBox, v)) {
 		v.x = 0.0f;
 		v.y = 0.0f;
@@ -60,7 +60,6 @@ void TestCharacterLameGame::resetAll() {
 }
 
 void TestCharacterLameGame::update() {
-	character->act();
 	character->update(frameTime);
 	testBox->update(frameTime);
 }

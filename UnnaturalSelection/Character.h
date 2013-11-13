@@ -7,6 +7,7 @@
 #include "Body.h"
 #include "game.h"
 #include "Head.h"
+#include "LMap.h"
 #include "textDX.h"
 #include "terrainElement.h"
 
@@ -23,11 +24,11 @@ namespace characterNS {
 	const float GRAVITY_X         = 1.0f;    // Direction and speed of gravity, in the X direction
 	const float GRAVITY_Y         = 98.0f;   // Direction and speed of gravity, in the Y direction
 	const float INITIAL_SPEED     = 10.0f;   // The speed at which the Character starting moving
-	const float JUMP_TIME         = 2.0f;    // Amount of time for the jump to reach max height
+	const float JUMP_TIME         = 0.5f;    // Amount of time for the jump to reach max height
 	const float MASS              = 1.0f;    // The mass of the Character
 	const float RUN_ACCELERATION  = 2.0f;    // The rate, per frame, which the speed will increase to running
 	const float RUN_SPEED         = 30.0f;   // The maximum running speed
-	const float STOP_SPEED        = 400.0f; // The rate, per frame, which the speed will decrease to 0
+	const float STOP_SPEED        = 400.0f;  // The rate, per frame, which the speed will decrease to 0
 	const float WALK_ACCELERATION = 200.0f;  // The rate, per frame, which the speed will increase to walking
 	const float WALK_SPEED        = 300.0f;  // The maximum walking speed
 
@@ -45,8 +46,6 @@ protected :
 
 	//void doCrouch();
 	virtual void jump();
-	virtual void walkLeft();
-	virtual void walkRight();
 	virtual void walk(float frametime);
 
 	D3DXVECTOR2     oldVel;
@@ -61,7 +60,6 @@ public :
 	Character(Graphics* graphics, Game* game);
 	~Character();
 
-	virtual void act();
 	virtual bool collidesWith(Entity &ent, D3DXVECTOR2 &collisionVector);
 	virtual void draw();
 	virtual void update(float frameTime);

@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "game.h"
+#include "LMap.h"
 #include "terrainElement.h"
 
 class TestCharacterLameGame : public Game {
