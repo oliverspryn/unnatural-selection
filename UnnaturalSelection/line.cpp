@@ -102,14 +102,14 @@ namespace myLines
 			D3DXVECTOR2 intersectPos(getPosition(tempTime));
 			D3DXVECTOR2 bPos(b.getPosition(0));
 			D3DXVECTOR2 deltaPos(intersectPos - bPos);
-			if(getVelocity().x != 0)
+			if(b.getVelocity().x != 0)
 			{
 				t = (intersectPos.x-bPos.x)/b.getVelocity().x;
 			}else{
 				t = (intersectPos.y-bPos.y)/b.getVelocity().y;
 			}
 
-			if(t > 0)
+			if(t >= 0)
 			if(deltaPos.x*deltaPos.x + deltaPos.y*deltaPos.y < b.rayLength*b.rayLength)
 			//if(deltaPos.x*deltaPos.x + deltaPos.y*deltaPos.y < rayLength*rayLength)
 			{
