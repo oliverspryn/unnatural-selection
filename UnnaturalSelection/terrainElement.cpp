@@ -72,7 +72,7 @@ StraightPath::StraightPath(int height, int width, VECTOR2 center) : TerrainEleme
 
 void StraightPath::collide(Entity* ent)
 {
-	ent->setY(this->getY()-this->getHeight());
+	ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));
 }
 
 Wall::Wall(int height, int width, VECTOR2 center) : TerrainElement()
@@ -89,5 +89,5 @@ Wall::Wall(int height, int width, VECTOR2 center) : TerrainElement()
 
 void Wall::collide(Entity* ent)
 {
-	ent->setX(this->getX()-this->getWidth());
+	ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
 }

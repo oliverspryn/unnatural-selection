@@ -34,7 +34,7 @@ void TestStuff::ai()
 
 void TestStuff::collisions()
 {
-	testMap->collision();
+	//testMap->collision();
 }
 
 void TestStuff::render()
