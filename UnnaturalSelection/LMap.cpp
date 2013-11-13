@@ -144,7 +144,7 @@ LMap::LMap(Input* i)
 	for(int i = 0; i < levelNS::NUM_TERRAIN-1; i++)
 	{
 		terrain[i] = new StraightPath(50,5000,VECTOR2((i*5000),500));
-		terrain[i]->setDegrees(0.001);
+		//terrain[i]->setDegrees(0.001);
 		terrain[i]->generateSideEquations();
 	}
 	terrain[levelNS::NUM_TERRAIN-1] = new Wall(1000,50,VECTOR2(500,-500));
@@ -153,8 +153,7 @@ LMap::LMap(Input* i)
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
 		characters[i] = new CharacterJ(50,50,VECTOR2(0,0));
-		characters[i]->setDegrees(0.001);
-//		characters[i]->generateSideEquations();
+		//characters[i]->setDegrees(0.001);
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
@@ -218,9 +217,9 @@ bool LMap::collidesWithMovingRay(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelo
 	//If the plane is horizontal 
 	if(corner1.y == corner2.y)
 	{
-		if(min(corner1.x, corner2.x) < x1 && x1 < max(corner1.x, corner2.x))
+		if(min(corner1.x, corner2.x) <= x1 && x1 <= max(corner1.x, corner2.x))
 		//makes sure it is with in the frame time
-		if(abs(frameTime*movingVelocity->x) > abs(x-x1))
+		if(abs(frameTime*movingVelocity->x) >= abs(x-x1))
 		{
 			frameTime = (x1-x)/movingVelocity->x;
 			return true;
@@ -229,10 +228,10 @@ bool LMap::collidesWithMovingRay(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelo
 		}
 	}
 
-	if(min(corner1.y, corner2.y) < m1*x + b1 && m1*x + b1 < max(corner1.y, corner2.y))
-	if(min(corner1.x, corner2.x) < x1 + abs(movingVelocity->x*frameTime) && x1 - abs(movingVelocity->x*frameTime) < max(corner1.x, corner2.x))
+	if(min(corner1.y, corner2.y) <= m1*x + b1 && m1*x + b1 <= max(corner1.y, corner2.y))
+	if(min(corner1.x, corner2.x) <= x1 + abs(movingVelocity->x*frameTime) && x1 - abs(movingVelocity->x*frameTime) <= max(corner1.x, corner2.x))
 	//makes sure it is with in the frame time
-	if(abs(frameTime*movingVelocity->x) > abs(x-x1))
+	if(abs(frameTime*movingVelocity->x) >= abs(x-x1))
 	{
 		frameTime = (x1-x)/movingVelocity->x;
 		return true;
