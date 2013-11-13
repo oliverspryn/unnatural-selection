@@ -67,7 +67,7 @@ LMap::LMap(Input* i)
 	terrain[levelNS::NUM_TERRAIN-1] = new Wall(1000,50,VECTOR2(500,-500));
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
-		characters[i] = new Character(50,50,VECTOR2(0,0));
+		characters[i] = new CharacterJ(50,50,VECTOR2(0,0));
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
