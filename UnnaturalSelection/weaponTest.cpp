@@ -5,6 +5,7 @@
 #include "weaponTest.h"
 #include <sstream>
 #include <math.h>
+#include "line.h"
 
 class Boxxy: public Entity
 {
@@ -108,9 +109,9 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 400));
+	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 300));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
-	//testBox->setRadians(PI/2);
+	testBox->setRadians(-PI/2);
 	//testBox->setDegrees(0.001);
 	testBox->generateSideEquations();
 	
@@ -122,10 +123,11 @@ void WeaponTest::initialize(HWND hwnd)
 //	testMag = 0;
 	//testProjectile->setStats(30, 100, 100, 200);
 
-	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
+	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile); 
 	//testGun = 0;
-	testGun = new Gun(10, 1*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
+	//testGun->setRadians(PI/2);
 	//My initialize code
 	//testGun->mag = testMag;
 
@@ -373,11 +375,20 @@ bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingV
 	//float y = sqrt(r*r-(x-k)*(x-k))+h;
 	//Equation for one 
 	bool hit(false);
+	myLines::Ray movingLine(*movingPos, *movingVelocity, sqrt(movingVelocity->x*movingVelocity->x + movingVelocity->y*movingVelocity->y)*frameTime);
+	float ct = frameTime;
 	for(int i(0); i < 4; i++)
 	{
-		if(collidesWithMovingRay(movingPos, movingVelocity, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
+		D3DXVECTOR2 tempDist = object->corners[(3+i)%4]-object->corners[i];
+		myLines::Ray tempLineSide(object->corners[i], tempDist, (i%2?object->getHeight():object->getWidth()));
+//		myLines::Ray tempLineSide(object->corners[i], tempDist, sqrt(tempDist.x*tempDist.x + tempDist.y*tempDist.y));
+		float ft = frameTime;
+		if(movingLine.getTimeOfIntersectRay(tempLineSide, ft))
+			if(0 <= ft && ft < ct)
+		//if(collidesWithMovingRay(movingPos, movingVelocity, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
 		{
 			hit = true;
+			ct = ft;
 			angle = (i*PI/2)+ object->getRadians();
 //			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
 		}
@@ -389,6 +400,7 @@ bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingV
 	}*/
 	if(hit)
 	{
+		frameTime = ct;
 		return true;
 	}
 	return false;
@@ -402,6 +414,7 @@ bool WeaponTest::collidesWithMovingRay(D3DXVECTOR2* movingPos, D3DXVECTOR2* movi
 	float x1 = movingPos->x;
 	float y1 = movingPos->y;
 	float b1 = y1 - m1*x1;
+	float d = abs(-PI/2);
 
 	float x = getXIntersept(m1, b1, slope, b);
 
