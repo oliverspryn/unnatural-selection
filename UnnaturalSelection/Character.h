@@ -22,14 +22,14 @@ namespace characterNS {
 	const float HEALTH_REGEN_RATE = 1.0f;    // The rate, per frame, which the Character regerates health
 	const float GRAVITY_X         = 1.0f;    // Direction and speed of gravity, in the X direction
 	const float GRAVITY_Y         = 98.0f;   // Direction and speed of gravity, in the Y direction
-	const float INITIAL_SPEED     = 1.0f;    // The speed at which the Character starting moving
+	const float INITIAL_SPEED     = 10.0f;   // The speed at which the Character starting moving
 	const float JUMP_TIME         = 2.0f;    // Amount of time for the jump to reach max height
 	const float MASS              = 1.0f;    // The mass of the Character
 	const float RUN_ACCELERATION  = 2.0f;    // The rate, per frame, which the speed will increase to running
 	const float RUN_SPEED         = 30.0f;   // The maximum running speed
-	const float STOP_SPEED        = 2.0f;    // The rate, per frame, which the speed will decrease to 0
-	const float WALK_ACCELERATION = 2.0f;    // The rate, per frame, which the speed will increase to walking
-	const float WALK_SPEED        = 300.0f;  // The maximum walkling speed
+	const float STOP_SPEED        = 400.0f; // The rate, per frame, which the speed will decrease to 0
+	const float WALK_ACCELERATION = 200.0f;  // The rate, per frame, which the speed will increase to walking
+	const float WALK_SPEED        = 300.0f;  // The maximum walking speed
 
 //Input keys
 	const UCHAR CROUCH            = VK_DOWN;
@@ -40,10 +40,14 @@ namespace characterNS {
 
 class Character {
 protected : 
+	int sign(float x);
+	int velSign();
+
 	//void doCrouch();
 	virtual void jump();
 	virtual void walkLeft();
 	virtual void walkRight();
+	virtual void walk(float frametime);
 
 	D3DXVECTOR2     oldVel;
 
@@ -90,6 +94,7 @@ public :
 	StraightPath*   standingOn;
 	float           stopSpeed;
 	float           walkAcceleration;
+	int             walkDir;
 	float           walkSpeed;
 };
 
