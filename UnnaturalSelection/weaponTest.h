@@ -63,8 +63,8 @@ public:
     void roundStart();  // start a new round of play
     void releaseAll();
     void resetAll();
-	bool collidesWithMoving(Entity* moving, StraightPath* object, D3DXVECTOR2 &collisionVector, float &frameTime);
-	bool collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, D3DXVECTOR2 &collisionVector, float &frameTime);
+	bool collidesWithMoving(Entity* moving, StraightPath* object, float &angle, float &frameTime);
+	bool collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
 };
 
 #endif

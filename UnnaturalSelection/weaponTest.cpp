@@ -124,7 +124,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile);
 	//testGun = 0;
-	testGun = new Gun(10, 10*60*60, 100, 600, 1000, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 3*60*60, 100, 600, 300, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//My initialize code
 	//testGun->mag = testMag;
@@ -203,10 +203,20 @@ void WeaponTest::update()
 			if(testMag->projArray[i]->getActive())
 			{
 				float ft = frameTime;
-				if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, ft))
+				float angle = 0;
+				if(collidesWithMoving(testMag->projArray[i], testBox, angle, ft))
 //				if(collidesWithMovingRay(testMag->projArray[i], testBox->m[0], testBox->b[0], testBox->corners[0], testBox->corners[3], collisionVector, frameTime))
 				{
 					//throw "GHJKL:";
+//					float newAngle = angle;
+//					newAngle -= abs(testMag->projArray[i]->getRadians()-newAngle);
+					//newAngle = (testMag->projArray[i]->getRadians()+PI);
+					//newAngle -= (newAngle - testMag->projArray[i]->getRadians());
+					//newAngle = PI - newAngle;
+					//testMag->projArray[i]->update(frameTime-ft);
+//					testMag->projArray[i]->setVelocity(D3DXVECTOR2(testMag->projArray[i]->muzzelVelocity*cos(newAngle),testMag->projArray[i]->muzzelVelocity*sin(newAngle)));
+//					testMag->projArray[i]->setRadians(newAngle);
+
 					testMag->projArray[i]->setActive(false);
 					testMag->projArray[i]->setVisible(false); 
 				}else{
@@ -244,20 +254,20 @@ void WeaponTest::ai()
 //=============================================================================
 void WeaponTest::collisions()
 {
-    VECTOR2 collisionVector;
-	float frameTime = 0;
-    for(int i(0); i < testMag->size+1; i++)
-	{
-		if(testMag->projArray[i]->getActive())
-		{
-			if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, frameTime))
-			{
-				//throw "GHJKL:";
-				testMag->projArray[i]->setActive(false);
-				testMag->projArray[i]->setVisible(false); 
-			}
-		}
-	}
+ //   VECTOR2 collisionVector;
+	//float frameTime = 0;
+ //   for(int i(0); i < testMag->size+1; i++)
+	//{
+	//	if(testMag->projArray[i]->getActive())
+	//	{
+	//		if(collidesWithMoving(testMag->projArray[i], testBox, collisionVector, frameTime))
+	//		{
+	//			//throw "GHJKL:";
+	//			testMag->projArray[i]->setActive(false);
+	//			testMag->projArray[i]->setVisible(false); 
+	//		}
+	//	}
+	//}
 }
 
 //=============================================================================
@@ -355,7 +365,7 @@ float getXIntersept(float m1, float b1, float m2, float b2)
 }
 
 
-bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVECTOR2 &collisionVector, float &frameTime)
+bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, float &angle, float &frameTime)
 {
 
 	//Gives the place that intersects on the circle
@@ -365,9 +375,11 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVE
 	bool hit(false);
 	for(int i(0); i < 4; i++)
 	{
-		if(collidesWithMovingRay(moving, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], collisionVector, frameTime))
+		if(collidesWithMovingRay(moving, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
 		{
 			hit = true;
+			angle = (i*PI/2)+ object->getRadians();
+//			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
 		}
 	}
 	//Only one Plane
@@ -383,7 +395,7 @@ bool WeaponTest::collidesWithMoving(Entity* moving, StraightPath* object, D3DXVE
 	
 }
 
-bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, D3DXVECTOR2 &collisionVector, float &frameTime)
+bool WeaponTest::collidesWithMovingRay(Entity* moving, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime)
 {
 	//the angle between the box and projectile
 	float m1 = moving->getVelocity().y/moving->getVelocity().x;
