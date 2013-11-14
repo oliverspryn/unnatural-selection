@@ -18,6 +18,8 @@ private :
 	Graphics*      graphics;
 	Input*         input;
 	TextureManager tm;
+	int            x;
+	int            y;
 
 public : 
 	Cursor(Game* game, Graphics* graphics);
@@ -25,6 +27,10 @@ public :
 
 	void hideCursor();
 	void initialize();
+	void setX(int mouseX);
+	void setXY(int mouseX, int mouseY);
+	void setXY(D3DXVECTOR2 mousePos);
+	void setY(int mouseY);
 	void showCursor();
 	void update(float frametime);
 };
