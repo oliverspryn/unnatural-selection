@@ -54,12 +54,32 @@ int Character::getHeight() {
 	return body->getHeight() + head->getHeight();
 }
 
+D3DXVECTOR2 Character::getVelocity() {
+	return body->getVelocity();
+}
+
+float Character::getVelocityX() {
+	return body->getVelocity().x;
+}
+
+float Character::getVelocityY() {
+	return body->getVelocity().y;
+}
+
 float Character::getVelMagnitude() {
 	return sqrt(pow(body->getVelocity().x, 2) + pow(body->getVelocity().y, 2));
 }
 
 int Character::getWidth() {
 	return body->getWidth();
+}
+
+float Character::getX() {
+	return corners[0].x;
+}
+
+float Character::getY() {
+	return corners[0].y;
 }
 #pragma endregion
 

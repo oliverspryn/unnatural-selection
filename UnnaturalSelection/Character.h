@@ -63,7 +63,12 @@ public :
 	int getCenterY();
 	int getHeight();
 	float getVelMagnitude();
+	D3DXVECTOR2 getVelocity();
+	float getVelocityX();
+	float getVelocityY();
 	int getWidth();
+	float getX();
+	float getY();
 
 	virtual void setVelocity(D3DXVECTOR2 v);
 	virtual void setVelocityX(float x);
