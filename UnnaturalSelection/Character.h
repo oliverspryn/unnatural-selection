@@ -7,7 +7,7 @@
 #include "Cursor.h"
 #include "game.h"
 #include "Head.h"
-#include "LMap.h"
+//#include "LMap.h"
 #include "terrainElement.h"
 
 namespace characterNS {
@@ -81,7 +81,7 @@ public :
 	float           jumpTime;
 	float           runAcceleration;
 	float           runSpeed;
-	StraightPath*   standingOn;
+	TerrainElement*   standingOn;
 	float           stopSpeed;
 	float           walkAcceleration;
 	float           walkSpeed;

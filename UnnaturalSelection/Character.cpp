@@ -164,7 +164,7 @@ void Character::update(float frameTime) {
 	head->faceDir = faceDir;
 
 	body->update(frameTime);
-	cursor->update(frameTime);
+	//cursor->update(frameTime);
 	head->update(frameTime);
 }
 

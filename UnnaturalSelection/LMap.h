@@ -1,8 +1,9 @@
 #ifndef __LMAP_H
 #define __LMAP_H
-
+#define WIN32_LEAN_AND_MEAN
 #include "projectile.h"
 #include "terrainElement.h"
+#include "Character.h"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -16,23 +17,25 @@ using std::string;
 class CharacterJ : public Entity
 {
 public:
-
+	float gravity;
 	CharacterJ(int height, int width, VECTOR2 center)
 	{
 		spriteData.height = height;
 		spriteData.width = width;
 		spriteData.x = center.x;
 		spriteData.y = center.y;
-		this->velocity = VECTOR2(0,100);
+		this->velocity = VECTOR2(0,150);
 		collisionType = entityNS::BOX;
 		edge.left = (width/2)*-1;
 		edge.right = width/2;
 		edge.top = (height/2)*-1;
 		edge.bottom = (height/2);
 		mass = terrainNS::MASS;
+		gravity = 20;
 	}
 	void update(float frameTime)
 	{
+		//velocity.y += frameTime*gravity;
 		spriteData.y += velocity.y * frameTime;
 		spriteData.x += velocity.x * frameTime;
 	}
@@ -66,7 +69,7 @@ class LMap
 	int numTerrain, numCharacters, numSpawns;
 	int addedElements;
 	Projectile* projectiles[levelNS::NUM_PROJECTILES];
-	CharacterJ* characters[levelNS::NUM_CHARACTERS];
+	Character* characters[levelNS::NUM_CHARACTERS];
 	//MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
 	TerrainElement* terrain[levelNS::NUM_TERRAIN];
 	PickUp* dropped[levelNS::NUM_PICKUP];//if they are touching it and choose to pick it up pick it up
@@ -74,13 +77,14 @@ class LMap
 	int player;
 	//has a pointer to input so that it can easily run all the updating and what not
 	Input* input;
+	Graphics* graphics;
 	Camera* camera;
 	static bool collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, TerrainElement* object, float &angle, float &frameTime);
 	static bool collidesWithMovingRay(D3DXVECTOR2 movingPos, D3DXVECTOR2 movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
-	bool checkCornerCollision(float& fT, TerrainElement* t, CharacterJ* c);
+//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 public:
-	LMap(Input* i);
+	LMap(Input* i, Graphics* g);
 	void update(float frameTime);
 	void draw();
 	bool addTerrain(TerrainElement* t);

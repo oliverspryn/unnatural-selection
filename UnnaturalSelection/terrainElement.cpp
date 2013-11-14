@@ -73,6 +73,12 @@ Wall::Wall(int height, int width, VECTOR2 center) : TerrainElement()
 void Wall::collide(Entity* ent)
 {
 	ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+	if(ent->getCenterX() < getCenterX())
+	{
+		ent->setX((getCenterX()-(getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
+	}else{
+		ent->setX((getCenterX()+(getWidth()-ent->getWidth())/2)+ent->getWidth()/2);				
+	}
 }
 
 bool TerrainElement::collidesWithRay(myLines::Ray* in, float& frameTime)

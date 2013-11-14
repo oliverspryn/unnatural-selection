@@ -4,8 +4,17 @@ void LMap::update(float frameTime)
 {
 	VECTOR2 collisionVector;//get rid of later when using other collision detection function
 	float angle, fT;
+	if(input->isKeyDown('1'))
+	{
+		camera->zoom = max(0.1, camera->zoom - frameTime*.5);
+	}
+	if(input->isKeyDown('2'))
+	{
+		camera->zoom = min(10, camera->zoom + frameTime*.5);
+	}
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
+		characters[i]->cursor->update(frameTime);
 		//getting hit
 		for(int j = 0; j < levelNS::NUM_PROJECTILES; j++)
 		{
@@ -29,13 +38,17 @@ void LMap::update(float frameTime)
 			auto c = characters[i];
 			auto t = terrain[j];
 			//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,fT))
-			if(this->checkCornerCollision(fT,t,c))
+			//if(this->checkCornerCollision(fT,t,c))
+			if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
 			{
 				//stop them from falling through...
 				
 				//characters[i]->setVisible(false);
 				//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
-				terrain[j]->collide(characters[i]);
+				//terrain[j]->collide(characters[i]);
+				terrain[j]->collide(characters[i]->body);
+				terrain[j]->collide(characters[i]->head);
+				characters[i]->standingOn = terrain[j];
 				characters[i]->update(fT);
 			}
 		}
@@ -75,14 +88,6 @@ void LMap::update(float frameTime)
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
 		characters[i]->update(frameTime);
-		if(input->isKeyDown(VK_RIGHT))
-		{
-			characters[i]->right();
-		}
-		if(input->isKeyDown(VK_LEFT))
-		{
-			characters[i]->left();
-		}
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
@@ -94,49 +99,53 @@ void LMap::update(float frameTime)
 	}
 }
 
-bool LMap::checkCornerCollision(float& fT, TerrainElement* t, CharacterJ* c)
-{
-	float time1 = fT, time2 = fT, time3 = fT, time4 = fT, angle = fT;
-	bool collide = false;
-	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time1))
-	//	collide = true;
-	////if(time1<0)
-	////	time1 = fT;
-	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time2))
-	//	collide = true;
-	////if(time2<0)
-	////	time2 = fT;
-	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time3))
-	//	collide = true;
-	////if(time3<0)
-	////	time3 = fT;
-	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time4))
-	//	collide = true;
-	//if(time4<0)
-	//	time4 = fT;
-	myLines::Ray motionRays(D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()), c->getVelocity(), sqrt(c->getVelocity().x*c->getVelocity().x + c->getVelocity().y*c->getVelocity().y)*fT);
-	if(t->collidesWithRay(&motionRays, time1)) collide = true;
-	motionRays.setPosition(D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()));
-	if(t->collidesWithRay(&motionRays, time2)) collide = true;
-	motionRays.setPosition(D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()));
-	if(t->collidesWithRay(&motionRays, time3)) collide = true;
-	motionRays.setPosition(D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()));
-	if(t->collidesWithRay(&motionRays, time4)) collide = true;
-
-	fT = min(time1,min(time2,min(time3,time4)));
-	return collide;
-}
+//bool LMap::checkCornerCollision(float& fT, TerrainElement* t, Character* c)
+//{
+//	float time1 = fT, time2 = fT, time3 = fT, time4 = fT, angle = fT;
+//	bool collide = false;
+//	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time1))
+//	//	collide = true;
+//	////if(time1<0)
+//	////	time1 = fT;
+//	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time2))
+//	//	collide = true;
+//	////if(time2<0)
+//	////	time2 = fT;
+//	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time3))
+//	//	collide = true;
+//	////if(time3<0)
+//	////	time3 = fT;
+//	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time4))
+//	//	collide = true;
+//	//if(time4<0)
+//	//	time4 = fT;
+//	//myLines::Ray motionRays(D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()), c->getVelocity(), sqrt(c->getVelocity().x*c->getVelocity().x + c->getVelocity().y*c->getVelocity().y)*fT);
+//	//if(t->collidesWithRay(&motionRays, time1)) collide = true;
+//	//motionRays.setPosition(D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()));
+//	//if(t->collidesWithRay(&motionRays, time2)) collide = true;
+//	//motionRays.setPosition(D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()));
+//	//if(t->collidesWithRay(&motionRays, time3)) collide = true;
+//	//motionRays.setPosition(D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()));
+//	//if(t->collidesWithRay(&motionRays, time4)) collide = true;
+//
+//	//fT = min(time1,min(time2,min(time3,time4)));
+//	return collide;
+//}
 
 void LMap::draw()
 {
-	camera->centerPosition = *characters[0]->getCenter();
+	camera->centerPosition = *characters[0]->body->getCenter();
 	/*for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
 	{
 		camera->draw(*projectiles[i]);
 	}*/
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
-		camera->draw(*characters[i]);
+		camera->draw(*characters[i]->body);
+		camera->draw(*characters[i]->head);
+		characters[i]->cursor->setXY(camera->getRealPos(input->getMouseX(),input->getMouseY()));
+		//camera->draw(*characters[i]->cursor);
+		characters[i]->cursor->draw();
 		//characters[i]->draw();
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
@@ -153,29 +162,31 @@ void LMap::draw()
 
 bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
+	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+	{
+		characters[i] = new Character(gamePtr,graphics);
+		characters[i]->initialize();
+		characters[i]->setXY(100,300);
+	}
 	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
 	{
 		if(!terrain[i]->initialize(gamePtr,textureM,ncols))
 			return false;
 	}
-	if(!characters[0]->initialize(gamePtr,50,50,1,textureM))
-		return false;
-	camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->getX(),characters[0]->getY(),0.5);
+
+	camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->body->getX(),characters[0]->body->getY(),0.5);
 	return true;
 }
 
-LMap::LMap(Input* i)
+LMap::LMap(Input* i, Graphics* g)
 {
+	graphics = g;
 	input = i;
 	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
 	{
 		terrain[i] = new StraightPath(0,000,VECTOR2(0,0));
 		terrain[i]->setActive(false);
 		terrain[i]->setVisible(false);
-	}
-	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
-	{
-		characters[i] = new CharacterJ(50,50,VECTOR2(600,0));
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{

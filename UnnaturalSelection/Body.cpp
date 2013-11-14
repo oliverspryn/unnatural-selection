@@ -71,9 +71,14 @@ Body::~Body() {
 
 void Body::evalSize() {
 	spriteData.rect.bottom = height / 2;
-	spriteData.rect.left = -height / 2;
-	spriteData.rect.right = height / 2;
+	spriteData.rect.left = -width / 2;
+	spriteData.rect.right = width / 2;
 	spriteData.rect.top = -height / 2;
+
+	edge.bottom = height / 2;
+	edge.left = -width / 2;
+	edge.right = width / 2;
+	edge.top = -height / 2;
 }
 
 void Body::initialize() {

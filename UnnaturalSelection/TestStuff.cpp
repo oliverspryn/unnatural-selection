@@ -19,7 +19,7 @@ void TestStuff::initialize(HWND hwnd)
 	/*testTerrain = new StraightPath(5,1000,VECTOR2(100,100));
 	if (!testTerrain->initialize(this, &terrainTexture,1))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
-	testMap = new LMap(input);
+	testMap = new LMap(input,graphics);
 	TerrainElement* t = new Wall(1000,50,VECTOR2(950,-500));
 	t->setDegrees(0.001);
 	t->generateSideEquations();
@@ -32,6 +32,11 @@ void TestStuff::initialize(HWND hwnd)
 
 	t = new StraightPath(50,1000,VECTOR2(0,500));
 	t->setDegrees(0.001);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new StraightPath(5,300,VECTOR2(500,450));
+	t->setRadians(PI/8);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
