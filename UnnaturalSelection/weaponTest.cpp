@@ -111,7 +111,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 300));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
-	testBox->setRadians(-PI/2);
+	//testBox->setRadians(-PI/2);
 	//testBox->setDegrees(0.001);
 	testBox->generateSideEquations();
 	
@@ -310,6 +310,7 @@ void WeaponTest::consoleCommand()
         console->print("Console Commands:");
         console->print("fps");
         console->print("afps");
+        console->print("ftimes");
         return;
     }
     if (command == "fps")
@@ -323,6 +324,13 @@ void WeaponTest::consoleCommand()
     {
 		std::stringstream temp;
 		temp << "Average FPS: " << 1.0/(timer/frameCount);
+		console->print(temp.str());
+		return;
+    }
+	if (command == "ftimes")
+    {
+		std::stringstream temp;
+		//temp << "Percent of frameTime: " << (ftnClock/ftnCount)/(timer/frameCount);
 		console->print(temp.str());
 		return;
     }
@@ -383,14 +391,17 @@ bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingV
 		myLines::Ray tempLineSide(object->corners[i], tempDist, (i%2?object->getHeight():object->getWidth()));
 //		myLines::Ray tempLineSide(object->corners[i], tempDist, sqrt(tempDist.x*tempDist.x + tempDist.y*tempDist.y));
 		float ft = frameTime;
+
 		if(movingLine.getTimeOfIntersectRay(tempLineSide, ft))
-			if(0 <= ft && ft < ct)
-		//if(collidesWithMovingRay(movingPos, movingVelocity, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
 		{
-			hit = true;
-			ct = ft;
-			angle = (i*PI/2)+ object->getRadians();
-//			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
+			if(0 <= ft && ft < ct)
+			//if(collidesWithMovingRay(movingPos, movingVelocity, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
+			{
+				hit = true;
+				ct = ft;
+				angle = (i*PI/2)+ object->getRadians();
+	//			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
+			}
 		}
 	}
 	//Only one Plane
