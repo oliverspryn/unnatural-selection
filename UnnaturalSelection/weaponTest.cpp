@@ -112,7 +112,7 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2-300, 300));
+	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 300));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
 	//testBox->setRadians(-PI/2);
 	//testBox->setDegrees(0.001);
@@ -128,7 +128,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile); 
 	//testGun = 0;
-	testGun = new Gun(10, 30*60*60, 100, 600, 2000, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//testGun->setRadians(PI/2);
 	//My initialize code
@@ -399,12 +399,12 @@ bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingV
 	fTimer.starting(2);
 	for(int i(0); i < 4; i++)
 	{
-		D3DXVECTOR2 tempDist = object->corners[(3+i)%4]-object->corners[i];
-		myLines::Ray tempLineSide(object->corners[i], tempDist, (i%2?object->getHeight():object->getWidth()));
-//		myLines::Ray tempLineSide(object->corners[i], tempDist, sqrt(tempDist.x*tempDist.x + tempDist.y*tempDist.y));
+//		D3DXVECTOR2 tempDist = object->corners[(3+i)%4]-object->corners[i];
+//		myLines::Ray tempLineSide(object->corners[i], tempDist, (i%2?object->getHeight():object->getWidth()));
 		float ft = frameTime;
 
-		if(movingLine.getTimeOfIntersectRay(tempLineSide, ft))
+		if(movingLine.getTimeOfIntersectRay(object->sides[i], ft))
+		//if(movingLine.getTimeOfIntersectRay(tempLineSide, ft))
 		{
 			if(0 <= ft && ft < ct)
 			//if(collidesWithMovingRay(movingPos, movingVelocity, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
