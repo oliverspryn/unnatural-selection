@@ -65,6 +65,7 @@ Body::Body(Game* game, Graphics* graphics) : game(game), graphics(graphics) {
 
 Body::~Body() {
 	SAFE_DELETE(game);
+	SAFE_DELETE(graphic);
 	SAFE_DELETE(graphics);
 }
 
@@ -136,6 +137,7 @@ void Body::update(float frametime) {
 		}
 	}
 	
+	spriteData.height = height;
 	spriteData.x += velocity.x * frametime;
 	spriteData.y += velocity.y * frametime;
 }

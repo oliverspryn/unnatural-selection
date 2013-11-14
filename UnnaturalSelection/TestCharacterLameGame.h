@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "game.h"
+#include "line.h"
 #include "LMap.h"
 #include "terrainElement.h"
 

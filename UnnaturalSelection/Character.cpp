@@ -24,7 +24,9 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 Character::~Character() {
 	SAFE_DELETE(body);
 	SAFE_DELETE(cursor);
+	SAFE_DELETE(gravity);
 	SAFE_DELETE(head);
+	SAFE_DELETE(standingOn);
 }
 
 bool Character::collidesWith(Entity &ent, VECTOR2 &collisionVector) {
@@ -123,6 +125,7 @@ void Character::update(float frameTime) {
 	}
 
 //Crouch
+	body->crouch = input->isKeyDown(characterNS::CROUCH);
 	head->crouch = input->isKeyDown(characterNS::CROUCH);
 
 	if (standingOn != 0) {
