@@ -2,13 +2,12 @@
 #define CHARACTER_H
 
 #include <cmath>
-#include <sstream>
 
 #include "Body.h"
+#include "Cursor.h"
 #include "game.h"
 #include "Head.h"
 #include "LMap.h"
-#include "textDX.h"
 #include "terrainElement.h"
 
 namespace characterNS {
@@ -22,7 +21,7 @@ namespace characterNS {
 	const float HEALTH_POINTS     = 100.0f;  // Initial starting health
 	const float HEALTH_REGEN_RATE = 1.0f;    // The rate, per frame, which the Character regerates health
 	const float GRAVITY_X         = 1.0f;    // Direction and speed of gravity, in the X direction
-	const float GRAVITY_Y         = 98.0f;   // Direction and speed of gravity, in the Y direction
+	const float GRAVITY_Y         = 300.0f;  // Direction and speed of gravity, in the Y direction
 	const float INITIAL_SPEED     = 10.0f;   // The speed at which the Character starting moving
 	const float JUMP_TIME         = 0.5f;    // Amount of time for the jump to reach max height
 	const float MASS              = 1.0f;    // The mass of the Character
@@ -33,66 +32,58 @@ namespace characterNS {
 	const float WALK_SPEED        = 300.0f;  // The maximum walking speed
 
 //Input keys
-	const UCHAR CROUCH            = VK_DOWN;
+	const UCHAR CROUCH            = 'S';
 	const UCHAR JUMP              = VK_SPACE;
-	const UCHAR WALK_LEFT         = VK_LEFT;
-	const UCHAR WALK_RIGHT        = VK_RIGHT;
+	const UCHAR WALK_LEFT         = 'A';
+	const UCHAR WALK_RIGHT        = 'D';
 }
 
 class Character {
 protected : 
 	int sign(float x);
-	int velSign();
-
-	//void doCrouch();
 	virtual void jump();
+	virtual void updateCorners();
+	int velSign();
 	virtual void walk(float frametime);
-
-	D3DXVECTOR2     oldVel;
 
 	Game*           game;
 	Graphics*       graphics;
 	Input*          input;
-	std::stringstream    sin;
-	TextDX*         text;
 
 public : 
-	Character(Graphics* graphics, Game* game);
-	~Character();
+	Character(Game* game, Graphics* graphics);
+	virtual ~Character();
 
 	virtual bool collidesWith(Entity &ent, D3DXVECTOR2 &collisionVector);
 	virtual void draw();
-	virtual void update(float frameTime);
 	virtual void initialize();
-	//virtual void onHit();
-
+	virtual float getVelMagnitude();
 	virtual void setVelocity(D3DXVECTOR2 v);
-
 	void setX(float x);
-	void setY(float y);
 	void setXY(float x, float y);
+	void setY(float y);
+	virtual void update(float frameTime);
 
 	float           aimAngle;
-	float           aimSpeed;
 	Body*           body;
-	bool            crouch;
+	D3DXVECTOR2     corners[4];
+	Cursor*         cursor;
 	int             damageBodyConst;
 	int             damageHeadConst;
 	float           energy;
 	float           energyRegenRate;
+	int             faceDir;
 	D3DXVECTOR2*    gravity;
 	Head*           head;
 	float           healthPoints;
 	float           healthRegenRate;
 	float           initialSpeed;
 	float           jumpTime;
-	D3DXVECTOR2*    motion;
 	float           runAcceleration;
 	float           runSpeed;
 	StraightPath*   standingOn;
 	float           stopSpeed;
 	float           walkAcceleration;
-	int             walkDir;
 	float           walkSpeed;
 };
 
