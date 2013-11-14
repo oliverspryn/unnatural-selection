@@ -8,37 +8,14 @@ TerrainElement::TerrainElement()
 
 void TerrainElement::generateSideEquations()
 {
-	m[0] = sin(this->getRadians())/cos(this->getRadians());
-	m[1] = sin(this->getRadians()+PI/2)/cos(this->getRadians()+PI/2);
-	m[2] = sin(this->getRadians()+PI)/cos(this->getRadians()+PI);
-	m[3] = sin(this->getRadians()+3*PI/2)/cos(this->getRadians()+3*PI/2);
-
-	float x = this->getCenterX() + cos(this->getRadians()+PI/2)*edge.top;
-	float y = this->getCenterY() + sin(this->getRadians()+PI/2)*edge.top;
-	b[0] = y - m[0]*x;
-
-	x = this->getCenterX() + cos(this->getRadians()+PI)*edge.right;
-	y = this->getCenterY() + sin(this->getRadians()+PI)*edge.right;
-	b[1] = y - m[1]*x;
-
-	x = this->getCenterX() + cos(this->getRadians()+3*PI/2)*edge.top;
-	y = this->getCenterY() + sin(this->getRadians()+3*PI/2)*edge.top;
-	b[2] = y - m[2]*x;
-
-	x = this->getCenterX() + cos(this->getRadians())*edge.right;
-	y = this->getCenterY() + sin(this->getRadians())*edge.right;
-	b[3] = y - m[3]*x;
-
-	/*for(int i = 0; i < 4; i++)
-	{
-		float x = getXCorner(m[i],b[i],m[(i+1)%4],b[(i+1)%4]);
-		corners[i] = VECTOR2(x, m[i]*x+b[i]);
-	}*/
 	corners[3] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.right - sin(this->getRadians())*edge.top, this->getCenterY() + cos(this->getRadians())*edge.top + sin(this->getRadians())*edge.right);
 	corners[2] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.right - sin(this->getRadians())*edge.bottom, this->getCenterY() + cos(this->getRadians())*edge.bottom + sin(this->getRadians())*edge.right);
 	corners[1] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.left - sin(this->getRadians())*edge.bottom, this->getCenterY() + cos(this->getRadians())*edge.bottom + sin(this->getRadians())*edge.left);
 	corners[0] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.left - sin(this->getRadians())*edge.top, this->getCenterY() + cos(this->getRadians())*edge.top + sin(this->getRadians())*edge.left);
-
+	sides[0] = myLines::Ray(corners[0], corners[3]-corners[0],this->getWidth());
+	sides[1] = myLines::Ray(corners[1], corners[0]-corners[1],this->getHeight());
+	sides[2] = myLines::Ray(corners[2], corners[1]-corners[2],this->getWidth());
+	sides[3] = myLines::Ray(corners[3], corners[2]-corners[3],this->getHeight());
 }
 
 float TerrainElement::getXCorner(float m1, float b1, float m2, float b2)
@@ -90,4 +67,19 @@ Wall::Wall(int height, int width, VECTOR2 center) : TerrainElement()
 void Wall::collide(Entity* ent)
 {
 	ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+}
+
+bool TerrainElement::collidesWithRay(myLines::Ray* in, float& frameTime)
+{
+	float fT = frameTime;
+	bool collide = false;
+	for(int i = 0; i < 4; i++)
+	{
+		if(in->getTimeOfIntersectRay(sides[i],fT))
+		{
+			collide = true;
+		}
+	}
+	frameTime = fT;
+	return collide;
 }

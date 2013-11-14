@@ -2,6 +2,7 @@
 #define _TERRAINELEMENT_H
 
 #include "entity.h"
+#include "line.h"
 
 namespace terrainNS
 {
@@ -24,8 +25,8 @@ public:
 	bool initialize(Game*, TextureManager*, int nCol);
 	//appropriately make the entity do what it has to do
 	virtual void collide(Entity* ent)=0;
-	float m[4];
-	float b[4];
+	bool collidesWithRay(myLines::Ray* in, float& frameTime);
+	myLines::Ray sides[4];
 	VECTOR2 corners[4];
 };
 

@@ -97,22 +97,31 @@ bool LMap::checkCornerCollision(float& fT, TerrainElement* t, CharacterJ* c)
 {
 	float time1 = fT, time2 = fT, time3 = fT, time4 = fT, angle = fT;
 	bool collide = false;
-	if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time1))
-		collide = true;
-	//if(time1<0)
-	//	time1 = fT;
-	if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time2))
-		collide = true;
-	//if(time2<0)
-	//	time2 = fT;
-	if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time3))
-		collide = true;
-	//if(time3<0)
-	//	time3 = fT;
-	if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time4))
-		collide = true;
+	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time1))
+	//	collide = true;
+	////if(time1<0)
+	////	time1 = fT;
+	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time2))
+	//	collide = true;
+	////if(time2<0)
+	////	time2 = fT;
+	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time3))
+	//	collide = true;
+	////if(time3<0)
+	////	time3 = fT;
+	//if(collidesWithMoving(&D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,time4))
+	//	collide = true;
 	//if(time4<0)
 	//	time4 = fT;
+	myLines::Ray motionRays(D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()), c->getVelocity(), sqrt(c->getVelocity().x*c->getVelocity().x + c->getVelocity().y*c->getVelocity().y)*fT);
+	if(t->collidesWithRay(&motionRays, time1)) collide = true;
+	motionRays.setPosition(D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()-c->getHeight()));
+	if(t->collidesWithRay(&motionRays, time2)) collide = true;
+	motionRays.setPosition(D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()+c->getHeight()));
+	if(t->collidesWithRay(&motionRays, time3)) collide = true;
+	motionRays.setPosition(D3DXVECTOR2(c->getX()-c->getWidth(), c->getY()-c->getHeight()));
+	if(t->collidesWithRay(&motionRays, time4)) collide = true;
+
 	fT = min(time1,min(time2,min(time3,time4)));
 	return collide;
 }
@@ -214,12 +223,12 @@ bool LMap::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocit
 	bool hit(false);
 	for(int i(0); i < 4; i++)
 	{
-		if(collidesWithMovingRay(tempMP, tempMV, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
-		{
-			hit = true;
-			angle = (i*PI/2)+ object->getRadians();
-//			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
-		}
+//		if(collidesWithMovingRay(tempMP, tempMV, object->m[i], object->b[i], object->corners[i], object->corners[(3+i)%4], frameTime))
+//		{
+//			hit = true;
+//			angle = (i*PI/2)+ object->getRadians();
+////			angle = (i%2?-1:1)*(i*PI/2)+ object->getRadians();
+//		}
 	}
 	//Only one Plane
   	/*if(collidesWithMovingRay(moving, object->m[2], object->b[2], object->corners[2], object->corners[(3+2)%4], collisionVector, frameTime))
