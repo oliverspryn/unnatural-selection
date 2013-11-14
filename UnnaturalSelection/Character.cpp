@@ -39,9 +39,29 @@ void Character::draw() {
 	cursor->draw();
 }
 
+#pragma region
+int Character::getCenterX() {
+	return body->getWidth() / 2;
+}
+
+int Character::getCenterY() {
+	int total = body->getHeight() + head->getHeight();
+
+	return total / 2;
+}
+
+int Character::getHeight() {
+	return body->getHeight() + head->getHeight();
+}
+
 float Character::getVelMagnitude() {
 	return sqrt(pow(body->getVelocity().x, 2) + pow(body->getVelocity().y, 2));
 }
+
+int Character::getWidth() {
+	return body->getWidth();
+}
+#pragma endregion
 
 void Character::initialize() {
 	body = new Body(game, graphics);
@@ -75,9 +95,32 @@ void Character::setVelocity(D3DXVECTOR2 v) {
 	head->setVelocity(v);
 }
 
+void Character::setVelocityX(float x) {
+	D3DXVECTOR2 v;
+	v.x = x;
+	v.y = body->getVelocity().y;
+
+	body->setVelocity(v);
+	head->setVelocity(v);
+}
+
+void Character::setVelocityY(float y) {
+	D3DXVECTOR2 v;
+	v.x = body->getVelocity().x;
+	v.y = y;
+
+	body->setVelocity(v);
+	head->setVelocity(v);
+}
+
 void Character::setX(float x) {
 	body->setX(x);
 	head->setX(x + body->getWidth() / 2 - head->getWidth() / 2);
+}
+
+void Character::setXC(float x) {
+	body->setX(x - body->getWidth() / 2);
+	head->setX(x - body->getWidth() / 2 - head->getWidth() / 2);
 }
 
 void Character::setXY(float x, float y) {
@@ -88,9 +131,26 @@ void Character::setXY(float x, float y) {
 	head->setY(y);
 }
 
+void Character::setXYC(float x, float y) {
+	body->setX(x - body->getWidth() / 2);
+	head->setX(x - body->getWidth() / 2 - head->getWidth() / 2);
+
+	int total = body->getHeight() + head->getHeight();
+
+	body->setY(y - total / 2 + head->getHeight());
+	head->setY(y - total / 2);
+}
+
 void Character::setY(float y) {
 	body->setY(y + head->getHeight());
 	head->setY(y);
+}
+
+void Character::setYC(float y) {
+	int total = body->getHeight() + head->getHeight();
+
+	body->setY(y - total / 2 + head->getHeight());
+	head->setY(y - total / 2);
 }
 #pragma endregion
 

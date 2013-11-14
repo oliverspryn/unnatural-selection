@@ -57,12 +57,23 @@ public :
 	virtual bool collidesWith(Entity &ent, D3DXVECTOR2 &collisionVector);
 	virtual void draw();
 	virtual void initialize();
-	virtual float getVelMagnitude();
-	virtual void setVelocity(D3DXVECTOR2 v);
-	void setX(float x);
-	void setXY(float x, float y);
-	void setY(float y);
 	virtual void update(float frameTime);
+
+	int getCenterX();
+	int getCenterY();
+	int getHeight();
+	float getVelMagnitude();
+	int getWidth();
+
+	virtual void setVelocity(D3DXVECTOR2 v);
+	virtual void setVelocityX(float x);
+	virtual void setVelocityY(float y);
+	void setX(float x);
+	void setXC(float x);
+	void setXY(float x, float y);
+	void setXYC(float x, float y);
+	void setY(float y);
+	void setYC(float y);
 
 	float           aimAngle;
 	Body*           body;
