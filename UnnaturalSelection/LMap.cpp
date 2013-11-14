@@ -32,10 +32,11 @@ void LMap::update(float frameTime)
 			if(this->checkCornerCollision(fT,t,c))
 			{
 				//stop them from falling through...
-				characters[i]->update(fT);
+				
 				//characters[i]->setVisible(false);
 				//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
 				terrain[j]->collide(characters[i]);
+				characters[i]->update(fT);
 			}
 		}
 		//keep track of corner locations for each

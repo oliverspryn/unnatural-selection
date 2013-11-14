@@ -28,7 +28,7 @@ void TestCharacterLameGame::collisions() {
 
 void TestCharacterLameGame::initialize(HWND hwnd) {
 	Game::initialize(hwnd);
-	character = new Character(graphics, this);
+	character = new Character(this, graphics);
 
 //Box things 
 	if (!boxTM.initialize(graphics,"pictures\\box(64x64).png"))
