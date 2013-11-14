@@ -35,10 +35,20 @@ void TestStuff::initialize(HWND hwnd)
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
-	t = new StraightPath(5,300,VECTOR2(500,450));
-	t->setRadians(PI/8);
+	t = new StraightPath(20,100,VECTOR2(50,400));
+	t->setDegrees(0.001);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
+
+	t = new StraightPath(20,100,VECTOR2(100,400));
+	t->setDegrees(0.001);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	/*t = new StraightPath(5,300,VECTOR2(500,450));
+	t->setRadians(PI/8);
+	t->generateSideEquations();
+	testMap->addTerrain(t);*/
 
 	//testMap->buildFromFile("level.txt");
 

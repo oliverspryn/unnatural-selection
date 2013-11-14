@@ -39,7 +39,8 @@ void LMap::update(float frameTime)
 			auto t = terrain[j];
 			//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,fT))
 			//if(this->checkCornerCollision(fT,t,c))
-			if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
+			//if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
+			if(collidesWithCharacter(characters[i],terrain[j],frameTime))
 			{
 				//stop them from falling through...
 				
@@ -368,4 +369,26 @@ void LMap::createFileFromLevel()
 		}
 	}
 	fout.close();
+}
+
+bool LMap::collidesWithCharacter(Character* c, TerrainElement* t, float& fT)
+{
+	bool hit = false;
+	float frameTime = fT;
+	for(int j(0); j < 4; j++)
+	{
+		myLines::Ray movingLine(c->corners[j], c->body->getVelocity(), c->getVelMagnitude()*frameTime);
+		for(int i(0); i < 4; i++)
+		{
+			if(movingLine.getTimeOfIntersectRay(t->sides[i], frameTime))
+			{
+				hit = true;
+			}
+		}
+	}
+	if(hit)
+	{
+		fT = frameTime;
+	}
+	return hit;
 }

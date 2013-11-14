@@ -58,7 +58,7 @@ class GameType
 namespace levelNS
 {
 	const int NUM_PROJECTILES = 10;
-	const int NUM_CHARACTERS = 10;
+	const int NUM_CHARACTERS = 1;
 	const int NUM_SPAWNS = 10;
 	const int NUM_TERRAIN = 10;
 	const int NUM_PICKUP = 10;
@@ -79,9 +79,10 @@ class LMap
 	Input* input;
 	Graphics* graphics;
 	Camera* camera;
-	static bool collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, TerrainElement* object, float &angle, float &frameTime);
-	static bool collidesWithMovingRay(D3DXVECTOR2 movingPos, D3DXVECTOR2 movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
-//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
+	bool collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingVelocity, TerrainElement* object, float &angle, float &frameTime);
+	bool collidesWithMovingRay(D3DXVECTOR2 movingPos, D3DXVECTOR2 movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
+	bool collidesWithCharacter(Character* c, TerrainElement* t, float& fT);
+	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 public:
 	LMap(Input* i, Graphics* g);
