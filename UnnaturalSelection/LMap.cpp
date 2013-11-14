@@ -39,8 +39,7 @@ void LMap::update(float frameTime)
 			auto t = terrain[j];
 			//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,fT))
 			//if(this->checkCornerCollision(fT,t,c))
-			//if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
-			if(collidesWithCharacter(characters[i],terrain[j],frameTime))
+			if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
 			{
 				//stop them from falling through...
 				
@@ -52,6 +51,24 @@ void LMap::update(float frameTime)
 				characters[i]->standingOn = terrain[j];
 				characters[i]->update(fT);
 			}
+			//if(collidesWithCharacter(characters[i],terrain[j],frameTime))
+			//{
+			//	//stop them from falling through...
+			//	
+			//	//characters[i]->setVisible(false);
+			//	//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
+			//	//terrain[j]->collide(characters[i]);
+			//	//characters[i]->update(-(fT+frameTime));
+			//	//characters[i]->collidesWith(*terrain[j], collisionVector);
+			//	terrain[j]->collide(characters[i]->body);
+			//	terrain[j]->collide(characters[i]->head);
+			//	//characters[i]->setVelocityX(0);
+			//	if(terrain[j]->getWidth() > terrain[j]->getHeight())
+			//	{
+			//		characters[i]->standingOn = terrain[j];
+			//	}
+
+			//}
 		}
 		//keep track of corner locations for each
 		//keep track of equations for all sides
@@ -67,6 +84,7 @@ void LMap::update(float frameTime)
 				}
 			}
 		}
+		characters[i]->update(frameTime);
 	}
 
 	//collision of bullets with terrain
@@ -88,7 +106,7 @@ void LMap::update(float frameTime)
 	}*/
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
-		characters[i]->update(frameTime);
+		//characters[i]->update(frameTime);
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
