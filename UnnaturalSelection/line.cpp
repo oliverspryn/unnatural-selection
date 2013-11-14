@@ -46,7 +46,7 @@ namespace myLines
 	}
 
 	//Sets the time if line intersects b 
-	bool Line::getTimeOfIntersect(Line b, float &time)
+	bool Line::getTimeOfIntersect(Line &b, float &time)
 	{
 		//If Parellel
 		if(angle == b.angle || angle == (-1)*b.angle)
@@ -71,7 +71,7 @@ namespace myLines
 	{
 		setRayLength(length);
 	}
-	bool Ray::getTimeOfIntersect(Line b, float &time)
+	bool Ray::getTimeOfIntersect(Line &b, float &time)
 	{
 		float tempTime = time;
 		if(Line::getTimeOfIntersect(b, tempTime))
@@ -93,7 +93,7 @@ namespace myLines
 		}
 		return false;
 	}
-	bool Ray::getTimeOfIntersectRay(Ray b, float &time)
+	bool Ray::getTimeOfIntersectRay(Ray &b, float &time)
 	{
 		float tempTime = time;
 		if(getTimeOfIntersect(b, tempTime))

@@ -36,7 +36,7 @@ namespace myLines
 		virtual void setSpeed(float in);
 		
 		//Sets the time if line intersects b 
-		virtual bool getTimeOfIntersect(Line b, float &time);
+		virtual bool getTimeOfIntersect(Line &b, float &time);
 
 	private:
 		D3DXVECTOR2 pos;
@@ -58,8 +58,8 @@ namespace myLines
 		{
 			rayLength = abs(in);
 		}
-		virtual bool getTimeOfIntersect(Line b, float &time);
-		virtual bool getTimeOfIntersectRay(Ray b, float &time);
+		virtual bool getTimeOfIntersect(Line &b, float &time);
+		virtual bool getTimeOfIntersectRay(Ray &b, float &time);
 
 
 	private:
