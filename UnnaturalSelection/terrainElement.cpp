@@ -12,10 +12,16 @@ void TerrainElement::generateSideEquations()
 	corners[2] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.right - sin(this->getRadians())*edge.bottom, this->getCenterY() + cos(this->getRadians())*edge.bottom + sin(this->getRadians())*edge.right);
 	corners[1] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.left - sin(this->getRadians())*edge.bottom, this->getCenterY() + cos(this->getRadians())*edge.bottom + sin(this->getRadians())*edge.left);
 	corners[0] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.left - sin(this->getRadians())*edge.top, this->getCenterY() + cos(this->getRadians())*edge.top + sin(this->getRadians())*edge.left);
-	sides[0] = myLines::Ray(corners[0], corners[3]-corners[0],this->getWidth());
+	for(int i(0); i < 4; i++)
+	{
+		D3DXVECTOR2 tempDist = corners[(3+i)%4]-corners[i];
+		myLines::Ray tempLineSide(corners[i], tempDist, (i%2?getHeight():getWidth()));
+	}
+	
+	/*sides[0] = myLines::Ray(corners[0], corners[3]-corners[0],this->getWidth());
 	sides[1] = myLines::Ray(corners[1], corners[0]-corners[1],this->getHeight());
 	sides[2] = myLines::Ray(corners[2], corners[2]-corners[1],this->getWidth());
-	sides[3] = myLines::Ray(corners[3], corners[3]-corners[2],this->getHeight());
+	sides[3] = myLines::Ray(corners[3], corners[3]-corners[2],this->getHeight());*/
 }
 
 float TerrainElement::getXCorner(float m1, float b1, float m2, float b2)
