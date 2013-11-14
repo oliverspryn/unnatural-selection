@@ -35,3 +35,9 @@ D3DXVECTOR2 Camera::getRealPos(float xIn, float yIn)
 	float relY = (yIn-(realPosition.y+height/2))/zoom;
 	return D3DXVECTOR2(relX + centerPosition.x, relY + centerPosition.y);
 }
+D3DXVECTOR2 Camera::getCameraRelitivePos(float xIn, float yIn)
+{
+	float relX = (xIn-(centerPosition.x))/zoom;
+	float relY = (yIn-(centerPosition.y))/zoom;
+	return D3DXVECTOR2(relX + centerPosition.x, relY + centerPosition.y);
+}

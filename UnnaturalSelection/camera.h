@@ -13,6 +13,7 @@ public:
 	Camera(int width, int height, int xReal, int yReal, int x, int y, float zoom);
 	void draw(Image in);
 	D3DXVECTOR2 getRealPos(float x, float y);
+	D3DXVECTOR2 getCameraRelitivePos(float x, float y);
 
 	D3DXVECTOR2 centerPosition;
 	D3DXVECTOR2 realPosition;
