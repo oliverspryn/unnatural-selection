@@ -15,7 +15,7 @@ void TerrainElement::generateSideEquations()
 	for(int i(0); i < 4; i++)
 	{
 		D3DXVECTOR2 tempDist = corners[(3+i)%4]-corners[i];
-		myLines::Ray tempLineSide(corners[i], tempDist, (i%2?getHeight():getWidth()));
+		sides[i] = myLines::Ray(corners[i], tempDist, (i%2?getHeight():getWidth()));
 	}
 	
 	/*sides[0] = myLines::Ray(corners[0], corners[3]-corners[0],this->getWidth());
