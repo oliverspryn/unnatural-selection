@@ -40,8 +40,11 @@ public:
 //=============================================================================
 // Constructor
 //=============================================================================
-WeaponTest::WeaponTest(): camera(400, 400, 0, 0, GAME_WIDTH/2, GAME_HEIGHT/2, 1)
+WeaponTest::WeaponTest(): camera(400, 400, 0, 0, GAME_WIDTH/2, GAME_HEIGHT/2, 1), fTimer(4)
 {
+	fTimer.Add("Draw");
+	fTimer.Add("Collision Detection");
+	fTimer.Add("RayTrace");
     menuOn = true;
 	testBox = 0;
 	timer = 0;
@@ -109,7 +112,7 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 300));
+	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2-300, 300));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
 	//testBox->setRadians(-PI/2);
 	//testBox->setDegrees(0.001);
@@ -125,7 +128,7 @@ void WeaponTest::initialize(HWND hwnd)
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile); 
 	//testGun = 0;
-	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 30*60*60, 100, 600, 2000, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	//testGun->setRadians(PI/2);
 	//My initialize code
@@ -146,6 +149,7 @@ void WeaponTest::initialize(HWND hwnd)
 //=============================================================================
 void WeaponTest::update()
 {
+	fTimer.nextFrame();
 	timer += frameTime;
 	frameCount += 1;
     if (menuOn)
@@ -200,6 +204,7 @@ void WeaponTest::update()
 
 		//Used for collisions
 		VECTOR2 collisionVector;
+		fTimer.starting(1);
 		for(int i(0); i < testMag->size+1; i++)
 		{
 			if(testMag->projArray[i]->getActive())
@@ -227,6 +232,7 @@ void WeaponTest::update()
 				}
 			}
 		}
+		fTimer.ending(1, timerFreq);
 		if(testMag != 0)
 		{
 			testMag->updateMagsProjectiles(frameTime);
@@ -277,6 +283,7 @@ void WeaponTest::collisions()
 //=============================================================================
 void WeaponTest::render()
 {
+	fTimer.starting(0);
     graphics->spriteBegin();                // begin drawing sprites
 
 	graphics->setBackColor(graphicsNS::CYAN);
@@ -294,6 +301,7 @@ void WeaponTest::render()
 	}
 
     graphics->spriteEnd();                  // end drawing sprites
+	fTimer.ending(0, timerFreq);
 }
 
 //=============================================================================
@@ -329,9 +337,12 @@ void WeaponTest::consoleCommand()
     }
 	if (command == "ftimes")
     {
-		std::stringstream temp;
-		//temp << "Percent of frameTime: " << (ftnClock/ftnCount)/(timer/frameCount);
-		console->print(temp.str());
+		for(int i(0); i < fTimer.getSize(); i++)
+		{
+			std::stringstream temp;
+			temp << fTimer.getName(i) << ": " << fTimer.getAverageTime(i)/(timer/frameCount);
+			console->print(temp.str());
+		}
 		return;
     }
 }
@@ -385,6 +396,7 @@ bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingV
 	bool hit(false);
 	myLines::Ray movingLine(*movingPos, *movingVelocity, sqrt(movingVelocity->x*movingVelocity->x + movingVelocity->y*movingVelocity->y)*frameTime);
 	float ct = frameTime;
+	fTimer.starting(2);
 	for(int i(0); i < 4; i++)
 	{
 		D3DXVECTOR2 tempDist = object->corners[(3+i)%4]-object->corners[i];
@@ -404,6 +416,7 @@ bool WeaponTest::collidesWithMoving(D3DXVECTOR2* movingPos, D3DXVECTOR2* movingV
 			}
 		}
 	}
+	fTimer.ending(2, timerFreq);
 	//Only one Plane
   	/*if(collidesWithMovingRay(moving, object->m[2], object->b[2], object->corners[2], object->corners[(3+2)%4], collisionVector, frameTime))
 	{
