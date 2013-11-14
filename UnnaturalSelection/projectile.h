@@ -5,6 +5,7 @@
 #define PROJECTILE_H
 #define WIN32_LEAN_AND_MEAN
 #include "entity.h"
+#include "line.h"
 
 //Constants for Projectile class
 namespace projectileNS
