@@ -7,6 +7,18 @@ TestStuff::TestStuff()
 
 TestStuff::~TestStuff()
 {
+	if(testGun > 0)
+	{
+		delete testGun;
+	}
+	if(testMag > 0)
+	{
+		delete testMag;
+	}
+	if(testProjectile > 0)
+	{
+		delete testProjectile;
+	}
 	delete testMap;
 }
 
@@ -16,10 +28,42 @@ void TestStuff::initialize(HWND hwnd)
 
 	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
+
+	if (!gunTM.initialize(graphics,"pictures\\AssultRifle(128x32).png"))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+
+    // Weapon texture
+    if (!magTM.initialize(graphics,"pictures\\mag(8x8).png"))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mag texture"));
+
+    // Projectile textures
+    if (!projectileTM.initialize(graphics,"pictures\\projectile(8x8).png"))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile textures"));
+
+    if (!gunIM.initialize(graphics,0,0,0,&gunTM))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun"));
+
+    if (!magIM.initialize(graphics,0,0,0,&magTM))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mag"));
+
+	if (!projectileIM.initialize(graphics,0,0,0,&projectileTM))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
+
+	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
+
+	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile); 
+	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
+	testGun->loadNewMag(testMag);
+	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+
+
 	/*testTerrain = new StraightPath(5,1000,VECTOR2(100,100));
 	if (!testTerrain->initialize(this, &terrainTexture,1))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	testMap = new LMap(input,graphics);
+
+	//terrain generation
+#pragma region
 	TerrainElement* t = new TerrainElement(2000,50,VECTOR2(0, 0));
 	//t->setDegrees(0.001);
 	t->generateSideEquations();
@@ -99,6 +143,15 @@ void TestStuff::initialize(HWND hwnd)
 	//t->setDegrees(-30);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
+#pragma endregion
+
+	for(int i = 0; i < 10; i++)
+	{
+		t = new TerrainElement(50,100,VECTOR2(2000-(50*i),2000-(bodyNS::HEIGHT/4)*i));
+		//t->setDegrees(-30);
+		t->generateSideEquations();
+		testMap->addTerrain(t);
+	}
 
 	//t = new StraightPath(20,100,VECTOR2(100,400));
 	////t->setDegrees(0.001);
@@ -133,6 +186,7 @@ void TestStuff::render()
 {
 	graphics->spriteBegin();
 
+	graphics->setBackColor(graphicsNS::WHITE);
 	testMap->draw();
 
 	graphics->spriteEnd();

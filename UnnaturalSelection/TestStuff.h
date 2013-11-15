@@ -7,6 +7,7 @@
 #include "image.h"
 #include "textDX.h"
 #include "LMap.h"
+#include "gun.h"
 #include <vector>
 using std::vector;
 #include <ctime>
@@ -29,6 +30,14 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
+	TextureManager gunTM, magTM, projectileTM, boxTM;   // textures
+	Image   gunIM;
+    Image   magIM;
+    Image   projectileIM;
+	Image	boxIM;
+    Gun* testGun;
+	Magazine* testMag;
+	Projectile* testProjectile;
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;

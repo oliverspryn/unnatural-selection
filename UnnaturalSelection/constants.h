@@ -44,7 +44,7 @@ const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calcul
 const float FULL_HEALTH = 100;
 
 // graphic images
-const char NEBULA_IMAGE[] =   "pictures\\orion.jpg";     // photo source NASA/courtesy of nasaimages.org 
+const char NEBULA_IMAGE[] =   "pictures\\box(64x64).png";     // photo source NASA/courtesy of nasaimages.org 
 const char TEXTURES_IMAGE[] = "pictures\\textures.png";  // game textures
 const char MENU_IMAGE[] =     "pictures\\menu.png";      // menu texture
 
