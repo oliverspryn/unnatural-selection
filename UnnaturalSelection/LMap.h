@@ -84,6 +84,7 @@ class LMap
 	bool collidesWithCharacter(Character* c, TerrainElement* t, float& fT);
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
+	void collide(Character* ent, TerrainElement* t, int side);
 public:
 	LMap(Input* i, Graphics* g);
 	void update(float frameTime);

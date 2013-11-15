@@ -20,22 +20,22 @@ void TestStuff::initialize(HWND hwnd)
 	if (!testTerrain->initialize(this, &terrainTexture,1))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	testMap = new LMap(input,graphics);
-	TerrainElement* t = new Wall(2000,50,VECTOR2(0, 0));
+	TerrainElement* t = new TerrainElement(2000,50,VECTOR2(0, 0));
 	//t->setDegrees(0.001);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
-	t = new Wall(2000,50,VECTOR2(2950,0));
+	t = new TerrainElement(2000,50,VECTOR2(2950,0));
 	////t->setDegrees(0.001);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
-	t = new StraightPath(50,3000,VECTOR2(0, 2000));
+	t = new TerrainElement(50,3000,VECTOR2(0, 2000));
 	//t->setDegrees(0.001);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
-	t = new StraightPath(50,400,VECTOR2(500,2000-150));
+	t = new TerrainElement(50,400,VECTOR2(500,2000-150));
 	//t->setDegrees(-30);
 	t->generateSideEquations();
 	testMap->addTerrain(t);

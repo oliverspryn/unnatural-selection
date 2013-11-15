@@ -1,5 +1,31 @@
 #include "LMap.h"
 
+void LMap::collide(Character* ent, TerrainElement* t, int side)
+{
+	switch(side)
+	{
+	case 0:
+		ent->standingOn = t;
+		ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
+		ent->setY((t->getCenterY() - (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
+		break;
+	case 1:
+		ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+		ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
+		break;
+	case 2:
+		ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
+		ent->setY(t->getY() + t->getHeight()/2);
+		ent->setY((t->getCenterY() + (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
+		
+		break;
+	case 3:
+		ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+		ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+ent->getWidth()/2);
+		break;
+	}
+}
+
 void LMap::update(float frameTime)
 {
 	VECTOR2 collisionVector;//get rid of later when using other collision detection function
@@ -46,13 +72,13 @@ void LMap::update(float frameTime)
 				//characters[i]->setVisible(false);
 				//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
 				//terrain[j]->collide(characters[i]);
-				terrain[j]->collide(characters[i]->body);
-				terrain[j]->collide(characters[i]->head);
+				collide(characters[i],terrain[j],0);
+				//terrain[j]->collide(characters[i],0);
 				if(terrain[j]->getWidth() > terrain[j]->getHeight())
 				{
 					if(terrain[j]->getDegrees()  >= 0)
 					{
-							characters[i]->standingOn = terrain[j];
+						characters[i]->standingOn = terrain[j];
 					}
 				}
 			//	characters[i]->standingOn = terrain[j];
@@ -218,7 +244,7 @@ LMap::LMap(Input* i, Graphics* g)
 	input = i;
 	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
 	{
-		terrain[i] = new StraightPath(0,000,VECTOR2(0,0));
+		terrain[i] = new TerrainElement(0,000,VECTOR2(0,0));
 		terrain[i]->setActive(false);
 		terrain[i]->setVisible(false);
 	}
@@ -372,13 +398,13 @@ void LMap::buildFromFile(std::string fileName)
 		degree = atof(line.c_str());
 		if(width>=height)
 		{
-			StraightPath* t = new StraightPath(height,width,VECTOR2(x,y));
+			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
 			t->setDegrees(degree);
 			this->addTerrain(t);
 		}
 		else
 		{
-			Wall* t = new Wall(height,width,VECTOR2(x,y));
+			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
 			t->setDegrees(degree);
 			this->addTerrain(t);
 		}

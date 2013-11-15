@@ -6,6 +6,20 @@ TerrainElement::TerrainElement()
 	mass = terrainNS::MASS;
 }
 
+TerrainElement::TerrainElement(int height, int width, VECTOR2 center)
+{
+	collisionType = entityNS::BOX;
+	mass = terrainNS::MASS;
+	spriteData.height = height;
+	spriteData.width = width;
+	spriteData.x = center.x;
+	spriteData.y = center.y;
+	edge.left = (width/2)*-1;
+	edge.right = width/2;
+	edge.top = (height/2)*-1;
+	edge.bottom = (height/2);
+}
+
 void TerrainElement::generateSideEquations()
 {
 	corners[3] = VECTOR2(this->getCenterX() + cos(this->getRadians())*edge.right - sin(this->getRadians())*edge.top, this->getCenterY() + cos(this->getRadians())*edge.top + sin(this->getRadians())*edge.right);
@@ -40,64 +54,66 @@ bool TerrainElement::initialize(Game *gamePtr, int width, int height, int ncols,
 	return Entity::initialize(gamePtr,width,height,ncols,textureM);
 }
 
-StraightPath::StraightPath(int height, int width, VECTOR2 center) : TerrainElement()
-{
-	spriteData.height = height;
-	spriteData.width = width;
-	spriteData.x = center.x;
-	spriteData.y = center.y;
-	edge.left = (width/2)*-1;
-	edge.right = width/2;
-	edge.top = (height/2)*-1;
-	edge.bottom = (height/2);
-	mass = terrainNS::MASS;
-}
+void TerrainElement::collide(Entity* ent){}
 
-SlantedPath::SlantedPath(int height, int width, VECTOR2 center)
-{
-	spriteData.height = height;
-	spriteData.width = width;
-	spriteData.x = center.x;
-	spriteData.y = center.y;
-	edge.left = (width/2)*-1;
-	edge.right = width/2;
-	edge.top = (height/2)*-1;
-	edge.bottom = (height/2);
-	mass = terrainNS::MASS;
-}
+//StraightPath::StraightPath(int height, int width, VECTOR2 center) : TerrainElement()
+//{
+//	spriteData.height = height;
+//	spriteData.width = width;
+//	spriteData.x = center.x;
+//	spriteData.y = center.y;
+//	edge.left = (width/2)*-1;
+//	edge.right = width/2;
+//	edge.top = (height/2)*-1;
+//	edge.bottom = (height/2);
+//	mass = terrainNS::MASS;
+//}
+//
+//SlantedPath::SlantedPath(int height, int width, VECTOR2 center)
+//{
+//	spriteData.height = height;
+//	spriteData.width = width;
+//	spriteData.x = center.x;
+//	spriteData.y = center.y;
+//	edge.left = (width/2)*-1;
+//	edge.right = width/2;
+//	edge.top = (height/2)*-1;
+//	edge.bottom = (height/2);
+//	mass = terrainNS::MASS;
+//}
 
-void SlantedPath::collide(Entity* ent)
-{
-	//ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));
-}
+//void SlantedPath::collide(Entity* ent)
+//{
+//	//ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));
+//}
+//
+//void StraightPath::collide(Entity* ent)
+//{
+//	ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));
+//}
 
-void StraightPath::collide(Entity* ent)
-{
-	ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));
-}
-
-Wall::Wall(int height, int width, VECTOR2 center) : TerrainElement()
-{
-	spriteData.height = height;
-	spriteData.width = width;
-	spriteData.x = center.x;
-	spriteData.y = center.y;
-	edge.left = (width/2)*-1;
-	edge.right = width/2;
-	edge.top = (height/2)*-1;
-	edge.bottom = (height/2);
-}
-
-void Wall::collide(Entity* ent)
-{
-	ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-	if(ent->getCenterX() < getCenterX())
-	{
-		ent->setX((getCenterX()-(getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
-	}else{
-		ent->setX((getCenterX()+(getWidth()-ent->getWidth())/2)+ent->getWidth()/2);				
-	}
-}
+//Wall::Wall(int height, int width, VECTOR2 center) : TerrainElement()
+//{
+//	spriteData.height = height;
+//	spriteData.width = width;
+//	spriteData.x = center.x;
+//	spriteData.y = center.y;
+//	edge.left = (width/2)*-1;
+//	edge.right = width/2;
+//	edge.top = (height/2)*-1;
+//	edge.bottom = (height/2);
+//}
+//
+//void Wall::collide(Entity* ent)
+//{
+//	ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+//	if(ent->getCenterX() < getCenterX())
+//	{
+//		ent->setX((getCenterX()-(getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
+//	}else{
+//		ent->setX((getCenterX()+(getWidth()-ent->getWidth())/2)+ent->getWidth()/2);				
+//	}
+//}
 
 bool TerrainElement::collidesWithRay(myLines::Ray* in, float& frameTime)
 {

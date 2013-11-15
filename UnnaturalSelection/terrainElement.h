@@ -21,34 +21,36 @@ public:
 	void generateSideEquations();
 	float getXCorner(float m1, float b1, float m2, float b2);
 	TerrainElement();
+	TerrainElement(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	bool initialize(Game*, TextureManager*, int nCol);
 	//appropriately make the entity do what it has to do
-	virtual void collide(Entity* ent)=0;
+	virtual void collide(Entity* ent);
+	
 	bool collidesWithRay(myLines::Ray* in, float& frameTime);
 	myLines::Ray sides[4];
 	VECTOR2 corners[4];
 };
-
-class StraightPath : public TerrainElement
-{
-public:
-	StraightPath(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
-	void collide(Entity* ent);
-};
-
-class SlantedPath : public TerrainElement
-{
-public:
-	SlantedPath(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
-	void collide(Entity* ent);
-};
-
-class Wall : public TerrainElement
-{
-public:
-	Wall(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
-	void collide(Entity* ent);
-};
+//
+//class StraightPath : public TerrainElement
+//{
+//public:
+//	StraightPath(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
+//	void collide(Entity* ent);
+//};
+//
+//class SlantedPath : public TerrainElement
+//{
+//public:
+//	SlantedPath(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
+//	void collide(Entity* ent);
+//};
+//
+//class Wall : public TerrainElement
+//{
+//public:
+//	Wall(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
+//	void collide(Entity* ent);
+//};
 
 #endif

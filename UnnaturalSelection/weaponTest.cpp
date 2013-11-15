@@ -112,7 +112,7 @@ void WeaponTest::initialize(HWND hwnd)
 	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
 
-	testBox = new StraightPath(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 300));
+	testBox = new TerrainElement(32, 128, D3DXVECTOR2(GAME_WIDTH/2+300, 300));
 	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
 	//testBox->setRadians(-PI/2);
 	//testBox->setDegrees(0.001);

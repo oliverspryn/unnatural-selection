@@ -39,7 +39,7 @@ public:
 	Magazine* testMag;
 	Projectile* testProjectile;
 	//Entity* testBox;
-	StraightPath* testBox;
+	TerrainElement* testBox;
     bool    menuOn;
 	char buffer[weapontestNS::BUFFER_SIZE];
     float   timer;         // time until new round starts
