@@ -278,10 +278,14 @@ void Character::walk(float frametime) {
 	} else {
 		if (faceDir == 0) {
 			v.x -= currentDir * min(fabs(body->getVelocity().x), characterNS::STOP_SPEED * frametime);
+			if(abs(v.x) < characterNS::END_SPEED)
+			{
+				v.x = 0;
+			}
 		} else if (faceDir == currentDir) {
 			v.x += faceDir * sign(characterNS::WALK_SPEED - fabs(v.x)) * frametime * characterNS::WALK_ACCELERATION;
 		} else {
-			v.x -= currentDir * (characterNS::WALK_ACCELERATION + characterNS::STOP_SPEED) * frametime;
+			v.x -= currentDir * (2*characterNS::WALK_ACCELERATION + characterNS::STOP_SPEED) * frametime;
 		}
 	}
 

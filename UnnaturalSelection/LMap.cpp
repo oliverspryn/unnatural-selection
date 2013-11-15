@@ -48,8 +48,12 @@ void LMap::update(float frameTime)
 				//terrain[j]->collide(characters[i]);
 				terrain[j]->collide(characters[i]->body);
 				terrain[j]->collide(characters[i]->head);
-				characters[i]->standingOn = terrain[j];
-				characters[i]->update(fT);
+				if(terrain[j]->getWidth() > terrain[j]->getHeight())
+				{
+					characters[i]->standingOn = terrain[j];
+				}
+			//	characters[i]->standingOn = terrain[j];
+			//	characters[i]->update(fT);
 			}
 			//if(collidesWithCharacter(characters[i],terrain[j],frameTime))
 			//{
