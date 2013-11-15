@@ -70,7 +70,8 @@ void LMap::update(float frameTime)
 				//characters[i]->setVisible(false);
 				//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
 				//terrain[j]->collide(characters[i]);
-				int side = terrain[j]->getCollisionSide(collisionVector);//put in call to side finder function
+				//jake's new line
+				int side = terrain[j]->getCollisionSide(collisionVector*-1);//put in call to side finder function
 				collide(characters[i],terrain[j],side);
 				//terrain[j]->collide(characters[i],0);
 				/*if(terrain[j]->getWidth() > terrain[j]->getHeight())
