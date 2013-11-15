@@ -19,6 +19,7 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 	stopSpeed = characterNS::STOP_SPEED;
 	walkAcceleration = characterNS::WALK_ACCELERATION;
 	walkSpeed = characterNS::WALK_SPEED;
+	charFrameTime = -1;
 }
 
 Character::~Character() {
