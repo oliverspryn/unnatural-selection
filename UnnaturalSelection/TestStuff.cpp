@@ -40,6 +40,66 @@ void TestStuff::initialize(HWND hwnd)
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
+	t = new TerrainElement(50,400,VECTOR2(1000,2000-300));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(1500,2000-450));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(2000,2000-600));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(2500,2000-750));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(2000,2000-900));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(1500,2000-1050));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(1000,2000-1200));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(500,2000-1350));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(1000,2000-1500));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(1500,2000-1650));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(2000,2000-1800));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
+	t = new TerrainElement(50,400,VECTOR2(1500,2000-1950));
+	//t->setDegrees(-30);
+	t->generateSideEquations();
+	testMap->addTerrain(t);
+
 	//t = new StraightPath(20,100,VECTOR2(100,400));
 	////t->setDegrees(0.001);
 	//t->generateSideEquations();

@@ -60,7 +60,7 @@ namespace levelNS
 	const int NUM_PROJECTILES = 10;
 	const int NUM_CHARACTERS = 1;
 	const int NUM_SPAWNS = 10;
-	const int NUM_TERRAIN = 10;
+	const int NUM_TERRAIN = 100;
 	const int NUM_PICKUP = 10;
 }
 
