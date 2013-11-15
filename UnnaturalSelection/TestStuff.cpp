@@ -25,7 +25,7 @@ void TestStuff::initialize(HWND hwnd)
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
-	t = new Wall(2000,50,VECTOR2(2950,0));s
+	t = new Wall(2000,50,VECTOR2(2950,0));
 	////t->setDegrees(0.001);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
@@ -35,8 +35,8 @@ void TestStuff::initialize(HWND hwnd)
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
-	t = new SlantedPath(50,400,VECTOR2(500,2000-150));
-	t->setDegrees(-30);
+	t = new StraightPath(50,400,VECTOR2(500,2000-150));
+	//t->setDegrees(-30);
 	t->generateSideEquations();
 	testMap->addTerrain(t);
 
