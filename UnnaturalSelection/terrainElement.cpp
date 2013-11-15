@@ -129,3 +129,35 @@ bool TerrainElement::collidesWithRay(myLines::Ray* in, float& frameTime)
 	frameTime = fT;
 	return collide;
 }
+
+int TerrainElement::getCollisionSide(D3DXVECTOR2 &collisionVector)
+{
+	myLines::Line temp(*this->getCenter(), collisionVector);
+	float ft[4];
+	temp.getTimeOfIntersect(this->sides[0], ft[0]);
+	temp.getTimeOfIntersect(this->sides[1], ft[1]);
+	temp.getTimeOfIntersect(this->sides[2], ft[2]);
+	temp.getTimeOfIntersect(this->sides[3], ft[3]);
+	int tempID(-1);
+	float tempMin(10000);
+	for(int i(0); i < 4; i++)
+	{
+		if(ft[i] > 0)
+		{
+			if(tempID >= 0)
+			{
+				if(ft[i] < tempMin)
+				{
+					tempID = i;
+					tempMin = ft[i];
+				}
+			}else{
+				tempID = i;
+				tempMin = ft[i];
+			}
+
+		}
+	}
+
+	return tempID;
+}

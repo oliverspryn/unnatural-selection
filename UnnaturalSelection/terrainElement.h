@@ -30,6 +30,7 @@ public:
 	bool collidesWithRay(myLines::Ray* in, float& frameTime);
 	myLines::Ray sides[4];
 	VECTOR2 corners[4];
+	int getCollisionSide(D3DXVECTOR2 &collisionVector);
 };
 //
 //class StraightPath : public TerrainElement
