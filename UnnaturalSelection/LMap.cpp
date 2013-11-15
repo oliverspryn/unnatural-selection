@@ -50,12 +50,15 @@ void LMap::update(float frameTime)
 				terrain[j]->collide(characters[i]->head);
 				if(terrain[j]->getWidth() > terrain[j]->getHeight())
 				{
-					characters[i]->standingOn = terrain[j];
+					if(terrain[j]->getDegrees()  >= 0)
+					{
+							characters[i]->standingOn = terrain[j];
+					}
 				}
 			//	characters[i]->standingOn = terrain[j];
 			//	characters[i]->update(fT);
 			}
-			//if(collidesWithCharacter(characters[i],terrain[j],frameTime))
+			//if(collidesWithCharacter(characters[i],terrain[j],fT))
 			//{
 			//	//stop them from falling through...
 			//	
@@ -71,6 +74,7 @@ void LMap::update(float frameTime)
 			//	{
 			//		characters[i]->standingOn = terrain[j];
 			//	}
+			//	characters[i]->charFrameTime = frameTime-fT;
 
 			//}
 		}
@@ -88,7 +92,7 @@ void LMap::update(float frameTime)
 				}
 			}
 		}
-		characters[i]->update(frameTime);
+		//characters[i]->update(frameTime);
 	}
 
 	//collision of bullets with terrain
@@ -110,7 +114,14 @@ void LMap::update(float frameTime)
 	}*/
 	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
-		//characters[i]->update(frameTime);
+		if(characters[i]->charFrameTime >= 0)
+		{
+			characters[i]->update(characters[i]->charFrameTime);
+		}else{
+			characters[i]->update(frameTime);
+		}
+		characters[i]->charFrameTime = -1;
+
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{

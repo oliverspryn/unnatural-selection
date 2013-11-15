@@ -53,6 +53,24 @@ StraightPath::StraightPath(int height, int width, VECTOR2 center) : TerrainEleme
 	mass = terrainNS::MASS;
 }
 
+SlantedPath::SlantedPath(int height, int width, VECTOR2 center)
+{
+	spriteData.height = height;
+	spriteData.width = width;
+	spriteData.x = center.x;
+	spriteData.y = center.y;
+	edge.left = (width/2)*-1;
+	edge.right = width/2;
+	edge.top = (height/2)*-1;
+	edge.bottom = (height/2);
+	mass = terrainNS::MASS;
+}
+
+void SlantedPath::collide(Entity* ent)
+{
+	//ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));
+}
+
 void StraightPath::collide(Entity* ent)
 {
 	ent->setVelocity(D3DXVECTOR2(ent->getVelocity().x,0));

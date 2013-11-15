@@ -37,6 +37,13 @@ public:
 	void collide(Entity* ent);
 };
 
+class SlantedPath : public TerrainElement
+{
+public:
+	SlantedPath(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
+	void collide(Entity* ent);
+};
+
 class Wall : public TerrainElement
 {
 public:
