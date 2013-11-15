@@ -215,6 +215,8 @@ void Character::update(float frameTime) {
 		if (input->isKeyDown(characterNS::JUMP)) {
 			jump();
 		}
+	}else{
+		walk(frameTime/3);
 	}
 
 //Ready? Aim... <insert "fire" statement here, when ready>
