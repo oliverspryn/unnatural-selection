@@ -15,9 +15,7 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 		break;
 	case 2:
 		ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
-		ent->setY(t->getY() + t->getHeight()/2);
-		ent->setY((t->getCenterY() + (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
-		
+		ent->setY(((t->getCenterY() + (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2));
 		break;
 	case 3:
 		ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
@@ -72,15 +70,15 @@ void LMap::update(float frameTime)
 				//characters[i]->setVisible(false);
 				//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
 				//terrain[j]->collide(characters[i]);
-				collide(characters[i],terrain[j],0);
+				collide(characters[i],terrain[j],2);
 				//terrain[j]->collide(characters[i],0);
-				if(terrain[j]->getWidth() > terrain[j]->getHeight())
+				/*if(terrain[j]->getWidth() > terrain[j]->getHeight())
 				{
 					if(terrain[j]->getDegrees()  >= 0)
 					{
 						characters[i]->standingOn = terrain[j];
 					}
-				}
+				}*/
 			//	characters[i]->standingOn = terrain[j];
 			//	characters[i]->update(fT);
 			}
