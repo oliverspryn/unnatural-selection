@@ -169,6 +169,7 @@ void TestStuff::initialize(HWND hwnd)
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	testMap->characters[0]->currentWeapon = testGun;
+	testMap->characters[0]->currentMag = testMag;
 }
 
 void TestStuff::update()
