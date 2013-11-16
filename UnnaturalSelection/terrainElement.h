@@ -22,6 +22,7 @@ public:
 	float getXCorner(float m1, float b1, float m2, float b2);
 	TerrainElement();
 	TerrainElement(int height = terrainNS::HEIGHT, int width = terrainNS::WIDTH, VECTOR2 center = VECTOR2(terrainNS::X,terrainNS::Y));
+	TerrainElement(int height, int width, VECTOR2 center, int a, int r, int g, int b);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	bool initialize(Game*, TextureManager*, int nCol);
 	//appropriately make the entity do what it has to do

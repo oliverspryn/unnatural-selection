@@ -5,16 +5,17 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 #define WIN32_LEAN_AND_MEAN
-#include "image.h"
+#include "entity.h"
 
 class Camera
 {
 public:
 	Camera(int width, int height, int xReal, int yReal, int x, int y, float zoom);
 	void draw(Image in);
+	void draw(Image in, DWORD tint);
+	void draw(Entity& in);
 	D3DXVECTOR2 getRealPos(float x, float y);
 	D3DXVECTOR2 getCameraRelitivePos(float x, float y);
-
 	D3DXVECTOR2 centerPosition;
 	D3DXVECTOR2 realPosition;
 	int height;

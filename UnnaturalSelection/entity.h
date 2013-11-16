@@ -45,6 +45,8 @@ class Entity : public Image
     bool    active;         // only active entities may collide
     bool    rotatedBoxReady;    // true when rotated collision box is ready
 
+
+
     // --- The following functions are protected because they are not intended to be
     // --- called from outside the class.
     // Circular collision detection 
@@ -69,6 +71,8 @@ class Entity : public Image
     bool collideCornerCircle(VECTOR2 corner, Entity &ent, VECTOR2 &collisionVector);
 
   public:
+	DWORD color;//Called with camera
+
     // Constructor
     Entity();
     // Destructor

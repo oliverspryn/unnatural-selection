@@ -25,6 +25,7 @@ Entity::Entity() : Image()
     collisionType = entityNS::CIRCLE;
     health = 100;
     gravity = entityNS::GRAVITY;
+	color = D3DCOLOR_ARGB(255, 255, 255, 255);
 }
 
 //=============================================================================
