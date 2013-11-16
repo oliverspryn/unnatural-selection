@@ -72,6 +72,7 @@ public :
 
 	float getCenterX();
 	float getCenterY();
+	D3DXVECTOR2 getCenter();
 	int   getHeight();
 	float getVelMagnitude();
 	D3DXVECTOR2 getVelocity();
