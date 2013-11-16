@@ -1,5 +1,14 @@
 #include "LMap.h"
 
+LMap::~LMap()
+{
+	for(int i = 0; i < numTerrain; i++)
+	{
+		SAFE_DELETE(terrain[i])
+	}
+	delete[] terrain;
+}
+
 void LMap::collide(Character* ent, TerrainElement* t, int side)
 {
 	switch(side)
@@ -39,124 +48,98 @@ void LMap::update(float frameTime)
 	{
 		camera->zoom = min(10, camera->zoom + frameTime*.5);
 	}
-	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+	if(!editor)
 	{
-		characters[i]->cursor->update(frameTime);
-		//getting hit
-		for(int j = 0; j < levelNS::NUM_PROJECTILES; j++)
+		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 		{
-			//if(characters[i]->collidesWith(*projectiles[i],collisionVector))
-			//{
-			//	//collision reaction of character hit
-			//}
-		}
-		//being on level
-		for(int j = 0; j < levelNS::NUM_TERRAIN; j++)
-		{
-			fT = frameTime;
-			//if(collidesWithMoving(&D3DXVECTOR2(characters[i]->getX(), characters[i]->getY()-characters[i]->getHeight()),const_cast<D3DXVECTOR2*>(&characters[i]->getVelocity()),terrain[j],angle,fT))
-			//{
-			//	//stop them from falling through...
-			//	characters[i]->update(fT);
-			//	//characters[i]->setVisible(false);
-			//	//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
-			//	terrain[j]->collide(characters[i]);
-			//}
-			auto c = characters[i];
-			auto t = terrain[j];
-			//if(collidesWithMoving(&D3DXVECTOR2(c->getX()+c->getWidth(), c->getY()+c->getHeight()),const_cast<D3DXVECTOR2*>(&c->getVelocity()),t,angle,fT))
-			//if(this->checkCornerCollision(fT,t,c))
-			if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
+			characters[i]->cursor->update(frameTime);
+			//getting hit
+			for(int j = 0; j < levelNS::NUM_PROJECTILES; j++)
 			{
-				//stop them from falling through...
-				
-				//characters[i]->setVisible(false);
-				//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
-				//terrain[j]->collide(characters[i]);
-				//jake's new line
-				int side = terrain[j]->getCollisionSide(collisionVector*-1);//put in call to side finder function
-				collide(characters[i],terrain[j],side);
-				//terrain[j]->collide(characters[i],0);
-				/*if(terrain[j]->getWidth() > terrain[j]->getHeight())
-				{
-					if(terrain[j]->getDegrees()  >= 0)
-					{
-						characters[i]->standingOn = terrain[j];
-					}
-				}*/
-			//	characters[i]->standingOn = terrain[j];
-			//	characters[i]->update(fT);
+				//if(characters[i]->collidesWith(*projectiles[i],collisionVector))
+				//{
+				//	//collision reaction of character hit
+				//}
 			}
-			//if(collidesWithCharacter(characters[i],terrain[j],fT))
-			//{
-			//	//stop them from falling through...
-			//	
-			//	//characters[i]->setVisible(false);
-			//	//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
-			//	//terrain[j]->collide(characters[i]);
-			//	//characters[i]->update(-(fT+frameTime));
-			//	//characters[i]->collidesWith(*terrain[j], collisionVector);
-			//	terrain[j]->collide(characters[i]->body);
-			//	terrain[j]->collide(characters[i]->head);
-			//	//characters[i]->setVelocityX(0);
-			//	if(terrain[j]->getWidth() > terrain[j]->getHeight())
-			//	{
-			//		characters[i]->standingOn = terrain[j];
-			//	}
-			//	characters[i]->charFrameTime = frameTime-fT;
-
-			//}
-		}
-		//keep track of corner locations for each
-		//keep track of equations for all sides
-
-		//can they pick up an item?
-		for(int j = 0; j < levelNS::NUM_PICKUP; j++)
-		{
-			if(characters[i]->collidesWith(*dropped[j],collisionVector))
+			//being on level
+			for(int j = 0; j < numTerrain; j++)
 			{
-				if(input->isKeyDown(VK_UP))
+				if(terrain[j]!=0)
 				{
-					//have player pickup item
+					fT = frameTime;
+					//if(collidesWithMoving(&D3DXVECTOR2(characters[i]->getX(), characters[i]->getY()-characters[i]->getHeight()),const_cast<D3DXVECTOR2*>(&characters[i]->getVelocity()),terrain[j],angle,fT))
+					//{
+					//	//stop them from falling through...
+					//	characters[i]->update(fT);
+					//	//characters[i]->setVisible(false);
+					//	//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
+					//	terrain[j]->collide(characters[i]);
+					//}
+					auto c = characters[i];
+					auto t = terrain[j];
+					if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
+					{
+						int side = terrain[j]->getCollisionSide(collisionVector*-1);//put in call to side finder function
+						collide(characters[i],terrain[j],side);
+					}
 				}
 			}
-		}
-		//characters[i]->update(frameTime);
-	}
+			//keep track of corner locations for each
+			//keep track of equations for all sides
 
+			//can they pick up an item?
+			for(int j = 0; j < levelNS::NUM_PICKUP; j++)
+			{
+				if(characters[i]->collidesWith(*dropped[j],collisionVector))
+				{
+					if(input->isKeyDown(VK_UP))
+					{
+						//have player pickup item
+					}
+				}
+			}
+			//characters[i]->update(frameTime);
+		}
+	}
 	//collision of bullets with terrain
 	for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
 	{
-		for(int j = 0; j < levelNS::NUM_TERRAIN; j++)
+		for(int j = 0; j < numTerrain; j++)
 		{
-			//if(projectiles[i]->collidesWith(*terrain[j],collisionVector))
-			//{
-			//	//make the bullet stop...
-			//	projectiles[i]->setVisible(false);
-			//	projectiles[i]->setActive(false);
-			//}
+			if(terrain[j]!=0)
+			{
+				//if(projectiles[i]->collidesWith(*terrain[j],collisionVector))
+				//{
+				//	//make the bullet stop...
+				//	projectiles[i]->setVisible(false);
+				//	projectiles[i]->setActive(false);
+				//}
+			}
 		}
 	}
 	/*for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
 	{
 		projectiles[i]->update(frameTime);
 	}*/
-	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+	if(!editor)
 	{
-		if(characters[i]->charFrameTime >= 0)
+		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 		{
-			characters[i]->update(characters[i]->charFrameTime);
-		}else{
-			characters[i]->update(frameTime);
-		}
-		characters[i]->charFrameTime = -1;
+			if(characters[i]->charFrameTime >= 0)
+			{
+				characters[i]->update(characters[i]->charFrameTime);
+			}else{
+				characters[i]->update(frameTime);
+			}
+			characters[i]->charFrameTime = -1;
 
+		}
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
 		dropped[i]->update(frameTime);
 	}
-	if(input->isKeyDown(VK_RETURN))
+	if(input->isKeyDown(VK_RETURN) && editor)
 	{
 		this->createFileFromLevel();
 	}
@@ -197,59 +180,77 @@ void LMap::update(float frameTime)
 
 void LMap::draw()
 {
-	camera->centerPosition = *characters[0]->body->getCenter();
+	if(!editor)
+		camera->centerPosition = characters[0]->getCenter();
+	
 	/*for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
 	{
 		camera->draw(*projectiles[i]);
 	}*/
-	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+	if(!editor)
 	{
-		camera->draw(*characters[i]->body);
-		camera->draw(*characters[i]->head);
-		characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
-		//camera->draw(*characters[i]->cursor);
-		characters[i]->cursor->draw();
-		characters[i]->draw();
+		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+		{
+			camera->draw(*characters[i]->body);
+			camera->draw(*characters[i]->head);
+			characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
+			//camera->draw(*characters[i]->cursor);
+			characters[i]->cursor->draw();
+			characters[i]->draw();
+		}
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
 		camera->draw(*dropped[i]);
 		//dropped[i]->draw();
 	}
-	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
+	for(int i = 0; i < numTerrain; i++)
 	{
-		camera->draw(*terrain[i]);
+		if(terrain[i]!=0)
+			camera->draw(*terrain[i]);
 		//terrain[i]->draw();
 	}
 }
 
 bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
-	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+	if(!editor)
 	{
-		characters[i] = new Character(gamePtr,graphics);
-		characters[i]->initialize();
-		characters[i]->setXY(100,300);
+		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+		{
+			characters[i] = new Character(gamePtr,graphics);
+			characters[i]->initialize();
+			characters[i]->setXY(100,300);
+		}
 	}
-	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
+	for(int i = 0; i < numTerrain; i++)
 	{
-		if(!terrain[i]->initialize(gamePtr,textureM,ncols))
-			return false;
+		if(terrain[i]!=0)
+		{
+			if(!terrain[i]->initialize(gamePtr,textureM,ncols))
+				return false;
+		}
 	}
-
-	camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->body->getX(),characters[0]->body->getY(),0.5);
+	if(!editor)
+		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->body->getX(),characters[0]->body->getY(),0.5);
+	else
+		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,GAME_WIDTH/2,GAME_HEIGHT/2,0.5);
 	return true;
 }
 
-LMap::LMap(Input* i, Graphics* g)
+LMap::LMap(Input* i, Graphics* g, int numT, bool edit)
 {
+	numTerrain = numT;
+	terrain = new TerrainElement*[this->numTerrain];
+	editor = edit;
+	this->levelFileName="testLevel.txt";
 	graphics = g;
 	input = i;
-	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
+	for(int i = 0; i < numTerrain; i++)
 	{
-		terrain[i] = new TerrainElement(0,000,VECTOR2(0,0));
-		terrain[i]->setActive(false);
-		terrain[i]->setVisible(false);
+		terrain[i] = 0;
+		//terrain[i]->setActive(false);
+		//terrain[i]->setVisible(false);
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
@@ -274,7 +275,7 @@ void LMap::collision()
 bool LMap::addTerrain(TerrainElement* t)
 {
 	bool added = true;
-	if(this->addedElements < levelNS::NUM_TERRAIN)
+	if(this->addedElements < numTerrain)
 	{
 		terrain[addedElements] = t;
 		terrain[addedElements]->setActive(true);
@@ -418,8 +419,9 @@ void LMap::buildFromFile(std::string fileName)
 void LMap::createFileFromLevel()
 {
 	ofstream fout;
-	fout.open("level.txt");
-	for(int i = 0; i < levelNS::NUM_TERRAIN; i++)
+	fout.open(this->levelFileName);
+	fout << addedElements << std::endl;
+	for(int i = 0; i < numTerrain; i++)
 	{
 		if(terrain[i]->getActive())
 		{

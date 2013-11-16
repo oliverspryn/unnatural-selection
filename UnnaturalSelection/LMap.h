@@ -67,12 +67,13 @@ namespace levelNS
 class LMap
 {
 public:
+	~LMap();
 	int numTerrain, numCharacters, numSpawns;
 	int addedElements;
 	Projectile* projectiles[levelNS::NUM_PROJECTILES];
 	Character* characters[levelNS::NUM_CHARACTERS];
 	//MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
-	TerrainElement* terrain[levelNS::NUM_TERRAIN];
+	TerrainElement** terrain;
 	PickUp* dropped[levelNS::NUM_PICKUP];//if they are touching it and choose to pick it up pick it up
 	VECTOR2* spawnPoints[levelNS::NUM_SPAWNS];
 	int player;
@@ -86,15 +87,17 @@ public:
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);
-	LMap(Input* i, Graphics* g);
+	LMap(Input* i, Graphics* g, int numT = 1000, bool edit = false);
 	void update(float frameTime);
 	void draw();
 	bool addTerrain(TerrainElement* t);
 	void buildFromFile(std::string fileName);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	void createFileFromLevel();
-
 	void collision();
+	bool editor;
+	//used for opening and saving levels to and from files
+	string levelFileName;
 };
 
 #endif
