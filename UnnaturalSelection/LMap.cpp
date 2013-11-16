@@ -197,6 +197,10 @@ void LMap::draw()
 			//camera->draw(*characters[i]->cursor);
 			characters[i]->cursor->draw();
 			characters[i]->draw();
+			if(characters[i]->currentWeapon != 0)
+			{
+				camera->draw(*characters[i]->currentWeapon);
+			}
 		}
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)

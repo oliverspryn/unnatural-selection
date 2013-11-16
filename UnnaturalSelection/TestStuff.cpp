@@ -55,7 +55,8 @@ void TestStuff::initialize(HWND hwnd)
 	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
-
+	testGun->setX(100);
+	testGun->setY(100);
 
 	/*testTerrain = new StraightPath(5,1000,VECTOR2(100,100));
 	if (!testTerrain->initialize(this, &terrainTexture,1))
@@ -167,6 +168,7 @@ void TestStuff::initialize(HWND hwnd)
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+	testMap->characters[0]->currentWeapon = testGun;
 }
 
 void TestStuff::update()

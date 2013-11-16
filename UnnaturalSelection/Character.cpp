@@ -20,6 +20,9 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 	walkAcceleration = characterNS::WALK_ACCELERATION;
 	walkSpeed = characterNS::WALK_SPEED;
 	charFrameTime = -1;
+	currentWeapon = 0;
+	currentMag = 0;
+	weaponPos = D3DXVECTOR2(20, 10);
 }
 
 Character::~Character() {
@@ -242,6 +245,7 @@ void Character::update(float frameTime) {
 	}
 
 //Ready? Aim... <insert "fire" statement here, when ready>
+	
 	//aimAngle = atan2(
 	//	body->getY() - static_cast<float>(input->getMouseY()),
 	//	body->getX() - static_cast<float>(input->getMouseX())
@@ -271,6 +275,14 @@ void Character::update(float frameTime) {
 	body->update(frameTime);
 	//cursor->update(frameTime);
 	head->update(frameTime);
+
+	if(currentWeapon != 0)
+	{
+		currentWeapon->setAngle(aimAngle);
+		currentWeapon->setX(getCenterX()-currentWeapon->getWidth()/2);
+		currentWeapon->setY(getCenterY()-currentWeapon->getHeight()/2);
+		currentWeapon->update(frameTime);
+	}
 }
 
 void Character::updateCorners() {

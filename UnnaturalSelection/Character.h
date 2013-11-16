@@ -9,6 +9,7 @@
 #include "game.h"
 #include "Head.h"
 #include "terrainElement.h"
+#include "gun.h"
 
 #ifdef SHOW_ANGLE
 #include <sstream>
@@ -114,6 +115,10 @@ public :
 	float           walkAcceleration;
 	float           walkSpeed;
 	float			charFrameTime;
+
+	Weapon*			currentWeapon;
+	Magazine*		currentMag;
+	D3DXVECTOR2		weaponPos;
 };
 
 #endif
