@@ -249,19 +249,19 @@ void Character::update(float frameTime) {
 
 //Determine orientation of the player, based on the mouse direction
 	if (aimAngle > PI2) { // Quadrant 1
-		faceDir = -1;
+		faceDir = 1;
 	}
 
 	if (aimAngle < PI2 && aimAngle > 0.0) { // Quadrant 2
-		faceDir = 1;
+		faceDir = -1;
 	}
 
 	if (aimAngle > -PI2 && aimAngle <= 0.0) { // Quadrant 3
-		faceDir = 1;
+		faceDir = -1;
 	}
 
 	if (aimAngle < -PI2 && aimAngle <= 0.0) { // Quadrant 4
-		faceDir = -1;
+		faceDir = 1;
 	}
 
 //Set the direction of the player
