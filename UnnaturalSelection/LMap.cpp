@@ -7,6 +7,11 @@ LMap::~LMap()
 		SAFE_DELETE(terrain[i])
 	}
 	delete[] terrain;
+	for(int i = 0; i < numMags; i++)
+	{
+		SAFE_DELETE(mags[i]);
+	}
+	delete[] mags;
 }
 
 void LMap::collide(Character* ent, TerrainElement* t, int side)
@@ -242,9 +247,11 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 	return true;
 }
 
-LMap::LMap(Input* i, Graphics* g, int numT, bool edit)
+LMap::LMap(Input* i, Graphics* g, int numT, int numM, bool edit)
 {
 	numTerrain = numT;
+	numMags = numM;
+	mags = new Magazine*[this->numMags];
 	terrain = new TerrainElement*[this->numTerrain];
 	editor = edit;
 	this->levelFileName="testLevel.txt";
@@ -255,6 +262,10 @@ LMap::LMap(Input* i, Graphics* g, int numT, bool edit)
 		terrain[i] = 0;
 		//terrain[i]->setActive(false);
 		//terrain[i]->setVisible(false);
+	}
+	for(int i = 0; i < numMags; i++)
+	{
+		mags[i] = 0;
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
