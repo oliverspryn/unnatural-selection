@@ -13,6 +13,10 @@ LevelCreator::~LevelCreator()
 void LevelCreator::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
+
+	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
+
 	testMap = new LMap(input,graphics,true);
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -64,7 +68,13 @@ void LevelCreator::consoleCommand()
         else
             console->print("fps Off");
     }
-
+	if(command == "block")
+	{
+		TerrainElement* t = new TerrainElement(10000,10000,VECTOR2(100,100));
+		t->initialize(this,&terrainTexture,0);
+		testMap->addTerrain(t);
+		console->print("adding block...");
+	}
 }
 
 void LevelCreator::releaseAll()

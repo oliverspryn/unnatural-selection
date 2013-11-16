@@ -1,7 +1,6 @@
 #ifndef __LMAP_H
 #define __LMAP_H
 #define WIN32_LEAN_AND_MEAN
-#include "projectile.h"
 #include "terrainElement.h"
 #include "Character.h"
 #include <cstdlib>
@@ -68,9 +67,9 @@ class LMap
 {
 public:
 	~LMap();
-	int numTerrain, numCharacters, numSpawns;
+	int numTerrain, numCharacters, numSpawns, numMags;
 	int addedElements;
-	Projectile* projectiles[levelNS::NUM_PROJECTILES];
+	Magazine** mags;
 	Character* characters[levelNS::NUM_CHARACTERS];
 	//MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
 	TerrainElement** terrain;
@@ -87,7 +86,7 @@ public:
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);
-	LMap(Input* i, Graphics* g, int numT = 1000, bool edit = false);
+	LMap(Input* i, Graphics* g, int numT = 1000, int numM = 1000, bool edit = false);
 	void update(float frameTime);
 	void draw();
 	bool addTerrain(TerrainElement* t);
