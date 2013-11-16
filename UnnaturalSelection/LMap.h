@@ -66,6 +66,7 @@ namespace levelNS
 
 class LMap
 {
+private:
 	int numTerrain, numCharacters, numSpawns;
 	int addedElements;
 	Projectile* projectiles[levelNS::NUM_PROJECTILES];
@@ -85,7 +86,6 @@ class LMap
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);
-public:
 	LMap(Input* i, Graphics* g);
 	void update(float frameTime);
 	void draw();
