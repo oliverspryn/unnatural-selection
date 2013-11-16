@@ -1,5 +1,6 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
+#define SHOW_ANGLE
 
 #include <cmath>
 
@@ -7,8 +8,12 @@
 #include "Cursor.h"
 #include "game.h"
 #include "Head.h"
-//#include "LMap.h"
 #include "terrainElement.h"
+
+#ifdef SHOW_ANGLE
+#include <sstream>
+#include "textDX.h"
+#endif
 
 namespace characterNS {
 //Character gameplay configuration
@@ -50,6 +55,11 @@ protected :
 	Game*           game;
 	Graphics*       graphics;
 	Input*          input;
+
+	#ifdef SHOW_ANGLE
+	std::stringstream sin;
+	TextDX          aimText;
+	#endif
 
 public : 
 	Character(Game* game, Graphics* graphics);

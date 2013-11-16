@@ -35,9 +35,14 @@ bool Character::collidesWith(Entity &ent, VECTOR2 &collisionVector) {
 }
 
 void Character::draw() {
-	body->draw();
-	head->draw();
-	cursor->draw();
+	//body->draw();
+	//head->draw();
+	//cursor->draw();
+
+	#ifdef SHOW_ANGLE
+	aimText.setFontColor(graphicsNS::BLACK);
+    aimText.print(sin.str(),20,20);
+	#endif
 }
 
 #pragma region
@@ -92,6 +97,12 @@ void Character::initialize() {
 	body->initialize();
 	cursor->initialize();
 	head->initialize();
+
+//Generate the aim angle text
+	#ifdef SHOW_ANGLE
+	if(aimText.initialize(graphics, 15, true, false, "Arial") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	#endif
 
 //Generate the corners of the sprite
 	updateCorners();
@@ -182,6 +193,12 @@ int Character::sign(float x) {
 void Character::update(float frameTime) {
 	updateCorners();
 
+//Show the Character angle
+	#ifdef SHOW_ANGLE
+	sin.str("");
+    sin << aimAngle;
+	#endif
+
 //Movement based on collision detection
 	if (standingOn == 0) {
 		D3DXVECTOR2 v (
@@ -215,7 +232,7 @@ void Character::update(float frameTime) {
 		if (input->isKeyDown(characterNS::JUMP)) {
 			jump();
 		}
-	}else{
+	} else {
 		walk(frameTime/3);
 	}
 

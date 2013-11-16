@@ -209,7 +209,7 @@ void LMap::draw()
 		characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
 		//camera->draw(*characters[i]->cursor);
 		characters[i]->cursor->draw();
-		//characters[i]->draw();
+		characters[i]->draw();
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
