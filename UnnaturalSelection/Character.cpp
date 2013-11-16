@@ -22,7 +22,7 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 	charFrameTime = -1;
 	currentWeapon = 0;
 	currentMag = 0;
-	weaponPos = D3DXVECTOR2(20, 10);
+	weaponPos = D3DXVECTOR2(20, 0);
 }
 
 Character::~Character() {
@@ -280,8 +280,8 @@ void Character::update(float frameTime) {
 	if(currentWeapon != 0)
 	{
 		currentWeapon->setAngle(aimAngle);
-		currentWeapon->setX(getCenterX()-currentWeapon->getWidth()/2);
-		currentWeapon->setY(getCenterY()-currentWeapon->getHeight()/2);
+		currentWeapon->setX(getCenterX() + weaponPos.x * std::cos(aimAngle) + weaponPos.y * std::sin(aimAngle) - currentWeapon->getWidth()/2);
+		currentWeapon->setY(getCenterY() + weaponPos.y * std::cos(aimAngle) + weaponPos.x * std::sin(aimAngle) -currentWeapon->getHeight()/2);
 		currentWeapon->update(frameTime);
 	}
 }

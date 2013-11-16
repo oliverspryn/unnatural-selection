@@ -107,21 +107,21 @@ void LMap::update(float frameTime)
 		}
 	}
 	//collision of bullets with terrain
-	for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
-	{
-		for(int j = 0; j < numTerrain; j++)
-		{
-			if(terrain[j]!=0)
-			{
-				//if(projectiles[i]->collidesWith(*terrain[j],collisionVector))
-				//{
-				//	//make the bullet stop...
-				//	projectiles[i]->setVisible(false);
-				//	projectiles[i]->setActive(false);
-				//}
-			}
-		}
-	}
+	//for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
+	//{
+	//	for(int j = 0; j < numTerrain; j++)
+	//	{
+	//		if(terrain[j]!=0)
+	//		{
+	//			//if(projectiles[i]->collidesWith(*terrain[j],collisionVector))
+	//			//{
+	//			//	//make the bullet stop...
+	//			//	projectiles[i]->setVisible(false);
+	//			//	projectiles[i]->setActive(false);
+	//			//}
+	//		}
+	//	}
+	//}
 	/*for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
 	{
 		projectiles[i]->update(frameTime);
@@ -147,6 +147,15 @@ void LMap::update(float frameTime)
 	if(input->isKeyDown(VK_RETURN) && editor)
 	{
 		this->createFileFromLevel();
+	}
+
+	//temp UpdateFunction
+	for(int i(0); i < numMags; i++)
+	{
+		if(mags[i] != 0)
+		{
+			mags[i]->updateMagsProjectiles(frameTime);
+		}
 	}
 }
 
@@ -188,10 +197,19 @@ void LMap::draw()
 	if(!editor)
 		camera->centerPosition = characters[0]->getCenter();
 	
-	/*for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
+	for(int i = 0; i < numMags; i++)
 	{
-		camera->draw(*projectiles[i]);
-	}*/
+		if(mags[i] != 0)
+		{
+			for(int j(0); j < mags[i]->size + 1; j++)
+			{
+				camera->draw(*mags[i]->projArray[j]);
+			}
+		}else{
+			break;
+		}
+	}
+
 	if(!editor)
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)

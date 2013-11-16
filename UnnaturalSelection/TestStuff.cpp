@@ -13,11 +13,11 @@ TestStuff::~TestStuff()
 	}
 	if(testMag > 0)
 	{
-		delete testMag;
+		//delete testMag;
 	}
 	if(testProjectile > 0)
 	{
-		delete testProjectile;
+		//delete testProjectile;
 	}
 	delete testMap;
 }
@@ -55,8 +55,8 @@ void TestStuff::initialize(HWND hwnd)
 	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
-	testGun->setX(100);
-	testGun->setY(100);
+	//testGun->setX(100);
+	//testGun->setY(100);
 
 	/*testTerrain = new StraightPath(5,1000,VECTOR2(100,100));
 	if (!testTerrain->initialize(this, &terrainTexture,1))
@@ -170,6 +170,7 @@ void TestStuff::initialize(HWND hwnd)
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	testMap->characters[0]->currentWeapon = testGun;
 	testMap->characters[0]->currentMag = testMag;
+	testMap->mags[0] = testMag;
 }
 
 void TestStuff::update()
@@ -177,6 +178,8 @@ void TestStuff::update()
 	Character* player = testMap->characters[0];
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
 	player->aimAngle = atan2(mouseRealPos.y-player->getCenterY(), mouseRealPos.x-player->getCenterX());
+	testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+
 	testMap->update(frameTime);
 }
 
@@ -192,7 +195,7 @@ void TestStuff::render()
 {
 	graphics->spriteBegin();
 
-	graphics->setBackColor(graphicsNS::WHITE);
+	graphics->setBackColor(graphicsNS::GRAY);
 	testMap->draw();
 
 	graphics->spriteEnd();
