@@ -199,7 +199,6 @@ int Character::sign(float x) {
 }
 
 void Character::update(float frameTime) {
-	updateCorners();
 
 //Show the Character angle
 	#ifdef SHOW_ANGLE
@@ -275,6 +274,8 @@ void Character::update(float frameTime) {
 	body->update(frameTime);
 	//cursor->update(frameTime);
 	head->update(frameTime);
+
+	updateCorners();
 
 	if(currentWeapon != 0)
 	{
