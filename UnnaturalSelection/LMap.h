@@ -66,7 +66,7 @@ namespace levelNS
 
 class LMap
 {
-private:
+public:
 	int numTerrain, numCharacters, numSpawns;
 	int addedElements;
 	Projectile* projectiles[levelNS::NUM_PROJECTILES];
