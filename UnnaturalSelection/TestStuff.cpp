@@ -171,6 +171,9 @@ void TestStuff::initialize(HWND hwnd)
 
 void TestStuff::update()
 {
+	Character* player = testMap->characters[0];
+	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
+	player->aimAngle = atan2(mouseRealPos.y-player->getCenterY(), mouseRealPos.x-player->getCenterX());
 	testMap->update(frameTime);
 }
 

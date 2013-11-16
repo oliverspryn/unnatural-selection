@@ -163,7 +163,9 @@ void WeaponTest::update()
     } 
     else 
     {
-		testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		//testGun->setAngle(atan2(input->getMouseY()-testGun->getCenterY(), input->getMouseX()-testGun->getCenterX()));
+		testGun->setAngle(atan2(camera.getRealPos(input->getMouseX(), input->getMouseY()).y-testGun->getCenterY(), camera.getRealPos(input->getMouseX(), input->getMouseY()).x-testGun->getCenterX()));
+		
 		testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 		//testGun->mag->updateMagsProjectiles(frameTime);
 		if(input->getMouseLButton())
