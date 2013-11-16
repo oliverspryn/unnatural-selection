@@ -5,9 +5,12 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 	switch(side)
 	{
 	case 0:
-		ent->standingOn = t;
-		ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
-		ent->setY((t->getCenterY() - (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
+		if(ent->getVelocityY() >= 0)
+		{
+			ent->standingOn = t;
+			ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
+			ent->setY((t->getCenterY() - (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
+		}
 		break;
 	case 1:
 		ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
