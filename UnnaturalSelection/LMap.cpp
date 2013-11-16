@@ -149,12 +149,27 @@ void LMap::update(float frameTime)
 		this->createFileFromLevel();
 	}
 
-	//temp UpdateFunction
+	//temp UpdateFunction and collisions
 	for(int i(0); i < numMags; i++)
 	{
 		if(mags[i] != 0)
 		{
+			for(int j(0); j < mags[i]->projArrayIndex; j++)
+			{
+				float tempTime = frameTime;
+				for(int k(0); k < numTerrain && terrain[k] != 0; k++)
+				{
+					if(projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
+					{
+						mags[i]->projArray[j]->setActive(false);
+						mags[i]->projArray[j]->setVisible(false);
+					}
+				}
+
+			}
 			mags[i]->updateMagsProjectiles(frameTime);
+		}else{
+			break;
 		}
 	}
 }
@@ -488,4 +503,30 @@ bool LMap::collidesWithCharacter(Character* c, TerrainElement* t, float& fT)
 		fT = frameTime;
 	}
 	return hit;
+}
+
+bool LMap::projectileCollide(Projectile &proj, TerrainElement &terra, float &frameTime)
+{
+	bool hit(false);
+	D3DXVECTOR2 pos(proj.getX(), proj.getY());
+	myLines::Ray movingLine(pos, proj.getVelocity(), proj.muzzelVelocity*frameTime);
+	float ct = frameTime;
+	for(int i(0); i < 4; i++)
+	{
+		float ft = frameTime;
+		if(movingLine.getTimeOfIntersectRay(terra.sides[i], ft))
+		{
+			if(0 <= ft && ft < ct)
+			{
+				hit = true;
+				ct = ft;
+			}
+		}
+	}
+	if(hit)
+	{
+		frameTime = ct;
+		return true;
+	}
+	return false;
 }

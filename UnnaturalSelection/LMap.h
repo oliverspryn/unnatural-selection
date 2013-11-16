@@ -97,6 +97,9 @@ public:
 	bool editor;
 	//used for opening and saving levels to and from files
 	string levelFileName;
+
+	//used for bullet collisions
+	bool projectileCollide(Projectile &proj, TerrainElement &terra, float &frameTime);
 };
 
 #endif
