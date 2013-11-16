@@ -205,9 +205,9 @@ void Character::update(float frameTime) {
 		faceDir = 0;
 	}
 
-//Crouch
-	body->crouch = input->isKeyDown(characterNS::CROUCH);
-	head->crouch = input->isKeyDown(characterNS::CROUCH);
+//Crouch, disabled, sad face :(
+	//body->crouch = input->isKeyDown(characterNS::CROUCH);
+	//head->crouch = input->isKeyDown(characterNS::CROUCH);
 
 	if (standingOn != 0) {
 		walk(frameTime);
