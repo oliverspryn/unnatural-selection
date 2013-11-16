@@ -70,14 +70,14 @@ public :
 	virtual void initialize();
 	virtual void update(float frameTime);
 
-	int getCenterX();
-	int getCenterY();
-	int getHeight();
+	float getCenterX();
+	float getCenterY();
+	int   getHeight();
 	float getVelMagnitude();
 	D3DXVECTOR2 getVelocity();
 	float getVelocityX();
 	float getVelocityY();
-	int getWidth();
+	int   getWidth();
 	float getX();
 	float getY();
 

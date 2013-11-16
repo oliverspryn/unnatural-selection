@@ -46,14 +46,14 @@ void Character::draw() {
 }
 
 #pragma region
-int Character::getCenterX() {
-	return body->getWidth() / 2;
+float Character::getCenterX() {
+	return corners[0].x + body->getWidth() / 2;
 }
 
-int Character::getCenterY() {
+float Character::getCenterY() {
 	int total = body->getHeight() + head->getHeight();
 
-	return total / 2;
+	return corners[0].y + total / 2.0f;
 }
 
 int Character::getHeight() {
