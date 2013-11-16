@@ -237,10 +237,10 @@ void Character::update(float frameTime) {
 	}
 
 //Ready? Aim... <insert "fire" statement here, when ready>
-	aimAngle = atan2(
-		body->getY() - static_cast<float>(input->getMouseY()),
-		body->getX() - static_cast<float>(input->getMouseX())
-	);
+	//aimAngle = atan2(
+	//	body->getY() - static_cast<float>(input->getMouseY()),
+	//	body->getX() - static_cast<float>(input->getMouseX())
+	//);
 
 //Determine orientation of the player, based on the mouse direction
 	if (aimAngle > PI2) { // Quadrant 1
