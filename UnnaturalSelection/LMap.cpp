@@ -203,7 +203,7 @@ void LMap::draw()
 	{
 		camera->draw(*characters[i]->body);
 		camera->draw(*characters[i]->head);
-		characters[i]->cursor->setXY(camera->getRealPos(input->getMouseX(),input->getMouseY()));
+		characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
 		//camera->draw(*characters[i]->cursor);
 		characters[i]->cursor->draw();
 		//characters[i]->draw();
