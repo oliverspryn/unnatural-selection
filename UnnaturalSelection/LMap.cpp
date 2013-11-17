@@ -386,9 +386,9 @@ bool LMap::addTerrain(TerrainElement* t)
 			minX = t->getX();
 		if(t->getX()+t->getWidth() > maxX)
 			maxX = t->getX();
-		if(t->getY()-t->getHeight() < minY)
+		if(t->getY()+t->getHeight() < minY)
 			minY = t->getY();
-		if(t->getY()+t->getHeight() > maxY)
+		if(t->getY()-t->getHeight() > maxY)
 			maxY = t->getY();
 	}
 	else
