@@ -431,41 +431,33 @@ float LMap::getXIntercept(float m1, float b1, float m2, float b2)
 	return ((b2-b1)/(m1-m2));
 }
 
-void LMap::buildFromFile(std::string fileName)
-{
-	fstream fin;
-	fin.open(fileName);
-	string line = "";
-	getline(fin,line);
-	int height = 0, width = 0, x = 0, y = 0;
-	double degree = 0;
-	while(!fin.fail() && line != "--")
-	{
-		std::cout << line << std::endl;
-		height = atoi(line.c_str());
-		getline(fin,line);
-		width = atoi(line.c_str());
-		getline(fin,line);
-		x = atoi(line.c_str());
-		getline(fin,line);
-		y = atoi(line.c_str());
-		getline(fin,line);
-		degree = atof(line.c_str());
-		if(width>=height)
-		{
-			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
-			t->setDegrees(degree);
-			this->addTerrain(t);
-		}
-		else
-		{
-			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
-			t->setDegrees(degree);
-			this->addTerrain(t);
-		}
-		getline(fin,line);
-	}
-}
+//void LMap::buildFromFile(std::string fileName)
+//{
+//	fstream fin;
+//	fin.open(fileName);
+//	string line = "";
+//	getline(fin,line);
+//	int height = 0, width = 0, x = 0, y = 0;
+//	double degree = 0;
+//	while(!fin.fail() && line != "--")
+//	{
+//		height = atoi(line.c_str());
+//		getline(fin,line);
+//		width = atoi(line.c_str());
+//		getline(fin,line);
+//		x = atoi(line.c_str());
+//		getline(fin,line);
+//		y = atoi(line.c_str());
+//		getline(fin,line);
+//		degree = atof(line.c_str());
+//		TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
+//		t->setDegrees(degree);
+//		t->initialize(this,&terrainTexture,0);
+//		t->generateSideEquations();
+//		this->addTerrain(t);
+//		getline(fin,line);
+//	}
+//}
 
 void LMap::createFileFromLevel()
 {
@@ -474,7 +466,7 @@ void LMap::createFileFromLevel()
 	fout << addedElements << std::endl;
 	for(int i = 0; i < numTerrain; i++)
 	{
-		if(terrain[i]->getActive())
+		if(terrain[i]!=0 && terrain[i]->getActive())
 		{
 			fout << terrain[i]->getHeight() << std::endl;
 			fout << terrain[i]->getWidth() << std::endl;

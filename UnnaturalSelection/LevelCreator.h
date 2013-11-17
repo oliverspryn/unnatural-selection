@@ -31,9 +31,10 @@ public:
     void resetAll();
 	void consoleCommand();
 private:
+	void buildFromFile(std::string fileName);
 	TerrainElement* movingObject;
 	bool clicked, prevClick;
-	bool findEntityByClick(int x, int y, TerrainElement* selectedEnt);
+	TerrainElement* findEntityByClick(int x, int y, bool& found);
 	int selectedTerrain;
 	int totalTerrain;
 	bool getHeight, getWidth, moveObject;
@@ -44,6 +45,8 @@ private:
 	int a,r,g,b;
 	TextureManager terrainTexture;
 	LMap* testMap;
+	bool multipleBlocks, firstBlock;
+	bool loadFile;
 	bool chooseA, chooseR, chooseG, chooseB;
 };
 

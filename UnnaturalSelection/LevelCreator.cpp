@@ -17,6 +17,9 @@ LevelCreator::LevelCreator()
 	chooseR = false;
 	chooseG = false;
 	chooseB = false;
+	multipleBlocks = false;
+	firstBlock = false;
+	loadFile = false;
 	oldColor = graphicsNS::BLACK;
 }
 
@@ -33,10 +36,6 @@ void LevelCreator::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
 
 	testMap = new LMap(input,graphics,10000,1000,true);
-	TerrainElement* t = new TerrainElement(50,3000,VECTOR2(0, 2000));
-	//t->setDegrees(0.001);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -61,6 +60,7 @@ void LevelCreator::update()
 		clicked = true;
 		prevClick = false;
 	}
+	//selecting an object
 	if(!moveObject && clicked)
 	{
 		int x,y;
@@ -72,7 +72,9 @@ void LevelCreator::update()
 			objectChosen = false;
 			movingObject->color = oldColor;
 		}
-		if(findEntityByClick(x,y,movingObject))
+		bool found = false;
+		movingObject = findEntityByClick(x,y,found);
+		if(found)
 		{
 			oldColor = movingObject->color;
 			objectChosen = true;
@@ -80,13 +82,39 @@ void LevelCreator::update()
 		}
 		clicked = false;
 	}
+	//placing an object
 	if(moveObject && clicked)
 	{
 		moveObject = false;
 		clicked = false;
-		objectChosen = false;
-		movingObject->color = oldColor;
-		movingObject->generateSideEquations();
+		//if they want a bunch of blocks make them
+		if(firstBlock && multipleBlocks)
+		{
+			//redo color and sides of old one
+			movingObject->color = oldColor;
+			movingObject->generateSideEquations();
+			//make new one
+			TerrainElement* t = new TerrainElement(boxHeight,boxWidth,VECTOR2(100,100));
+			t->initialize(this,&terrainTexture,0);
+			t->generateSideEquations();
+			if(testMap->addTerrain(t))
+			{
+				console->print("adding block...");
+				selectedTerrain = totalTerrain;
+				totalTerrain++;
+				moveObject = true;
+				movingObject = t;
+			}
+			else
+				console->print("block failed");
+		}
+		else
+		{
+			objectChosen = false;
+			movingObject->color = oldColor;
+			movingObject->generateSideEquations();
+		}
+
 	}
 	if(objectChosen && input->isKeyDown(VK_SPACE))
 	{
@@ -228,10 +256,27 @@ void LevelCreator::consoleCommand()
 		console->print("height:");
 		return;
 	}
+	
+	if(command == "blockM")
+	{
+		getHeight = true;
+		console->print("height:");
+		multipleBlocks = true;
+		firstBlock = true;
+		return;
+	}
+
+	if(command == "stop" && multipleBlocks)
+	{
+		multipleBlocks = false;
+		firstBlock = false;
+	}
+
 	if(command == "save")
 	{
 		saveFile = true;
 		console->print("FileName:");
+		return;
 	}
 	if(saveFile)
 	{
@@ -239,9 +284,48 @@ void LevelCreator::consoleCommand()
 		testMap->levelFileName = command;
 		testMap->createFileFromLevel();
 	}
+	if(testMap->addedElements == 0 && command == "load")
+	{
+		loadFile = true;
+		console->print("file name: ");
+		return;
+	}
+	if(loadFile)
+	{
+		buildFromFile(command);
+		console->print("stuff");
+	}
 }
 
-bool LevelCreator::findEntityByClick(int x, int y, TerrainElement* selectedEnt)
+void LevelCreator::buildFromFile(std::string fileName)
+{
+	fstream fin;
+	fin.open(fileName);
+	string line = "";
+	getline(fin,line);
+	int height = 0, width = 0, x = 0, y = 0;
+	double degree = 0;
+	while(!fin.fail() && line != "--")
+	{
+		height = atoi(line.c_str());
+		getline(fin,line);
+		width = atoi(line.c_str());
+		getline(fin,line);
+		x = atoi(line.c_str());
+		getline(fin,line);
+		y = atoi(line.c_str());
+		getline(fin,line);
+		degree = atof(line.c_str());
+		TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
+		t->setDegrees(degree);
+		t->initialize(this,&terrainTexture,0);
+		t->generateSideEquations();
+		testMap->addTerrain(t);
+		getline(fin,line);
+	}
+}
+
+TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 {
 	TerrainElement* ent;
 	int entityX,entityY;
@@ -255,13 +339,13 @@ bool LevelCreator::findEntityByClick(int x, int y, TerrainElement* selectedEnt)
 			int temp = ent->getX();
 			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
 			{
-				selectedEnt = ent;
-				return true;
+				found = true;
+				return ent;
 			}
 		}
 	}
-
-	return false;
+	found = false;
+	return 0;
 }
 
 void LevelCreator::releaseAll()
