@@ -172,9 +172,28 @@ void TestStuff::initialize(HWND hwnd)
 void TestStuff::update()
 {
 	Character* player = testMap->characters[0];
+	Camera* camera = testMap->camera;
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
 	player->aimAngle = atan2(mouseRealPos.y-player->getCenterY(), mouseRealPos.x-player->getCenterX());
 	//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+
+	//The camera boxing
+	if(camera->centerPosition.y + 3*(camera->height/2)/4 < player->corners[1].y)
+	{
+		camera->centerPosition.y = player->corners[1].y - 3*(camera->height/2)/4;
+	}
+	else if(camera->centerPosition.y - 3*(camera->height/2)/4 > player->corners[1].y)
+	{
+		camera->centerPosition.y = player->corners[1].y + 3*(camera->height/2)/4;
+	}
+	if(camera->centerPosition.x + 3*(camera->width/2)/4 < player->corners[1].x)
+	{
+		camera->centerPosition.x = player->corners[1].x - 3*(camera->width/2)/4;
+	}
+	else if(camera->centerPosition.x - 3*(camera->width/2)/4 > player->corners[1].x)
+	{
+		camera->centerPosition.x = player->corners[1].x + 3*(camera->width/2)/4;
+	}
 
 	testMap->update(frameTime);
 }
