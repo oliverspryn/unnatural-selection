@@ -64,9 +64,9 @@ Head::Head(Game* game, Graphics* graphics) : game(game), graphics(graphics) {
 }
 
 Head::~Head() {
-	SAFE_DELETE(game);
-	SAFE_DELETE(graphic);
-	SAFE_DELETE(graphics);
+	//SAFE_DELETE(game);
+	//SAFE_DELETE(graphic);
+	//SAFE_DELETE(graphics);
 }
 
 void Head::evalSize() {

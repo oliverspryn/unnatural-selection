@@ -4,28 +4,24 @@ LMap::~LMap()
 {
 	for(int t = 0; t < addedElements; t++)
 	{
-		if(terrain[t]!=0)
-		{
-			delete terrain[t];
-			terrain[t] = 0;
-		}
+		SAFE_DELETE(terrain[t]);
 	}
-	delete[] terrain;
+	//delete[] terrain;
 	for(int i = 0; i < numMags; i++)
 	{
 		SAFE_DELETE(mags[i]);
 	}
-	delete[] mags;
+	//delete[] mags;
 	for(int i = 0; i < numCharacters; i++)
 	{
 		SAFE_DELETE(characters[i]);
 	}
-	delete[] characters;
+	//delete[] characters;
 	for(int i = 0; i < numSpawns; i++)
 	{
 		SAFE_DELETE(spawnPoints[i]);
 	}
-	delete[] spawnPoints;
+	//delete[] spawnPoints;
 }
 
 void LMap::collide(Character* ent, TerrainElement* t, int side)

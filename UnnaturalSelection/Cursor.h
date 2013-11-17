@@ -23,7 +23,6 @@ private :
 
 public : 
 	Cursor(Game* game, Graphics* graphics);
-	~Cursor();
 
 	void hideCursor();
 	void initialize();

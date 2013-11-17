@@ -21,7 +21,10 @@ Magazine::Magazine(int size, int maxAmmo, int totalAmmo, int damage, int muzzelV
 
 Magazine::~Magazine()
 {
-	delete []projArray;
+	for(int i(0); i < size+1; i++)
+	{
+		SAFE_DELETE(projArray[i]);
+	}
 }
 /*********************************************
 ALL FUNCTIONS

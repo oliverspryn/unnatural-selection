@@ -31,7 +31,7 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 
 Character::~Character() {
 	SAFE_DELETE(body);
-	SAFE_DELETE(cursor);
+	delete cursor;
 	SAFE_DELETE(gravity);
 	SAFE_DELETE(head);
 }

@@ -5,11 +5,6 @@ Cursor::Cursor(Game* game, Graphics* graphics) : game(game), graphics(graphics) 
 	//ShowCursor(FALSE);
 }
 
-Cursor::~Cursor() {
-	SAFE_DELETE(game);
-	SAFE_DELETE(graphics);
-}
-
 void Cursor::hideCursor() {
 	ShowCursor(FALSE);
 }
