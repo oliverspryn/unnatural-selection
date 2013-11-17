@@ -28,10 +28,10 @@
 //                  Constants
 //-----------------------------------------------
 // window
-const char CLASS_NAME[] = "Spacewar";
-const char GAME_TITLE[] = "Spacewar";
+const char CLASS_NAME[] = "Unatural Selection";
+const char GAME_TITLE[] = "Unatural Selection";
 const bool FULLSCREEN = false;              // windowed or fullscreen
-const UINT GAME_WIDTH =  800;              // width of game in pixels
+const UINT GAME_WIDTH =  1000;              // width of game in pixels
 const UINT GAME_HEIGHT = 600;               // height of game in pixels
  
 // game
