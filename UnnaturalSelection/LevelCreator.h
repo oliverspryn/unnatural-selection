@@ -36,6 +36,7 @@ private:
 	bool clicked, prevClick;
 	TerrainElement* findEntityByClick(int x, int y, bool& found);
 	int selectedTerrain;
+	int terrainNumToPrint,spawnNumToPrint;//used int outputting to file
 	int totalTerrain;
 	bool getHeight, getWidth, moveObject;
 	bool saveFile;
@@ -48,6 +49,8 @@ private:
 	bool multipleBlocks, firstBlock;
 	bool loadFile;
 	bool chooseA, chooseR, chooseG, chooseB;
+	bool addSpawn;
+	bool spawnChosen;
 };
 
 #endif

@@ -20,7 +20,11 @@ LevelCreator::LevelCreator()
 	multipleBlocks = false;
 	firstBlock = false;
 	loadFile = false;
+	addSpawn = false;
+	spawnChosen = false;
 	oldColor = graphicsNS::BLACK;
+	terrainNumToPrint = 0;
+	spawnNumToPrint = 0;
 }
 
 LevelCreator::~LevelCreator()
@@ -35,7 +39,7 @@ void LevelCreator::initialize(HWND hwnd)
 	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
 
-	testMap = new LMap(input,graphics,10000,1000,true);
+	testMap = new LMap(input,graphics,10000,1000,1,5,true);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -52,6 +56,8 @@ void LevelCreator::update()
 		movingObject->setX(x);
 		movingObject->setY(y);
 	}
+
+
 
 	if(multipleBlocks && input->isKeyDown(VK_SPACE))
 	{
@@ -110,6 +116,7 @@ void LevelCreator::update()
 				selectedTerrain = totalTerrain;
 				totalTerrain++;
 				moveObject = true;
+				terrainNumToPrint++;
 				movingObject = t;
 			}
 			else
@@ -131,8 +138,15 @@ void LevelCreator::update()
 	{
 		movingObject->setActive(false);
 		movingObject->setVisible(false);
-
 		objectChosen = false;
+		if(spawnChosen)
+		{
+			spawnNumToPrint--;
+		}
+		else
+		{
+			terrainNumToPrint--;
+		}
 	}
 }
 
@@ -236,11 +250,35 @@ void LevelCreator::consoleCommand()
 			selectedTerrain = totalTerrain;
 			totalTerrain++;
 			moveObject = true;
+			oldColor = t->color;
 			movingObject = t;
+			terrainNumToPrint++;
 		}
 		else
 			console->print("block failed");
 		getWidth = false;
+	}
+
+	
+	if(command == "spawn")
+	{
+		TerrainElement* t = new TerrainElement(50,50,VECTOR2(100,100));
+		t->color = graphicsNS::RED;
+		oldColor = t->color;
+		t->initialize(this,&terrainTexture,0);
+		t->generateSideEquations();
+		if(testMap->addSpawnPoint(t))
+		{
+			console->print("adding spawn...");
+			selectedTerrain = totalTerrain;
+			totalTerrain++;
+			moveObject = true;
+			addSpawn = true;
+			movingObject = t;
+			spawnNumToPrint;
+		}
+		else
+			console->print("spawn failed");
 	}
 
     if (command == "help")              // if "help" command
@@ -297,7 +335,7 @@ void LevelCreator::consoleCommand()
 	{
 		saveFile = false;
 		testMap->levelFileName = command;
-		testMap->createFileFromLevel();
+		testMap->createFileFromLevel(terrainNumToPrint,spawnNumToPrint);
 		return;
 	}
 	if(testMap->addedElements == 0 && command == "load")
@@ -358,6 +396,23 @@ TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
 			{
 				found = true;
+				spawnChosen = false;
+				return ent;
+			}
+		}
+	}
+	for(int i = 0; i < testMap->totalSpawns; i++)
+	{
+		if(testMap->spawnPoints[i]->getActive())
+		{
+			ent = testMap->spawnPoints[i];
+			entityX = ent->getX();
+			entityY = ent->getY();
+			int temp = ent->getX();
+			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
+			{
+				found = true;
+				spawnChosen = true;
 				return ent;
 			}
 		}

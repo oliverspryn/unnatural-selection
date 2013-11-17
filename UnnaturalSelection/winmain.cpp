@@ -10,6 +10,7 @@
 #include <stdlib.h>             // for detecting memory leaks
 #include <crtdbg.h>             // for detecting memory leaks
 #include "TestStuff.h"
+#include "LevelCreator.h"
 
 // Function prototypes
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int); 
@@ -17,7 +18,8 @@ bool CreateMainWindow(HWND &, HINSTANCE, int);
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM); 
 
 // Game pointer
-TestStuff *game = NULL;
+//TestStuff *game = NULL;
+LevelCreator* game = NULL;
 HWND hwnd = NULL;
 
 //=============================================================================
@@ -34,7 +36,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     MSG msg;
 
     // Create the game, sets up message handler
-	game = new TestStuff;
+	//game = new TestStuff;
+	game = new LevelCreator;
 
     // Create the window
     if (!CreateMainWindow(hwnd, hInstance, nCmdShow))
