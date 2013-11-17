@@ -52,6 +52,13 @@ void LevelCreator::update()
 		movingObject->setX(x);
 		movingObject->setY(y);
 	}
+
+	if(multipleBlocks && input->isKeyDown(VK_SPACE))
+	{
+		multipleBlocks = false;
+		firstBlock = false;
+	}
+
 	testMap->update(frameTime);
 	if(input->getMouseLButton())
 		prevClick = true;
@@ -240,6 +247,13 @@ void LevelCreator::consoleCommand()
     {
         console->print("Console Commands:");
         console->print("fps - toggle display of frames per second");
+		console->print("block- build a new terrainElement of your desired size");
+		console->print("blockM- build multiple blocks of the desired size");
+		console->print("color- change the color of your selected block");
+		console->print("save- save your level to a specific file");
+		console->print("load- load a premade level into the world");
+		console->print("when selecting a block hit space to move it");
+		console->print("when selecting a block hit delete to remove it");
         return;
     }
 
