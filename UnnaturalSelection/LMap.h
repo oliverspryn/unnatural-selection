@@ -96,7 +96,7 @@ public:
 	bool addCharacter(Character* c);
 	//void buildFromFile(std::string fileName);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void createFileFromLevel();
+	void createFileFromLevel(int terrain, int spawn);
 	void collision();
 	bool editor;
 	//used for opening and saving levels to and from files

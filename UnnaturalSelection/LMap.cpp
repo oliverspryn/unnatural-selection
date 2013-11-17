@@ -382,13 +382,13 @@ bool LMap::addTerrain(TerrainElement* t)
 		terrain[addedElements]->setActive(true);
 		terrain[addedElements]->setVisible(true);
 		addedElements++;
-		if(t->getX() < minX)
+		if(t->getX()-t->getWidth() < minX)
 			minX = t->getX();
-		if(t->getX() > maxX)
+		if(t->getX()+t->getWidth() > maxX)
 			maxX = t->getX();
-		if(t->getY() < minY)
+		if(t->getY()-t->getHeight() < minY)
 			minY = t->getY();
-		if(t->getY() > maxY)
+		if(t->getY()+t->getHeight() > maxY)
 			maxY = t->getY();
 	}
 	else
@@ -543,11 +543,11 @@ float LMap::getXIntercept(float m1, float b1, float m2, float b2)
 //	}
 //}
 
-void LMap::createFileFromLevel()
+void LMap::createFileFromLevel(int terNum, int spawn)
 {
 	ofstream fout;
 	fout.open(this->levelFileName);
-	fout << addedElements << std::endl;
+	fout << terNum << std::endl;
 	for(int i = 0; i < numTerrain; i++)
 	{
 		if(terrain[i]!=0 && terrain[i]->getActive())
