@@ -150,11 +150,11 @@ void LMap::update(float frameTime)
 	}
 
 	//temp UpdateFunction and collisions
-	for(int i(0); i < numMags; i++)
+	for(int i(0); i < numMags && mags[i] != 0; i++)
 	{
-		if(mags[i] != 0)
+		for(int j(0); j < mags[i]->projArrayIndex; j++)
 		{
-			for(int j(0); j < mags[i]->projArrayIndex; j++)
+			if(!mags[i]->projArray[j]->rayUpdated)
 			{
 				float tempTime = frameTime;
 				for(int k(0); k < numTerrain && terrain[k] != 0; k++)
@@ -165,12 +165,9 @@ void LMap::update(float frameTime)
 						mags[i]->projArray[j]->setVisible(false);
 					}
 				}
-
 			}
-			mags[i]->updateMagsProjectiles(frameTime);
-		}else{
-			break;
 		}
+		mags[i]->updateMagsProjectiles(frameTime);
 	}
 }
 
@@ -508,13 +505,13 @@ bool LMap::collidesWithCharacter(Character* c, TerrainElement* t, float& fT)
 bool LMap::projectileCollide(Projectile &proj, TerrainElement &terra, float &frameTime)
 {
 	bool hit(false);
-	D3DXVECTOR2 pos(proj.getX(), proj.getY());
-	myLines::Ray movingLine(pos, proj.getVelocity(), proj.muzzelVelocity*frameTime);
+	//D3DXVECTOR2 pos(proj.getX(), proj.getY());
+	//myLines::Ray movingLine(pos, proj.getVelocity(), proj.muzzelVelocity*frameTime);
 	float ct = frameTime;
 	for(int i(0); i < 4; i++)
 	{
 		float ft = frameTime;
-		if(movingLine.getTimeOfIntersectRay(terra.sides[i], ft))
+		if(proj.ray.getTimeOfIntersectRay(terra.sides[i], ft))
 		{
 			if(0 <= ft && ft < ct)
 			{
@@ -523,10 +520,13 @@ bool LMap::projectileCollide(Projectile &proj, TerrainElement &terra, float &fra
 			}
 		}
 	}
+	
 	if(hit)
 	{
 		frameTime = ct;
+		proj.setStaticHitTime(frameTime);
 		return true;
 	}
+	//proj.setStaticHitTime(frameTime);
 	return false;
 }

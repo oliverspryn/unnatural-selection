@@ -34,6 +34,11 @@ public:
 	float lifeTime;
 	//The speed the projectile travels at
 	int muzzelVelocity;
+	
+	//The line
+	myLines::Ray ray;
+	bool rayUpdated;
+	float maxTime;
 
 	/*********************************************
 	ALL FUNCTIONS
@@ -48,12 +53,12 @@ public:
 	virtual void fire(D3DXVECTOR2 initialPos, float angle);
 	//Used to set stats of projectile
 	virtual void setStats(int damage, int minRange, int maxRange, int muzzelVelocity);
+	virtual void setStaticHitTime(float in);
 
 	/**************************
 	INITALIZERS
 	**************************/
 	Projectile(TextureManager* tm, Game* gamePtr, int width, int height, int ncoils, int hitBoxRadius);
-	Projectile(Projectile& in);
 };
 
 

@@ -17,14 +17,8 @@ Projectile::Projectile(TextureManager* tm, Game* gamePtr, int width, int height,
 	visible = false;
 	//this->radius = 1;
 	this->radius = hitBoxRadius;
+	rayUpdated = false;
 }
-Projectile::Projectile(Projectile& in) : Entity(in)
-{
-	(*this) = in;
-	initialize(setGamePointer(0), in.spriteData.width, in.spriteData.height, in.collisionType, in.textureManager);
-	radius = in.radius;
-}
-
 
 /*********************************************
 ALL FUNCTIONS
@@ -51,7 +45,7 @@ void Projectile::update(float frameTime)
 	lifeTime += frameTime;
 	distance += muzzelVelocity*frameTime;
 	//The bullet will stop 
-	if(distance > maxRange)
+	if(distance > maxRange || (rayUpdated && frameTime < lifeTime))
 	{
  		active = false;
 		visible = false;
@@ -60,6 +54,7 @@ void Projectile::update(float frameTime)
 
 	spriteData.x += frameTime*velocity.x;
 	spriteData.y += frameTime*velocity.y;
+	ray.setPosition(D3DXVECTOR2(spriteData.x, spriteData.y));
 }
 
 bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
@@ -79,7 +74,8 @@ void Projectile::fire(D3DXVECTOR2 initialPos, float angle)
 	spriteData.y = initialPos.y;
 	spriteData.angle = angle;
 	velocity = D3DXVECTOR2(muzzelVelocity*cos(angle), muzzelVelocity*sin(angle));
-
+	ray = myLines::Ray(initialPos, velocity, maxRange);
+	rayUpdated = false;
 }
 
 //Used to set stats of projectile
@@ -91,4 +87,9 @@ void Projectile::setStats(int damage, int minRange, int maxRange, int muzzelVelo
 	this->muzzelVelocity = muzzelVelocity;
 	active = false;
 	visible = false;
+}
+void Projectile::setStaticHitTime(float in)
+{
+	maxTime = in;
+	rayUpdated = true;
 }

@@ -52,7 +52,7 @@ void TestStuff::initialize(HWND hwnd)
 	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
 
 	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile); 
-	testGun = new Gun(10, 30*60*60, 100, 600, 200, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(10, 20*60*60, 100, 600, 100, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 	//testGun->setX(100);
