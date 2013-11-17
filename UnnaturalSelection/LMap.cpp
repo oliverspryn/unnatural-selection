@@ -55,14 +55,14 @@ void LMap::update(float frameTime)
 {
 	VECTOR2 collisionVector;//get rid of later when using other collision detection function
 	float angle, fT;
-	if(input->isKeyDown('1'))
+	/*if(input->isKeyDown('1'))
 	{
 		camera->zoom = max(0.1, camera->zoom - frameTime*.5);
 	}
 	if(input->isKeyDown('2'))
 	{
 		camera->zoom = min(10, camera->zoom + frameTime*.5);
-	}
+	}*/
 	if(!editor)
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
@@ -220,9 +220,9 @@ void LMap::update(float frameTime)
 
 void LMap::draw()
 {
-	if(!editor)
-		if(characters[0]!=0)
-			camera->centerPosition = characters[0]->getCenter();
+	//if(!editor)
+		//if(characters[0]!=0)
+			//camera->centerPosition = characters[0]->getCenter();
 	
 	for(int i = 0; i < numMags; i++)
 	{
@@ -300,8 +300,8 @@ void LMap::chooseSpawnPoint(Character* c)
 {
 	//do stuffs here
 	int point = rand()%totalSpawns;
-	c->setX(spawnPoints[point]->x);
-	c->setY(spawnPoints[point]->y);
+	c->setX(spawnPoints[point]->getX());
+	c->setY(spawnPoints[point]->getY());
 }
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool edit)
@@ -319,7 +319,7 @@ LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool e
 	mags = new Magazine*[this->numMags];
 	terrain = new TerrainElement*[this->numTerrain];
 	characters = new Character*[this->numCharacters];
-	spawnPoints = new VECTOR2*[this->numSpawns];
+	spawnPoints = new TerrainElement*[this->numSpawns];
 	editor = edit;
 	this->levelFileName="testLevel.txt";
 	graphics = g;
@@ -349,10 +349,6 @@ LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool e
 	{
 		projectiles[i] = new Projectile(
 	}*/
-	for(int i = 0; i < levelNS::NUM_SPAWNS; i++)
-	{
-		spawnPoints[i] = new VECTOR2(i,i);
-	}
 	addedElements = 0;
 }
 
@@ -384,7 +380,7 @@ bool LMap::addTerrain(TerrainElement* t)
 	return added;
 }
 
-bool LMap::addSpawnPoint(VECTOR2* pt)
+bool LMap::addSpawnPoint(TerrainElement* pt)
 {
 	bool added = true;
 	if(this->totalSpawns<this->numSpawns)

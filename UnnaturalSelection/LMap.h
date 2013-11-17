@@ -76,7 +76,7 @@ public:
 	//MapElement* items[levelNS::NUM_ITEMS];//things like spawn points, no collision
 	TerrainElement** terrain;
 	PickUp* dropped[levelNS::NUM_PICKUP];//if they are touching it and choose to pick it up pick it up
-	VECTOR2** spawnPoints;
+	TerrainElement** spawnPoints;
 	int player;
 	//has a pointer to input so that it can easily run all the updating and what not
 	Input* input;
@@ -92,7 +92,7 @@ public:
 	void update(float frameTime);
 	void draw();
 	bool addTerrain(TerrainElement* t);
-	bool addSpawnPoint(VECTOR2* pt);
+	bool addSpawnPoint(TerrainElement* pt);
 	bool addCharacter(Character* c);
 	//void buildFromFile(std::string fileName);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
