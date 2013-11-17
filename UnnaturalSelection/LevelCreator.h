@@ -29,7 +29,9 @@ public:
     void resetAll();
 	void consoleCommand();
 private:
-	Entity* movingObject;
+	TerrainElement* movingObject;
+	bool clicked, prevClick;
+	bool findEntityByClick(int x, int y, TerrainElement* selectedEnt);
 	int selectedTerrain;
 	int totalTerrain;
 	bool getHeight, getWidth, moveObject;
