@@ -253,14 +253,11 @@ void LMap::draw()
 
 bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
-	if(!editor)
+	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 	{
-		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
-		{
-			characters[i] = new Character(gamePtr,graphics);
-			characters[i]->initialize();
-			characters[i]->setXY(100,300);
-		}
+		characters[i] = new Character(gamePtr,graphics);
+		characters[i]->initialize();
+		characters[i]->setXY(100,300);
 	}
 	for(int i = 0; i < numTerrain; i++)
 	{
