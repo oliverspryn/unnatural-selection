@@ -275,7 +275,7 @@ void LevelCreator::consoleCommand()
 			moveObject = true;
 			addSpawn = true;
 			movingObject = t;
-			spawnNumToPrint;
+			spawnNumToPrint++;
 		}
 		else
 			console->print("spawn failed");
@@ -359,25 +359,43 @@ void LevelCreator::buildFromFile(std::string fileName)
 	getline(fin,line);
 	int numTerrain = atoi(line.c_str());
 	getline(fin,line);
+	int numSpawn = atoi(line.c_str());
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
+	int i = 1;
+	getline(fin,line);
 	while(!fin.fail() && line != "--")
 	{
-		height = atoi(line.c_str());
+		//it is reading in terrain spots
+		if(i<=numTerrain)
+		{
+			height = atoi(line.c_str());
+			getline(fin,line);
+			width = atoi(line.c_str());
+			getline(fin,line);
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			getline(fin,line);
+			degree = atof(line.c_str());
+			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
+			t->setDegrees(degree);
+			t->initialize(this,&terrainTexture,0);
+			t->generateSideEquations();
+			testMap->addTerrain(t);		
+		}
+		else if(i<=numSpawn + numTerrain)
+		{
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			TerrainElement* t = new TerrainElement(50,50,VECTOR2(x,y));
+			t->initialize(this,&terrainTexture,0);
+			t->color = graphicsNS::RED;
+			testMap->addSpawnPoint(t);
+		}
 		getline(fin,line);
-		width = atoi(line.c_str());
-		getline(fin,line);
-		x = atoi(line.c_str());
-		getline(fin,line);
-		y = atoi(line.c_str());
-		getline(fin,line);
-		degree = atof(line.c_str());
-		TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
-		t->setDegrees(degree);
-		t->initialize(this,&terrainTexture,0);
-		t->generateSideEquations();
-		testMap->addTerrain(t);
-		getline(fin,line);
+		i++;
 	}
 }
 
