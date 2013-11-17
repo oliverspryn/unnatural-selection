@@ -64,9 +64,9 @@ Body::Body(Game* game, Graphics* graphics) : game(game), graphics(graphics) {
 }
 
 Body::~Body() {
-	SAFE_DELETE(game);
-	SAFE_DELETE(graphic);
-	SAFE_DELETE(graphics);
+//	SAFE_DELETE(game);
+//	SAFE_DELETE(graphic);
+//	SAFE_DELETE(graphics);
 }
 
 void Body::evalSize() {

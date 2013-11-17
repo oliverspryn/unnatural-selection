@@ -7,10 +7,6 @@ TestStuff::TestStuff()
 
 TestStuff::~TestStuff()
 {
-	if(testGun > 0)
-	{
-		delete testGun;
-	}
 	if(testMag > 0)
 	{
 		//delete testMag;
@@ -154,23 +150,21 @@ void TestStuff::initialize(HWND hwnd)
 		testMap->addTerrain(t);
 	}
 
-	//t = new StraightPath(20,100,VECTOR2(100,400));
-	////t->setDegrees(0.001);
-	//t->generateSideEquations();
-	//testMap->addTerrain(t);
-
-	/*t = new StraightPath(5,300,VECTOR2(500,450));
-	t->setRadians(PI/8);
-	t->generateSideEquations();
-	testMap->addTerrain(t);*/
-
 	//testMap->buildFromFile("level.txt");
+	Character* c = new Character(this,graphics);
+	testMap->addCharacter(c);
+
+	VECTOR2* sp = new VECTOR2(0,0);
+	testMap->addSpawnPoint(sp);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
-	testMap->characters[0]->currentWeapon = testGun;
-	testMap->characters[0]->currentMag = testMag;
-	testMap->mags[0] = testMag;
+	if(testMap->characters[0]!=0)
+	{
+		testMap->characters[0]->currentWeapon = testGun;
+		testMap->characters[0]->currentMag = testMag;
+		testMap->mags[0] = testMag;
+	}
 }
 
 void TestStuff::update()

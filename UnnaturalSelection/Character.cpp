@@ -1,6 +1,8 @@
 #include "Character.h"
 
 Character::Character(Game* game, Graphics* graphics) : game(game), graphics(graphics){
+	head = 0;
+	body = 0;
 	aimAngle = 0.0f;
 	damageBodyConst = characterNS::DAMAGE_BODY_CONST;
 	damageHeadConst = characterNS::DAMAGE_HEAD_CONST;
@@ -32,7 +34,6 @@ Character::~Character() {
 	SAFE_DELETE(cursor);
 	SAFE_DELETE(gravity);
 	SAFE_DELETE(head);
-	SAFE_DELETE(standingOn);
 }
 
 bool Character::collidesWith(Entity &ent, VECTOR2 &collisionVector) {

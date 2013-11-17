@@ -2,9 +2,13 @@
 
 LMap::~LMap()
 {
-	for(int i = 0; i < numTerrain; i++)
+	for(int t = 0; t < addedElements; t++)
 	{
-		SAFE_DELETE(terrain[i])
+		if(terrain[t]!=0)
+		{
+			delete terrain[t];
+			terrain[t] = 0;
+		}
 	}
 	delete[] terrain;
 	for(int i = 0; i < numMags; i++)
@@ -12,6 +16,16 @@ LMap::~LMap()
 		SAFE_DELETE(mags[i]);
 	}
 	delete[] mags;
+	for(int i = 0; i < numCharacters; i++)
+	{
+		SAFE_DELETE(characters[i]);
+	}
+	delete[] characters;
+	for(int i = 0; i < numSpawns; i++)
+	{
+		SAFE_DELETE(spawnPoints[i]);
+	}
+	delete[] spawnPoints;
 }
 
 void LMap::collide(Character* ent, TerrainElement* t, int side)
@@ -57,53 +71,57 @@ void LMap::update(float frameTime)
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 		{
-			characters[i]->cursor->update(frameTime);
-			//getting hit
-			for(int j = 0; j < levelNS::NUM_PROJECTILES; j++)
+			if(characters[i]!=0)
 			{
-				//if(characters[i]->collidesWith(*projectiles[i],collisionVector))
-				//{
-				//	//collision reaction of character hit
-				//}
-			}
-			//being on level
-			for(int j = 0; j < numTerrain; j++)
-			{
-				if(terrain[j]!=0)
+				characters[i]->cursor->update(frameTime);
+				//getting hit
+				for(int j = 0; j < levelNS::NUM_PROJECTILES; j++)
 				{
-					fT = frameTime;
-					//if(collidesWithMoving(&D3DXVECTOR2(characters[i]->getX(), characters[i]->getY()-characters[i]->getHeight()),const_cast<D3DXVECTOR2*>(&characters[i]->getVelocity()),terrain[j],angle,fT))
+					//if(characters[i]->collidesWith(*projectiles[i],collisionVector))
 					//{
-					//	//stop them from falling through...
-					//	characters[i]->update(fT);
-					//	//characters[i]->setVisible(false);
-					//	//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
-					//	terrain[j]->collide(characters[i]);
+					//	//collision reaction of character hit
 					//}
-					auto c = characters[i];
-					auto t = terrain[j];
-					if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
-					{
-						int side = terrain[j]->getCollisionSide(collisionVector*-1);//put in call to side finder function
-						collide(characters[i],terrain[j],side);
-					}
 				}
-			}
-			//keep track of corner locations for each
-			//keep track of equations for all sides
 
-			//can they pick up an item?
-			for(int j = 0; j < levelNS::NUM_PICKUP; j++)
-			{
-				if(characters[i]->collidesWith(*dropped[j],collisionVector))
+				//being on level
+				for(int j = 0; j < numTerrain; j++)
 				{
-					if(input->isKeyDown(VK_UP))
+					if(terrain[j]!=0)
 					{
-						//have player pickup item
+						fT = frameTime;
+						//if(collidesWithMoving(&D3DXVECTOR2(characters[i]->getX(), characters[i]->getY()-characters[i]->getHeight()),const_cast<D3DXVECTOR2*>(&characters[i]->getVelocity()),terrain[j],angle,fT))
+						//{
+						//	//stop them from falling through...
+						//	characters[i]->update(fT);
+						//	//characters[i]->setVisible(false);
+						//	//characters[i]->setVelocity(VECTOR2(characters[i]->getVelocity().x,0));
+						//	terrain[j]->collide(characters[i]);
+						//}
+						auto c = characters[i];
+						auto t = terrain[j];
+						if(characters[i]->body->collidesWith(*terrain[j],collisionVector))
+						{
+							int side = terrain[j]->getCollisionSide(collisionVector*-1);//put in call to side finder function
+							collide(characters[i],terrain[j],side);
+						}
 					}
 				}
+				//keep track of corner locations for each
+				//keep track of equations for all sides
+
+				//can they pick up an item?
+				for(int j = 0; j < levelNS::NUM_PICKUP; j++)
+				{
+					if(characters[i]->collidesWith(*dropped[j],collisionVector))
+					{
+						if(input->isKeyDown(VK_UP))
+						{
+							//have player pickup item
+						}
+					}
+				}
+				//characters[i]->update(frameTime);
 			}
-			//characters[i]->update(frameTime);
 		}
 	}
 	//collision of bullets with terrain
@@ -130,13 +148,16 @@ void LMap::update(float frameTime)
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 		{
-			if(characters[i]->charFrameTime >= 0)
+			if(characters[i]!=0)
 			{
-				characters[i]->update(characters[i]->charFrameTime);
-			}else{
-				characters[i]->update(frameTime);
+				if(characters[i]->charFrameTime >= 0)
+				{
+					characters[i]->update(characters[i]->charFrameTime);
+				}else{
+					characters[i]->update(frameTime);
+				}
+				characters[i]->charFrameTime = -1;
 			}
-			characters[i]->charFrameTime = -1;
 
 		}
 	}
@@ -204,7 +225,8 @@ void LMap::update(float frameTime)
 void LMap::draw()
 {
 	if(!editor)
-		camera->centerPosition = characters[0]->getCenter();
+		if(characters[0]!=0)
+			camera->centerPosition = characters[0]->getCenter();
 	
 	for(int i = 0; i < numMags; i++)
 	{
@@ -223,15 +245,18 @@ void LMap::draw()
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
 		{
-			camera->draw(*characters[i]->body);
-			camera->draw(*characters[i]->head);
-			characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
-			//camera->draw(*characters[i]->cursor);
-			characters[i]->cursor->draw();
-			characters[i]->draw();
-			if(characters[i]->currentWeapon != 0)
+			if(characters[i]!=0)
 			{
-				camera->draw(*characters[i]->currentWeapon);
+				camera->draw(*characters[i]->body);
+				camera->draw(*characters[i]->head);
+				characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
+				//camera->draw(*characters[i]->cursor);
+				characters[i]->cursor->draw();
+				characters[i]->draw();
+				if(characters[i]->currentWeapon != 0)
+				{
+					camera->draw(*characters[i]->currentWeapon);
+				}
 			}
 		}
 	}
@@ -250,11 +275,14 @@ void LMap::draw()
 
 bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
-	for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+	for(int i = 0; i < numCharacters; i++)
 	{
-		characters[i] = new Character(gamePtr,graphics);
-		characters[i]->initialize();
-		characters[i]->setXY(100,300);
+		if(characters[i]!=0)
+		{
+			characters[i] = new Character(gamePtr,graphics);
+			characters[i]->initialize();
+			chooseSpawnPoint(characters[i]);
+		}
 	}
 	for(int i = 0; i < numTerrain; i++)
 	{
@@ -264,23 +292,38 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 				return false;
 		}
 	}
-	if(!editor)
-		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->body->getX(),characters[0]->body->getY(),0.5);
-	else
-		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,GAME_WIDTH/2,GAME_HEIGHT/2,0.5);
+	camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,0,0,0.5);
+	//if(!editor)
+//		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->body->getX(),characters[0]->body->getY(),0.5);
+	//else
+//		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,GAME_WIDTH/2,GAME_HEIGHT/2,0.5);
 	return true;
 }
 
-LMap::LMap(Input* i, Graphics* g, int numT, int numM, bool edit)
+void LMap::chooseSpawnPoint(Character* c)
 {
+	//do stuffs here
+	int point = rand()%totalSpawns;
+	c->setX(spawnPoints[point]->x);
+	c->setY(spawnPoints[point]->y);
+}
+
+LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool edit)
+{
+	totalSpawns = 0;
+	totalCharacters = 0;
 	minX = 0;
 	minY = 0;
 	maxX = 0;
 	maxY = 0;
 	numTerrain = numT;
 	numMags = numM;
+	numCharacters = numC;
+	numSpawns = numS;
 	mags = new Magazine*[this->numMags];
 	terrain = new TerrainElement*[this->numTerrain];
+	characters = new Character*[this->numCharacters];
+	spawnPoints = new VECTOR2*[this->numSpawns];
 	editor = edit;
 	this->levelFileName="testLevel.txt";
 	graphics = g;
@@ -288,13 +331,20 @@ LMap::LMap(Input* i, Graphics* g, int numT, int numM, bool edit)
 	for(int i = 0; i < numTerrain; i++)
 	{
 		terrain[i] = 0;
-		//terrain[i]->setActive(false);
-		//terrain[i]->setVisible(false);
 	}
 	for(int i = 0; i < numMags; i++)
 	{
 		mags[i] = 0;
 	}
+	for(int i = 0; i < numCharacters; i++)
+	{
+		characters[i] = 0;
+	}
+	for(int i = 0; i < numSpawns; i++)
+	{
+		spawnPoints[i] = 0;
+	}
+	//maybe get rid of pickups...
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
 		dropped[i] = new PickUp();
@@ -332,6 +382,32 @@ bool LMap::addTerrain(TerrainElement* t)
 			minY = t->getY();
 		if(t->getY() > maxY)
 			maxY = t->getY();
+	}
+	else
+		added = false;
+	return added;
+}
+
+bool LMap::addSpawnPoint(VECTOR2* pt)
+{
+	bool added = true;
+	if(this->totalSpawns<this->numSpawns)
+	{
+		spawnPoints[totalSpawns] = pt;
+		totalSpawns++;
+	}
+	else
+		added = false;
+	return added;
+}
+
+bool LMap::addCharacter(Character* c)
+{
+	bool added = true;
+	if(this->totalCharacters<this->numCharacters)
+	{
+		characters[totalCharacters] = c;
+		totalCharacters++;
 	}
 	else
 		added = false;
