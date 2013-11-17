@@ -382,14 +382,14 @@ bool LMap::addTerrain(TerrainElement* t)
 		terrain[addedElements]->setActive(true);
 		terrain[addedElements]->setVisible(true);
 		addedElements++;
-		if(t->getX()-t->getWidth() < minX)
+		if(t->getX() < minX)
 			minX = t->getX();
 		if(t->getX()+t->getWidth() > maxX)
-			maxX = t->getX();
-		if(t->getY()+t->getHeight() < minY)
+			maxX = t->getX()+t->getWidth();
+		if(t->getY() < minY)
 			minY = t->getY();
-		if(t->getY()-t->getHeight() > maxY)
-			maxY = t->getY();
+		if(t->getY()+t->getHeight() > maxY)
+			maxY = t->getY()+t->getHeight();
 	}
 	else
 		added = false;
