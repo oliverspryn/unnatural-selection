@@ -51,8 +51,8 @@ void TestStuff::initialize(HWND hwnd)
 
 	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
 
-	testMag = new Magazine(40000, 40000, 40000, 1, 100, 100, ONE, testProjectile); 
-	testGun = new Gun(10, 20*60*60, 100, 600, 100, 100, 30, 2.0, 0, ONE);
+	testMag = new Magazine(30, 4000, 4000, 1, 100, 100, ONE, testProjectile); 
+	testGun = new Gun(10, 2*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 	//testGun->setX(100);
@@ -178,7 +178,7 @@ void TestStuff::update()
 	Character* player = testMap->characters[0];
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
 	player->aimAngle = atan2(mouseRealPos.y-player->getCenterY(), mouseRealPos.x-player->getCenterX());
-	testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+	//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 
 	testMap->update(frameTime);
 }

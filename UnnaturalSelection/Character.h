@@ -115,6 +115,8 @@ public :
 	float           walkAcceleration;
 	float           walkSpeed;
 	float			charFrameTime;
+	float			reloadTimer;
+	bool			reloadStep;
 
 	Weapon*			currentWeapon;
 	Magazine*		currentMag;

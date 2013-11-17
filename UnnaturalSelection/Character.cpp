@@ -23,6 +23,8 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 	currentWeapon = 0;
 	currentMag = 0;
 	weaponPos = D3DXVECTOR2(20, 0);
+	reloadTimer = 0;
+	reloadStep = 0;
 }
 
 Character::~Character() {
@@ -283,6 +285,26 @@ void Character::update(float frameTime) {
 		currentWeapon->setX(getCenterX() + weaponPos.x * std::cos(aimAngle) + weaponPos.y * std::sin(aimAngle) - currentWeapon->getWidth()/2);
 		currentWeapon->setY(getCenterY() + weaponPos.y * std::cos(aimAngle) + weaponPos.x * std::sin(aimAngle) -currentWeapon->getHeight()/2);
 		currentWeapon->update(frameTime);
+		if(input->isKeyDown('R') && reloadStep == 0)
+		{
+			reloadStep = 1;
+			reloadTimer = frameTime;
+		}
+		if(reloadStep != 0)
+		{
+			reloadTimer += frameTime;
+			if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime)
+			{
+				static_cast<Gun*>(currentWeapon)->loadMag();
+				reloadStep = 0;
+			}
+			else if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime/3)
+			{
+				static_cast<Gun*>(currentWeapon)->removeMag();
+				currentMag->loadAmmo();
+			}
+		}
+		currentWeapon->act(frameTime, input->getMouseLButton(), false, false, false, false);
 	}
 }
 
