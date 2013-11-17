@@ -4,13 +4,20 @@ LevelCreator::LevelCreator()
 {
 	getHeight = false;
 	getWidth = false;
+	saveFile = false;
 	boxHeight = 0;
 	boxWidth = 0;
 	totalTerrain = 0;
 	selectedTerrain = 0;
 	moveObject = false;
 	clicked = false;
+	objectChosen = false;
 	prevClick = false;
+	chooseA = false;
+	chooseR = false;
+	chooseG = false;
+	chooseB = false;
+	oldColor = graphicsNS::BLACK;
 }
 
 LevelCreator::~LevelCreator()
@@ -25,7 +32,7 @@ void LevelCreator::initialize(HWND hwnd)
 	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
 
-	testMap = new LMap(input,graphics,1000,1000,true);
+	testMap = new LMap(input,graphics,10000,1000,true);
 	TerrainElement* t = new TerrainElement(50,3000,VECTOR2(0, 2000));
 	//t->setDegrees(0.001);
 	t->generateSideEquations();
@@ -59,9 +66,17 @@ void LevelCreator::update()
 		int x,y;
 		x = testMap->camera->getRealPos(input->getMouseX(),0).x;
 		y = testMap->camera->getRealPos(0,input->getMouseY()).y;
+		//if they click off object to deselect
+		if(objectChosen)
+		{
+			objectChosen = false;
+			movingObject->color = oldColor;
+		}
 		if(findEntityByClick(x,y,movingObject))
 		{
-			moveObject = true;
+			oldColor = movingObject->color;
+			objectChosen = true;
+			movingObject->color = graphicsNS::BLUE;
 		}
 		clicked = false;
 	}
@@ -69,7 +84,19 @@ void LevelCreator::update()
 	{
 		moveObject = false;
 		clicked = false;
+		objectChosen = false;
+		movingObject->color = oldColor;
 		movingObject->generateSideEquations();
+	}
+	if(objectChosen && input->isKeyDown(VK_SPACE))
+	{
+		moveObject = true;
+	}
+	if(objectChosen && input->isKeyDown(VK_DELETE) && !moveObject)
+	{
+		movingObject->setActive(false);
+		movingObject->setVisible(false);
+		objectChosen = false;
 	}
 }
 
@@ -105,9 +132,53 @@ void LevelCreator::consoleCommand()
 	if(command == "stopPlay")
 		testMap->editor = true;
 
+	if(command == "color" && objectChosen)
+	{
+		console->print("Alpha: ");
+		chooseA = true;
+		return;
+	}
+
+	if(chooseA)
+	{
+		console->print("Red: ");
+		a = atoi(command.c_str());
+		chooseA = false;
+		chooseR = true;
+		return;
+	}
+
+	if(chooseR)
+	{
+		console->print("Green: ");
+		r = atoi(command.c_str());
+		chooseR = false;
+		chooseG = true;
+		return;
+	}
+
+	if(chooseG)
+	{
+		console->print("Blue: ");
+		g = atoi(command.c_str());
+		chooseG = false;
+		chooseB = true;
+		return;
+	}
+
+	if(chooseB)
+	{
+		console->print("Recoloring and unselecting");
+		b = atoi(command.c_str());
+		chooseB = false;
+		movingObject->color = SETCOLOR_ARGB(a,r,g,b);
+		//unselects object
+		objectChosen = false;
+		return;
+	}
+
 	if(getHeight)
 	{
-		console->print(command);
 		boxHeight = atoi(command.c_str());
 		console->print("width");
 		getHeight = false;
@@ -157,6 +228,17 @@ void LevelCreator::consoleCommand()
 		console->print("height:");
 		return;
 	}
+	if(command == "save")
+	{
+		saveFile = true;
+		console->print("FileName:");
+	}
+	if(saveFile)
+	{
+		saveFile = false;
+		testMap->levelFileName = command;
+		testMap->createFileFromLevel();
+	}
 }
 
 bool LevelCreator::findEntityByClick(int x, int y, TerrainElement* selectedEnt)
@@ -167,10 +249,11 @@ bool LevelCreator::findEntityByClick(int x, int y, TerrainElement* selectedEnt)
 	{
 		if(testMap->terrain[i]->getActive())
 		{
+			ent = testMap->terrain[i];
 			entityX = ent->getX();
 			entityY = ent->getY();
 			int temp = ent->getX();
-			if(x >= entityX && x <=entityX+ent->getWidth()/2 && y >= entityY && y <= entityY + ent->getHeight()/2)
+			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
 			{
 				selectedEnt = ent;
 				return true;

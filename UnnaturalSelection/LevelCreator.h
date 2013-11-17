@@ -5,6 +5,8 @@
 #include "textureManager.h"
 #include "textDX.h"
 #include "LMap.h"
+#include <vector>
+using std::vector;
 #include <cstdlib>
 #include <sstream>
 using std::stringstream;
@@ -35,9 +37,14 @@ private:
 	int selectedTerrain;
 	int totalTerrain;
 	bool getHeight, getWidth, moveObject;
+	bool saveFile;
+	bool objectChosen;
+	DWORD oldColor;
 	int boxHeight, boxWidth;
+	int a,r,g,b;
 	TextureManager terrainTexture;
 	LMap* testMap;
+	bool chooseA, chooseR, chooseG, chooseB;
 };
 
 #endif

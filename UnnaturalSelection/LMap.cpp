@@ -144,10 +144,7 @@ void LMap::update(float frameTime)
 	{
 		dropped[i]->update(frameTime);
 	}
-	if(input->isKeyDown(VK_RETURN) && editor)
-	{
-		this->createFileFromLevel();
-	}
+
 
 	//temp UpdateFunction and collisions
 	for(int i(0); i < numMags && mags[i] != 0; i++)
