@@ -5,6 +5,9 @@
 #include "textureManager.h"
 #include "textDX.h"
 #include "LMap.h"
+#include <cstdlib>
+#include <sstream>
+using std::stringstream;
 //#include "terrainElement.h"
 
 
@@ -26,6 +29,11 @@ public:
     void resetAll();
 	void consoleCommand();
 private:
+	Entity* movingObject;
+	int selectedTerrain;
+	int totalTerrain;
+	bool getHeight, getWidth, moveObject;
+	int boxHeight, boxWidth;
 	TextureManager terrainTexture;
 	LMap* testMap;
 };
