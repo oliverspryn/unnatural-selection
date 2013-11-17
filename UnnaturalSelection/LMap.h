@@ -67,6 +67,7 @@ class LMap
 {
 public:
 	~LMap();
+	int minX, maxX, minY, maxY;
 	int numTerrain, numCharacters, numSpawns, numMags;
 	int addedElements;
 	Magazine** mags;

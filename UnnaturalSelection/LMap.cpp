@@ -276,6 +276,10 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, bool edit)
 {
+	minX = 0;
+	minY = 0;
+	maxX = 0;
+	maxY = 0;
 	numTerrain = numT;
 	numMags = numM;
 	mags = new Magazine*[this->numMags];
@@ -323,6 +327,14 @@ bool LMap::addTerrain(TerrainElement* t)
 		terrain[addedElements]->setActive(true);
 		terrain[addedElements]->setVisible(true);
 		addedElements++;
+		if(t->getX() < minX)
+			minX = t->getX();
+		if(t->getX() > maxX)
+			maxX = t->getX();
+		if(t->getY() < minY)
+			minY = t->getY();
+		if(t->getY() > maxY)
+			maxY = t->getY();
 	}
 	else
 		added = false;
