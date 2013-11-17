@@ -154,7 +154,9 @@ void TestStuff::initialize(HWND hwnd)
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
 
-	TerrainElement* sp = new TerrainElement(0,0);
+	TerrainElement* sp = new TerrainElement(10,10,VECTOR2(0,0));
+	sp->color = graphicsNS::RED;
+	sp->setVisible(true);
 	testMap->addSpawnPoint(sp);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))

@@ -32,6 +32,7 @@ public:
 	myLines::Ray sides[4];
 	VECTOR2 corners[4];
 	int getCollisionSide(D3DXVECTOR2 &collisionVector);
+	char type;
 };
 //
 //class StraightPath : public TerrainElement

@@ -26,28 +26,31 @@ LMap::~LMap()
 
 void LMap::collide(Character* ent, TerrainElement* t, int side)
 {
-	switch(side)
+	if(t->type = 'B')
 	{
-	case 0:
-		if(ent->getVelocityY() >= 0)
+		switch(side)
 		{
-			ent->standingOn = t;
+		case 0:
+			if(ent->getVelocityY() >= 0)
+			{
+				ent->standingOn = t;
+				ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
+				ent->setY((t->getCenterY() - (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
+			}
+			break;
+		case 1:
+			ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+			ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
+			break;
+		case 2:
 			ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
-			ent->setY((t->getCenterY() - (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2);
+			ent->setY(((t->getCenterY() + (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2));
+			break;
+		case 3:
+			ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
+			ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+ent->getWidth()/2);
+			break;
 		}
-		break;
-	case 1:
-		ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-		ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
-		break;
-	case 2:
-		ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
-		ent->setY(((t->getCenterY() + (t->getHeight()+ent->getHeight())/2)-ent->getHeight()/2));
-		break;
-	case 3:
-		ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-		ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+ent->getWidth()/2);
-		break;
 	}
 }
 
@@ -239,7 +242,7 @@ void LMap::draw()
 
 	if(!editor)
 	{
-		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+		for(int i = 0; i < totalCharacters; i++)
 		{
 			if(characters[i]!=0)
 			{
@@ -255,6 +258,11 @@ void LMap::draw()
 				}
 			}
 		}
+	}
+	if(editor)
+	{
+		for(int i = 0; i < totalSpawns; i++)
+			camera->draw(*spawnPoints[i]);
 	}
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
 	{
@@ -285,6 +293,14 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 		if(terrain[i]!=0)
 		{
 			if(!terrain[i]->initialize(gamePtr,textureM,ncols))
+				return false;
+		}
+	}
+	for(int i = 0; i < numSpawns; i++)
+	{
+		if(spawnPoints[i]!=0)
+		{
+			if(!spawnPoints[i]->initialize(gamePtr,textureM,ncols))
 				return false;
 		}
 	}
