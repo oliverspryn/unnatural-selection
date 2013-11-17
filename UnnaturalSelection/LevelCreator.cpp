@@ -124,6 +124,7 @@ void LevelCreator::update()
 	{
 		movingObject->setActive(false);
 		movingObject->setVisible(false);
+
 		objectChosen = false;
 	}
 }
@@ -283,6 +284,7 @@ void LevelCreator::consoleCommand()
 		saveFile = false;
 		testMap->levelFileName = command;
 		testMap->createFileFromLevel();
+		return;
 	}
 	if(testMap->addedElements == 0 && command == "load")
 	{
@@ -302,6 +304,8 @@ void LevelCreator::buildFromFile(std::string fileName)
 	fstream fin;
 	fin.open(fileName);
 	string line = "";
+	getline(fin,line);
+	int numTerrain = atoi(line.c_str());
 	getline(fin,line);
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
