@@ -5,6 +5,7 @@ TerrainElement::TerrainElement()
 	collisionType = entityNS::BOX;
 	mass = terrainNS::MASS;
 	color = D3DCOLOR_ARGB(255, 0, 0, 0);
+	type = 'B';
 }
 
 TerrainElement::TerrainElement(int height, int width, VECTOR2 center)
@@ -20,6 +21,7 @@ TerrainElement::TerrainElement(int height, int width, VECTOR2 center)
 	edge.top = (height/2)*-1;
 	edge.bottom = (height/2);
 	color = D3DCOLOR_ARGB(255, 0, 0, 0);
+	type = 'B';
 }
 
 TerrainElement::TerrainElement(int height, int width, VECTOR2 center, int a, int r, int g, int b)
@@ -35,6 +37,7 @@ TerrainElement::TerrainElement(int height, int width, VECTOR2 center, int a, int
 	edge.top = (height/2)*-1;
 	edge.bottom = (height/2);
 	color = D3DCOLOR_ARGB(a, r, g, b);
+	type = 'B';
 }
 
 void TerrainElement::generateSideEquations()
