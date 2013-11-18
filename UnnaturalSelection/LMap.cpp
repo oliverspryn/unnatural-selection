@@ -199,6 +199,15 @@ void LMap::update(float frameTime)
 					}
 				}
 			}
+			float tempTime = frameTime;
+			for(int k(0); k < totalTargets && targets[k] != 0; k++)
+			{
+				if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
+				{
+					mags[i]->projArray[j]->setActive(false);
+					mags[i]->projArray[j]->setVisible(false);
+				}
+			}
 		}
 		mags[i]->updateMagsProjectiles(frameTime);
 	}
