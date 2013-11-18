@@ -72,6 +72,10 @@ void LMap::update(float frameTime)
 		{
 			if(characters[i]!=0)
 			{
+				if(characters[i]->standingOn!=0 && !characters[i]->standingOn->getActive())
+				{
+					characters[i]->standingOn = 0;
+				}
 				characters[i]->cursor->update(frameTime);
 				//getting hit
 				for(int j = 0; j < levelNS::NUM_PROJECTILES; j++)
