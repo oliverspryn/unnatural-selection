@@ -650,7 +650,7 @@ void LMap::createFileFromLevel(int terNum, int spawn, float zoom)
 	}
 	for(int i = 0; i < this->numSpawns; i++)
 	{
-		if(spawnPoints[i]!=0)
+		if(spawnPoints[i]!=0 && spawnPoints[i]->getActive())
 		{
 			fout << spawnPoints[i]->getX() << std::endl;
 			fout << spawnPoints[i]->getY() << std::endl;
@@ -658,7 +658,7 @@ void LMap::createFileFromLevel(int terNum, int spawn, float zoom)
 	}
 	for(int i = 0; i < this->numTargets; i++)
 	{
-		if(targets[i]!=0)
+		if(targets[i]!=0 && targets[i]->getActive())
 		{
 			fout << targets[i]->getX() << std::endl;
 			fout << targets[i]->getY() << std::endl;

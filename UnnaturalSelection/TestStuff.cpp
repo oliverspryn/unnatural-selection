@@ -2,7 +2,7 @@
 
 TestStuff::TestStuff()
 {
-	gameTime = 120;
+	gameTime = 500;
 	score = 0;
 }
 
@@ -66,7 +66,11 @@ void TestStuff::initialize(HWND hwnd)
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	testMap = new LMap(input,graphics);
 
-	fileNames[0] = "level2.txt";
+	fileNames[0] = "level1.txt";
+	fileNames[1] = "level2.txt";
+	fileNames[2] = "level3.txt";
+	fileNames[3] = "level4.txt";
+	fileNames[4] = "level5.txt";
 	currentLevel = 0;
 	this->buildFromFile(fileNames[currentLevel]);
 
@@ -84,8 +88,17 @@ void TestStuff::initialize(HWND hwnd)
 	oldTargets = testMap->activeTargets;
 }
 
+void TestStuff::endGameStuff()
+{
+	//do stuffs there
+}
+
 void TestStuff::update()
 {
+	if(endGame)
+	{
+		endGameStuff();
+	}
 	gameTime -= frameTime;
 	Character* player = testMap->characters[0];
 	Camera* camera = testMap->camera;
@@ -191,9 +204,22 @@ void TestStuff::update()
 		testMap->levelDone = true;
 
 	testMap->update(frameTime);
+
+	if(gameTime<=0)
+	{
+		endGame = true;
+		return;
+	}
+
 	if(testMap->levelDone)
 	{
 		delete testMap;
+		currentLevel++;
+		if(currentLevel > 5)
+		{
+			endGame = true;
+			return;
+		}
 		testMap = new LMap(input,graphics);
 		this->buildFromFile(fileNames[currentLevel]);
 		Character* c = new Character(this,graphics);

@@ -54,7 +54,9 @@ public:
 
 	float gameTime;
 	int score;
+	bool endGame;
 	int oldTargets;
+	void endGameStuff();
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;
