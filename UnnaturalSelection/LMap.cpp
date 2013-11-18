@@ -316,6 +316,10 @@ void LMap::chooseSpawnPoint(Character* c)
 {
 	//do stuffs here
 	int point = rand()%totalSpawns;
+	while(spawnPoints[point]==0 || !spawnPoints[point]->getActive())
+	{
+		point = rand()%totalSpawns;
+	}
 	c->setX(spawnPoints[point]->getX());
 	c->setY(spawnPoints[point]->getY());
 }

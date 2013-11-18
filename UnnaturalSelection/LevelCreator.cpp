@@ -206,10 +206,26 @@ void LevelCreator::consoleCommand()
         return;
 
 	if(command == "play")
-		testMap->editor = false;
+	{
+		if(this->spawnNumToPrint>0)
+		{
+			testMap->editor = false;
+			if(testMap->totalCharacters == 0)
+			{
+				Character* c = new Character(this,graphics);
+				c->initialize();
+				testMap->addCharacter(c);
+			}
+			testMap->chooseSpawnPoint(testMap->characters[0]);
+		}
+		return;
+	}
 
 	if(command == "stopPlay")
+	{
 		testMap->editor = true;
+		return;
+	}
 
 	if(command == "color" && objectChosen)
 	{
@@ -286,6 +302,7 @@ void LevelCreator::consoleCommand()
 		else
 			console->print("block failed");
 		getWidth = false;
+		return;
 	}
 
 	
@@ -308,6 +325,7 @@ void LevelCreator::consoleCommand()
 		}
 		else
 			console->print("spawn failed");
+		return;
 	}
 
     if (command == "help")              // if "help" command
@@ -331,6 +349,7 @@ void LevelCreator::consoleCommand()
             console->print("fps On");
         else
             console->print("fps Off");
+		return;
     }
 	if(command == "block")
 	{
@@ -352,6 +371,7 @@ void LevelCreator::consoleCommand()
 	{
 		multipleBlocks = false;
 		firstBlock = false;
+		return;
 	}
 
 	if(command == "save")
@@ -376,7 +396,7 @@ void LevelCreator::consoleCommand()
 	if(loadFile)
 	{
 		buildFromFile(command);
-		console->print("stuff");
+		return;
 	}
 }
 
@@ -387,8 +407,10 @@ void LevelCreator::buildFromFile(std::string fileName)
 	string line = "";
 	getline(fin,line);
 	int numTerrain = atoi(line.c_str());
+	this->terrainNumToPrint = numTerrain;
 	getline(fin,line);
 	int numSpawn = atoi(line.c_str());
+	this->spawnNumToPrint = numSpawn;
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
 	DWORD color;
