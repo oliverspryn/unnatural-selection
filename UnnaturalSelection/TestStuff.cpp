@@ -335,8 +335,8 @@ void TestStuff::render()
 	graphics->setBackColor(graphicsNS::GRAY);
 	testMap->draw();
 	std::stringstream tempWords;
-	tempWords << "Ammo: " << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
-	hudFont.print(tempWords.str().c_str(), 300, 550);
+	/*tempWords << "Ammo: " << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
+	hudFont.print(tempWords.str().c_str(), 300, 550);*/
 	tempWords.str("");
 	tempWords << "Time: " << gameTime;
 	hudFont.print(tempWords.str().c_str(), 500, 550);
