@@ -39,7 +39,7 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
-	TextureManager gunTM, magTM, projectileTM, boxTM;   // textures
+	TextureManager gunTM, magTM, projectileTM, boxTM, targetTexture;   // textures
 	Image   gunIM;
     Image   magIM;
     Image   projectileIM;
