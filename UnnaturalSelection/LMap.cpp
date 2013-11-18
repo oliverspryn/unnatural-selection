@@ -217,6 +217,7 @@ void LMap::update(float frameTime)
 						{
 							targets[k]->setActive(false);
 							targets[k]->setVisible(false);
+							this->activeTargets--;
 						}
 					}
 				}

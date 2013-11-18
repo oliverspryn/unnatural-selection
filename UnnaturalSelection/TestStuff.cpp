@@ -188,7 +188,7 @@ void TestStuff::update()
 		LMap* temp = testMap;
 		testMap = new LMap(input,graphics,1000,1000,1,5,100,false);
 		//delete temp;
-		this->buildFromFile("testMap.txt");
+		this->buildFromFile("testLevel.txt");
 		Character* c = new Character(this,graphics);
 		c->initialize();
 		testMap->addCharacter(c);
