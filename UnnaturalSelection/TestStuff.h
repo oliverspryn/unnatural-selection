@@ -57,10 +57,13 @@ public:
 	bool endGame;
 	bool infiniteTime;
 	int oldTargets;
-	void endGameStuff();
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;
+
+	TextureManager openTM, storyTM, controlTM, endTM;
+	Image open, story, control, end;
+	int controlState;
 };
 
 #endif

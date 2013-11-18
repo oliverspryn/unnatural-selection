@@ -2,9 +2,11 @@
 
 TestStuff::TestStuff()
 {
-	gameTime = 500;
+	gameTime = 180;
+	endGame = false;
 	infiniteTime = false;
 	score = 0;
+	controlState = 1;
 }
 
 TestStuff::~TestStuff()
@@ -89,11 +91,21 @@ void TestStuff::initialize(HWND hwnd)
 		testMap->mags[0] = testMag;
 	}
 	oldTargets = testMap->activeTargets;
-}
 
-void TestStuff::endGameStuff()
-{
-	//do stuffs there
+//Crap for the starting stuff
+	if (openTM.initialize(graphics, "pictures\\title.jpg") && 
+		storyTM.initialize(graphics, "pictures\\story.png") && 
+		controlTM.initialize(graphics, "pictures\\controls.png") && 
+		endTM.initialize(graphics, "pictures\\endGame.png")) {
+			//cool
+	} else {
+		throw GameError(gameErrorNS::FATAL_ERROR, "Can't find images");
+	}
+
+	open.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &openTM);
+	story.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &storyTM);
+	control.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &controlTM);
+	end.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &endTM);
 }
 
 void TestStuff::update()
@@ -102,9 +114,16 @@ void TestStuff::update()
 	{
 		audio->playCue(GUN_SHOT);
 	}*/
+	if (controlState < 4) {
+		if(input->wasKeyPressed(VK_SPACE))
+			++controlState;
+
+		return;
+	}
+
 	if(endGame)
 	{
-		endGameStuff();
+		controlState = -1;
 	}
 	if(!infiniteTime)
 		gameTime -= frameTime;
@@ -285,6 +304,31 @@ void TestStuff::collisions()
 void TestStuff::render()
 {
 	graphics->spriteBegin();
+
+	if (controlState == 1) {
+		open.draw();
+		graphics->spriteEnd();
+		return;
+	}
+
+	if (controlState == 2) {
+		story.draw();
+		graphics->spriteEnd();
+		return;
+	}
+
+	if (controlState == 3) {
+		control.draw();
+		graphics->spriteEnd();
+		return;
+	}
+
+	if (controlState == -1) {
+		end.draw();
+		graphics->spriteEnd();
+		return;
+	}
+
 	//FIX
 	testMap->camera->centerPosition = testMap->characters[0]->getCenter();
 
