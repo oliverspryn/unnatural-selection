@@ -83,7 +83,7 @@ Projectile* Magazine::getNextProjectile()
 	{
 		Projectile* nextRound = projArray[projArrayIndex];
 		projArrayIndex++;
-		ammoCount--;
+		//ammoCount--;
 		return nextRound;
 	}
 	else
