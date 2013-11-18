@@ -18,8 +18,8 @@ bool CreateMainWindow(HWND &, HINSTANCE, int);
 LRESULT WINAPI WinProc(HWND, UINT, WPARAM, LPARAM); 
 
 // Game pointer
-//TestStuff *game = NULL;
-LevelCreator* game = NULL;
+TestStuff *game = NULL;
+//LevelCreator* game = NULL;
 HWND hwnd = NULL;
 
 //=============================================================================
@@ -36,8 +36,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     MSG msg;
 
     // Create the game, sets up message handler
-	//game = new TestStuff;
-	game = new LevelCreator;
+	game = new TestStuff;
+	//game = new LevelCreator;
 
     // Create the window
     if (!CreateMainWindow(hwnd, hInstance, nCmdShow))
