@@ -297,7 +297,7 @@ void LMap::draw()
 				characters[i]->draw();
 				if(characters[i]->currentWeapon != 0)
 				{
-					camera->draw(*characters[i]->currentWeapon);
+					camera->draw(*characters[i]->currentWeapon, false, characters[i]->faceDir > 0);
 				}
 			}
 		}
