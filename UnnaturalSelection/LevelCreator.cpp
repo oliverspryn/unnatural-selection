@@ -57,7 +57,36 @@ void LevelCreator::update()
 		movingObject->setY(y);
 	}
 
+	//camera functions
+	//zoom
+	if(input->isKeyDown('1'))
+	{
+		testMap->camera->zoom = max(0.1, testMap->camera->zoom - frameTime*.5);
+	}
+	if(input->isKeyDown('2'))
+	{
+		testMap->camera->zoom = min(10, testMap->camera->zoom + frameTime*.5);
+	}
 
+	if(input->isKeyDown(VK_LEFT) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x-50,testMap->camera->centerPosition.y);
+	}
+
+	if(input->isKeyDown(VK_RIGHT) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x+50,testMap->camera->centerPosition.y);
+	}
+
+	if(input->isKeyDown(VK_UP) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x,testMap->camera->centerPosition.y-50);
+	}
+
+	if(input->isKeyDown(VK_DOWN) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x,testMap->camera->centerPosition.y+50);
+	}
 
 	if(multipleBlocks && input->isKeyDown(VK_SPACE))
 	{
@@ -177,10 +206,26 @@ void LevelCreator::consoleCommand()
         return;
 
 	if(command == "play")
-		testMap->editor = false;
+	{
+		if(this->spawnNumToPrint>0)
+		{
+			testMap->editor = false;
+			if(testMap->totalCharacters == 0)
+			{
+				Character* c = new Character(this,graphics);
+				c->initialize();
+				testMap->addCharacter(c);
+			}
+			testMap->chooseSpawnPoint(testMap->characters[0]);
+		}
+		return;
+	}
 
 	if(command == "stopPlay")
+	{
 		testMap->editor = true;
+		return;
+	}
 
 	if(command == "color" && objectChosen)
 	{
@@ -257,6 +302,7 @@ void LevelCreator::consoleCommand()
 		else
 			console->print("block failed");
 		getWidth = false;
+		return;
 	}
 
 	
@@ -275,10 +321,11 @@ void LevelCreator::consoleCommand()
 			moveObject = true;
 			addSpawn = true;
 			movingObject = t;
-			spawnNumToPrint;
+			spawnNumToPrint++;
 		}
 		else
 			console->print("spawn failed");
+		return;
 	}
 
     if (command == "help")              // if "help" command
@@ -302,6 +349,7 @@ void LevelCreator::consoleCommand()
             console->print("fps On");
         else
             console->print("fps Off");
+		return;
     }
 	if(command == "block")
 	{
@@ -323,6 +371,7 @@ void LevelCreator::consoleCommand()
 	{
 		multipleBlocks = false;
 		firstBlock = false;
+		return;
 	}
 
 	if(command == "save")
@@ -347,7 +396,7 @@ void LevelCreator::consoleCommand()
 	if(loadFile)
 	{
 		buildFromFile(command);
-		console->print("stuff");
+		return;
 	}
 }
 
@@ -358,26 +407,50 @@ void LevelCreator::buildFromFile(std::string fileName)
 	string line = "";
 	getline(fin,line);
 	int numTerrain = atoi(line.c_str());
+	this->terrainNumToPrint = numTerrain;
 	getline(fin,line);
+	int numSpawn = atoi(line.c_str());
+	this->spawnNumToPrint = numSpawn;
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
+	DWORD color;
+	int i = 1;
+	getline(fin,line);
 	while(!fin.fail() && line != "--")
 	{
-		height = atoi(line.c_str());
+		//it is reading in terrain spots
+		if(i<=numTerrain)
+		{
+			height = atoi(line.c_str());
+			getline(fin,line);
+			width = atoi(line.c_str());
+			getline(fin,line);
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			getline(fin,line);
+			degree = atof(line.c_str());
+			getline(fin,line);
+			color = std::strtoul(line.c_str(),0,10);
+			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
+			t->setDegrees(degree);
+			t->initialize(this,&terrainTexture,0);
+			t->color = color;
+			t->generateSideEquations();
+			testMap->addTerrain(t);		
+		}
+		else if(i<=numSpawn + numTerrain)
+		{
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			TerrainElement* t = new TerrainElement(50,50,VECTOR2(x,y));
+			t->initialize(this,&terrainTexture,0);
+			t->color = graphicsNS::RED;
+			testMap->addSpawnPoint(t);
+		}
 		getline(fin,line);
-		width = atoi(line.c_str());
-		getline(fin,line);
-		x = atoi(line.c_str());
-		getline(fin,line);
-		y = atoi(line.c_str());
-		getline(fin,line);
-		degree = atof(line.c_str());
-		TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
-		t->setDegrees(degree);
-		t->initialize(this,&terrainTexture,0);
-		t->generateSideEquations();
-		testMap->addTerrain(t);
-		getline(fin,line);
+		i++;
 	}
 }
 
