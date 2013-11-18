@@ -54,7 +54,7 @@ void Projectile::update(float frameTime)
 
 	spriteData.x += frameTime*velocity.x;
 	spriteData.y += frameTime*velocity.y;
-	ray.setPosition(D3DXVECTOR2(spriteData.x, spriteData.y));
+	ray.setPosition(*getCenter());
 }
 
 bool Projectile::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
@@ -74,7 +74,7 @@ void Projectile::fire(D3DXVECTOR2 initialPos, float angle)
 	spriteData.y = initialPos.y;
 	spriteData.angle = angle;
 	velocity = D3DXVECTOR2(muzzelVelocity*cos(angle), muzzelVelocity*sin(angle));
-	ray = myLines::Ray(initialPos, velocity, maxRange);
+	ray = myLines::Ray(*getCenter(), velocity, maxRange);
 	rayUpdated = false;
 }
 
