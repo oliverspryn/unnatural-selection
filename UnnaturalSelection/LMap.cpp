@@ -191,31 +191,33 @@ void LMap::update(float frameTime)
 	{
 		for(int j(0); j < mags[i]->projArrayIndex; j++)
 		{
-			if(!mags[i]->projArray[j]->rayUpdated)
-			{
-				float tempTime = frameTime;
-				for(int k(0); k < numTerrain && terrain[k] != 0; k++)
+				if(mags[i]->projArray[j]->getActive())
 				{
-					if(projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
+				if(!mags[i]->projArray[j]->rayUpdated)
+				{
+					float tempTime = frameTime;
+					for(int k(0); k < numTerrain && terrain[k] != 0; k++)
+					{
+						if(projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
+						{
+							mags[i]->projArray[j]->setActive(false);
+							mags[i]->projArray[j]->setVisible(false);
+						}
+					}
+				}
+				float tempTime = frameTime;
+				for(int k(0); k < totalTargets && (targets[k] != 0 && targets[k]->getActive()); k++)
+				{
+					if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
 					{
 						mags[i]->projArray[j]->setActive(false);
 						mags[i]->projArray[j]->setVisible(false);
-					}
-				}
-			}
-			float tempTime = frameTime;
-			for(int k(0); k < totalTargets && (targets[k] != 0 && targets[k]->getActive()); k++)
-			{
-				if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
-				{
-					mags[i]->projArray[j]->setActive(false);
-					mags[i]->projArray[j]->setVisible(false);
-					targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
-					if(targets[k]->getHealth() < 0)
-					{
-						targets[k]->setActive(false);
-						targets[k]->setVisible(false);
-						activeTargets--;
+						targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
+						if(targets[k]->getHealth() < 0)
+						{
+							targets[k]->setActive(false);
+							targets[k]->setVisible(false);
+						}
 					}
 				}
 			}
