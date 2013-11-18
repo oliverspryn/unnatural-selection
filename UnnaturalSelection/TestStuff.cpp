@@ -22,6 +22,9 @@ void TestStuff::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
 
+	if(hudFont.initialize(graphics, 15, true, false, "Arial") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+
 	if(!targetTexture.initialize(graphics,TARGET_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing target texture"));
 
@@ -224,7 +227,9 @@ void TestStuff::render()
 
 	graphics->setBackColor(graphicsNS::GRAY);
 	testMap->draw();
-
+	std::stringstream tempWords;
+	tempWords << "Ammo: \t" << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
+	hudFont.print(tempWords.str().c_str(), 300, 550);
 	graphics->spriteEnd();
 }
 

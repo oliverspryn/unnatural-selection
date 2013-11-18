@@ -40,6 +40,7 @@ public:
     void releaseAll();
     void resetAll();
 	TextureManager gunTM, magTM, projectileTM, boxTM, targetTexture;   // textures
+	TextDX	hudFont;
 	Image   gunIM;
     Image   magIM;
     Image   projectileIM;
