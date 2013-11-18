@@ -13,7 +13,9 @@ public:
 	Camera(int width, int height, int xReal, int yReal, int x, int y, float zoom);
 	void draw(Image in);
 	void draw(Image in, DWORD tint);
+	void draw(Image in, DWORD tint, bool hoizontalFlip, bool virticalFlip);
 	void draw(Entity& in);
+	void draw(Entity& in, bool hoizontalFlip, bool virticalFlip);
 	D3DXVECTOR2 getRealPos(float x, float y);
 	D3DXVECTOR2 getCameraRelitivePos(float x, float y);
 	D3DXVECTOR2 centerPosition;

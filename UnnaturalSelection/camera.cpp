@@ -49,9 +49,38 @@ void Camera::draw(Image in, DWORD tint)
 		}
 	}
 }
+void Camera::draw(Image in, DWORD tint, bool hoizontalFlip, bool virticalFlip)
+{
+	if(in.getVisible())
+	{
+		//Checks x
+		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScale())
+		{
+			//Checks y
+			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScale())
+			{
+				float relX = (in.getCenterX()-centerPosition.x)*zoom;
+				float relY = (in.getCenterY()-centerPosition.y)*zoom;
+				in.setScale(in.getScale()*zoom);
+				in.setX(realPosition.x + relX + (width/2) - in.getScale()*in.getWidth()/2);
+				in.setY(realPosition.y + relY + (height/2) - in.getScale()*in.getHeight()/2);
+				in.flipVertical(hoizontalFlip);
+				in.flipVertical(virticalFlip);
+				in.draw(tint);
+			}
+		}
+	}
+}
 void Camera::draw(Entity& in)
 {
-	this->draw(in, in.color);
+	draw(in, in.color);
+}
+void Camera::draw(Entity& in, bool hoizontalFlip, bool virticalFlip)
+{
+	Entity temp = in;
+	temp.flipHorizontal(hoizontalFlip);
+	temp.flipVertical(virticalFlip);
+	draw(temp, temp.color);
 }
 D3DXVECTOR2 Camera::getRealPos(float xIn, float yIn)
 {
