@@ -54,7 +54,7 @@ Body::Body(Game* game, Graphics* graphics) : game(game), graphics(graphics) {
 	walkLeftStart = bodyNS::WALK_LEFT_START;
 	walkLeftStop = bodyNS::WALK_LEFT_STOP;
 	walkRightStart = bodyNS::WALK_RIGHT_START;
-	walkRightStop = bodyNS::WALK_LEFT_STOP;
+	walkRightStop = bodyNS::WALK_RIGHT_STOP;
 
 //Final settings
 	collisionType = entityNS::BOX;
@@ -100,7 +100,7 @@ void Body::initialize() {
 void Body::update(float frametime) {
 	Entity::update(frametime);
 	height = heightBC;
-
+	
 //React to character actions
 	if (crouch) {
 		height = crouchHeight;
@@ -112,15 +112,15 @@ void Body::update(float frametime) {
 		}
 	} else if (falling) {
 		if (faceDir < 0) {
-			setCurrentFrame(fallRightStart);
+			setFrames(fallRightStart, fallRightStop);
 		} else {
-			setCurrentFrame(fallLeftStart);
+			setFrames(fallLeftStart, fallLeftStop);
 		}
 	} else if (jumping) {
 		if (faceDir < 0) {
-			setCurrentFrame(jumpRightStart);
+			setFrames(jumpRightStart, jumpRightStop);
 		} else {
-			setCurrentFrame(jumpLeftStart);
+			setFrames(jumpLeftStart, jumpLeftStop);
 		}
 	} else if (running) {
 		if (faceDir < 0) {
@@ -130,9 +130,9 @@ void Body::update(float frametime) {
 		}
 	} else if (walking) {
 		if (faceDir < 0) {
-			setCurrentFrame(walkRightStart);
+			setFrames(walkRightStart, walkRightStop);
 		} else {
-			setCurrentFrame(walkLeftStart);
+			setFrames(walkLeftStart, walkLeftStop);
 		}
 	} else {
 		if (faceDir < 0) {

@@ -228,8 +228,11 @@ void Character::update(float frameTime) {
 //Move left or right
 	if (input->isKeyDown(characterNS::WALK_LEFT) ^ input->isKeyDown(characterNS::WALK_RIGHT)) {
 		faceDir = input->isKeyDown(characterNS::WALK_RIGHT) ? 1 : -1;
+
+		body->walking = true;
 	} else {
 		faceDir = 0;
+		body->walking = false;
 	}
 
 //Crouch, disabled, sad face :(
@@ -241,6 +244,9 @@ void Character::update(float frameTime) {
 
 		if (input->isKeyDown(characterNS::JUMP)) {
 			jump();
+			body->jumping = true;
+		} else {
+			body->jumping = false;
 		}
 	} else {
 		walk(frameTime/3);
