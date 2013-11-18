@@ -210,7 +210,7 @@ void Character::update(float frameTime) {
 	#endif
 
 //Movement based on collision detection
-	if (standingOn == 0) {
+	if (standingOn == 0 || !standingOn->getActive()) {
 		D3DXVECTOR2 v (
 			body->getVelocity().x, 
 			body->getVelocity().y + frameTime * characterNS::GRAVITY_Y
