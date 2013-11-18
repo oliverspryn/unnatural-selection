@@ -5,6 +5,7 @@
 #include "textureManager.h"
 #include "textDX.h"
 #include "LMap.h"
+#include "textDX.h"
 #include <vector>
 using std::vector;
 #include <cstdlib>
@@ -30,10 +31,13 @@ public:
     void releaseAll();
     void resetAll();
 	void consoleCommand();
+	TextDX* mousePoint;
 private:
+	int totalTarget, targetToPrint;
 	void buildFromFile(std::string fileName);
 	TerrainElement* movingObject;
 	bool clicked, prevClick;
+	bool targetSelected;
 	TerrainElement* findEntityByClick(int x, int y, bool& found);
 	int selectedTerrain;
 	int terrainNumToPrint,spawnNumToPrint;//used int outputting to file

@@ -82,6 +82,22 @@ void LMap::update(float frameTime)
 					//}
 				}
 
+				//target collision
+				for(int j = 0; j < numTargets; j++)
+				{
+					if(targets[j]!=0)
+					{
+						fT = frameTime;
+						auto c = characters[i];
+						auto t = targets[j];
+						if(characters[i]->body->collidesWith(*targets[j],collisionVector))
+						{
+							int side = targets[j]->getCollisionSide(collisionVector*-1);//put in call to side finder function
+							collide(characters[i],targets[j],side);
+						}
+					}
+				}
+
 				//being on level
 				for(int j = 0; j < numTerrain; j++)
 				{
@@ -227,6 +243,14 @@ void LMap::draw()
 		//if(characters[0]!=0)
 			//camera->centerPosition = characters[0]->getCenter();
 	
+	for(int i = 0; i < numTargets; i++)
+	{
+		if(targets[i]!=0)
+		{
+			camera->draw(*targets[i]);
+		}
+	}
+
 	for(int i = 0; i < numMags; i++)
 	{
 		if(mags[i] != 0)
@@ -304,7 +328,15 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 				return false;
 		}
 	}
-	camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,0,0,0.5);
+	for(int i = 0; i < numTargets; i++)
+	{
+		if(targets[i]!=0)
+		{
+			if(!targets[i]->initialize(gamePtr,textureM,ncols))
+				return false;
+		}
+	}
+	camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,(maxX+minX)/2,(maxY+minY)/2,1);
 	//if(!editor)
 //		camera = new Camera(GAME_WIDTH,GAME_HEIGHT,0,0,characters[0]->body->getX(),characters[0]->body->getY(),0.5);
 	//else
@@ -324,9 +356,11 @@ void LMap::chooseSpawnPoint(Character* c)
 	c->setY(spawnPoints[point]->getY());
 }
 
-LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool edit)
+LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	totalTargets = 0;
 	totalSpawns = 0;
+	this->numTargets = numTarget;
 	totalCharacters = 0;
 	minX = 0;
 	minY = 0;
@@ -340,6 +374,7 @@ LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool e
 	terrain = new TerrainElement*[this->numTerrain];
 	characters = new Character*[this->numCharacters];
 	spawnPoints = new TerrainElement*[this->numSpawns];
+	targets = new TerrainElement*[this->numTargets];
 	editor = edit;
 	this->levelFileName="testLevel.txt";
 	graphics = g;
@@ -359,6 +394,10 @@ LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, bool e
 	for(int i = 0; i < numSpawns; i++)
 	{
 		spawnPoints[i] = 0;
+	}
+	for(int i = 0; i < numTargets; i++)
+	{
+		targets[i] = 0;
 	}
 	//maybe get rid of pickups...
 	for(int i = 0; i < levelNS::NUM_PICKUP; i++)
@@ -420,6 +459,19 @@ bool LMap::addCharacter(Character* c)
 	{
 		characters[totalCharacters] = c;
 		totalCharacters++;
+	}
+	else
+		added = false;
+	return added;
+}
+
+bool LMap::addTarget(TerrainElement* target)
+{
+	bool added = true;
+	if(this->totalTargets<this->numTargets)
+	{
+		targets[totalTargets] = target;
+		totalTargets++;
 	}
 	else
 		added = false;

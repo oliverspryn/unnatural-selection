@@ -22,9 +22,12 @@ LevelCreator::LevelCreator()
 	loadFile = false;
 	addSpawn = false;
 	spawnChosen = false;
+	targetSelected = false;
 	oldColor = graphicsNS::BLACK;
 	terrainNumToPrint = 0;
 	spawnNumToPrint = 0;
+	totalTarget = 0;
+	targetToPrint = 0;
 }
 
 LevelCreator::~LevelCreator()
@@ -36,10 +39,15 @@ void LevelCreator::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
 
+	this->mousePoint = new TextDX();
+
+	if(this->mousePoint->initialize(graphics, 15, true, false, "Arial") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+
 	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
 
-	testMap = new LMap(input,graphics,10000,1000,1,5,true);
+	testMap = new LMap(input,graphics,10000,1000,1,5,10,true);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -172,6 +180,10 @@ void LevelCreator::update()
 		{
 			spawnNumToPrint--;
 		}
+		else if(targetSelected)
+		{
+			this->targetToPrint--;
+		}
 		else
 		{
 			terrainNumToPrint--;
@@ -194,6 +206,10 @@ void LevelCreator::render()
 	graphics->spriteBegin();
 
 	graphics->setBackColor(graphicsNS::TEAL);
+	this->mousePoint->setFontColor(graphicsNS::WHITE);
+	std::stringstream point;
+	point << "X: " << testMap->camera->getRealPos(input->getMouseX(),input->getMouseY()).x << " Y: " << testMap->camera->getRealPos(input->getMouseX(),input->getMouseY()).y;
+    this->mousePoint->print(point.str(),20,20);
 	testMap->draw();
 
 	graphics->spriteEnd();
@@ -204,6 +220,20 @@ void LevelCreator::consoleCommand()
 	command = console->getCommand();    // get command from console
     if(command == "")                   // if no command
         return;
+
+	if(command == "info")
+	{
+		std::stringstream temp;
+		if(objectChosen)
+		{
+			temp << "width: " << movingObject->getWidth() << " ";
+			temp << "Height: " << movingObject->getHeight() << " ";
+			temp << "x: " << movingObject->getX() << " ";
+			temp << "y: " << movingObject->getY() << " ";
+			console->print(temp.str());
+		}
+		return;
+	}
 
 	if(command == "play")
 	{
@@ -317,11 +347,30 @@ void LevelCreator::consoleCommand()
 		{
 			console->print("adding spawn...");
 			selectedTerrain = totalTerrain;
-			totalTerrain++;
 			moveObject = true;
 			addSpawn = true;
 			movingObject = t;
 			spawnNumToPrint++;
+		}
+		else
+			console->print("spawn failed");
+		return;
+	}
+
+	if(command == "target")//here
+	{
+		TerrainElement* t = new TerrainElement(50,50,VECTOR2(100,100));
+		t->color = graphicsNS::CYAN;
+		oldColor = t->color;
+		t->initialize(this,&terrainTexture,0);//put in new texture manager here
+		t->generateSideEquations();
+		if(testMap->addTarget(t))
+		{
+			console->print("adding target...");
+			selectedTerrain = totalTerrain;
+			targetToPrint++;
+			moveObject = true;
+			movingObject = t;
 		}
 		else
 			console->print("spawn failed");
@@ -490,6 +539,22 @@ TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 			}
 		}
 	}
+	for(int i = 0; i < testMap->totalTargets; i++)
+	{
+		if(testMap->targets[i]->getActive())
+		{
+			ent = testMap->targets[i];
+			entityX = ent->getX();
+			entityY = ent->getY();
+			int temp = ent->getX();
+			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
+			{
+				found = true;
+				targetSelected = true;
+				return ent;
+			}
+		}
+	}
 	found = false;
 	return 0;
 }
@@ -497,11 +562,13 @@ TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 void LevelCreator::releaseAll()
 {
 	terrainTexture.onLostDevice();
+	this->mousePoint->onLostDevice();
 	Game::releaseAll();
 }
 
 void LevelCreator::resetAll()
 {
 	terrainTexture.onResetDevice();
+	this->mousePoint->onResetDevice();
 	Game::resetAll();
 }

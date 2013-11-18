@@ -69,6 +69,7 @@ public:
 	~LMap();
 	int minX, maxX, minY, maxY;
 	int numTerrain, numCharacters, numSpawns, numMags, totalSpawns;//totalSpawns is the number of active spawn points
+	int numTargets, totalTargets;//num is the available ones total is the ones created
 	int totalCharacters;//characters added in
 	int addedElements;
 	Magazine** mags;
@@ -77,6 +78,7 @@ public:
 	TerrainElement** terrain;
 	PickUp* dropped[levelNS::NUM_PICKUP];//if they are touching it and choose to pick it up pick it up
 	TerrainElement** spawnPoints;
+	TerrainElement** targets;
 	int player;
 	//has a pointer to input so that it can easily run all the updating and what not
 	Input* input;
@@ -88,11 +90,12 @@ public:
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);
-	LMap(Input* i, Graphics* g, int numT = 1000, int numM = 1000, int numC = 1, int numS = 5, bool edit = false);
+	LMap(Input* i, Graphics* g, int numT = 1000, int numM = 1000, int numC = 1, int numS = 5, int numTarget = 10, bool edit = false);
 	void update(float frameTime);
 	void draw();
 	bool addTerrain(TerrainElement* t);
 	bool addSpawnPoint(TerrainElement* pt);
+	bool addTarget(TerrainElement* target);
 	bool addCharacter(Character* c);
 	//void buildFromFile(std::string fileName);
 	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
