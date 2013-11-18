@@ -178,21 +178,51 @@ void TestStuff::update()
 	//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 
 	//The camera boxing
-	if(camera->centerPosition.y + (1/camera->zoom)*3*(camera->height/2)/4 < player->corners[1].y)
+	//int cameraTop(camera->centerPosition.y - (1/camera->zoom)*(camera->height/2));
+	//int cameraBottom(camera->centerPosition.y + (1/camera->zoom)*(camera->height/2));
+	//Y bound
+	if(camera->centerPosition.y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) < player->corners[1].y)
 	{
-		camera->centerPosition.y = player->corners[1].y - (1/camera->zoom)*3*(camera->height/2)/4;
+		if(player->corners[1].y - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) < testMap->maxY - (1/camera->zoom)*(camera->height/2))
+		{
+			camera->centerPosition.y = player->corners[1].y - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		}else
+		{
+			camera->centerPosition.y = testMap->maxY - (1/camera->zoom)*(camera->height/2);
+		}
 	}
-	else if(camera->centerPosition.y - (1/camera->zoom)*3*(camera->height/2)/4 > player->corners[1].y)
+	else if(camera->centerPosition.y - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) > player->corners[0].y)
 	{
-		camera->centerPosition.y = player->corners[1].y + (1/camera->zoom)*3*(camera->height/2)/4;
+		//camera->centerPosition.y = player->corners[0].y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		if(player->corners[0].y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) > testMap->minY + (1/camera->zoom)*(camera->height/2))
+		{
+			camera->centerPosition.y = player->corners[0].y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		}else
+		{
+			camera->centerPosition.y = testMap->minY + (1/camera->zoom)*(camera->height/2);
+		}
 	}
-	if(camera->centerPosition.x + (1/camera->zoom)*3*(camera->width/2)/4 < player->corners[1].x)
+	///X Bounds
+	if(camera->centerPosition.x + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) < player->corners[2].x)
 	{
-		camera->centerPosition.x = player->corners[1].x - (1/camera->zoom)*3*(camera->width/2)/4;
+		if(player->corners[2].x - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) < testMap->maxX - (1/camera->zoom)*(camera->width/2))
+		{
+			camera->centerPosition.x = player->corners[2].x - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2);
+		}else
+		{
+			camera->centerPosition.x = testMap->maxX - (1/camera->zoom)*(camera->width/2);
+		}
 	}
-	else if(camera->centerPosition.x - (1/camera->zoom)*3*(camera->width/2)/4 > player->corners[1].x)
+	else if(camera->centerPosition.x - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) > player->corners[0].x)
 	{
-		camera->centerPosition.x = player->corners[1].x + (1/camera->zoom)*3*(camera->width/2)/4;
+		//camera->centerPosition.y = player->corners[0].y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		if(player->corners[0].x + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) > testMap->minX + (1/camera->zoom)*(camera->width/2))
+		{
+			camera->centerPosition.x = player->corners[0].x + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2);
+		}else
+		{
+			camera->centerPosition.x = testMap->minX + (1/camera->zoom)*(camera->width/2);
+		}
 	}
 
 	testMap->update(frameTime);

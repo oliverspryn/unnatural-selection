@@ -14,6 +14,15 @@ using std::vector;
 #include <sstream>
 using std::stringstream;
 
+namespace teststuffNS
+{
+	const float cameraMaxBorder(1/4.0f);
+	const float cameraMinBorder(1/4.0f);
+
+
+
+}
+
 class TestStuff : public Game
 {
 public:
