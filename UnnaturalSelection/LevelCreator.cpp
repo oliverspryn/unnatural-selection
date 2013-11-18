@@ -498,6 +498,17 @@ void LevelCreator::buildFromFile(std::string fileName)
 			t->color = graphicsNS::RED;
 			testMap->addSpawnPoint(t);
 		}
+		else//assume the rest are targets
+		{
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			TerrainElement* t = new TerrainElement(50,50,VECTOR2(x,y));
+			t->initialize(this,&terrainTexture,0);
+			t->color = graphicsNS::BLUE;
+			t->generateSideEquations();
+			testMap->addTarget(t);
+		}
 		getline(fin,line);
 		i++;
 	}
