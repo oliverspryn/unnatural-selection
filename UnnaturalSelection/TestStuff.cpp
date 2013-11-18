@@ -160,6 +160,7 @@ void TestStuff::initialize(HWND hwnd)
 	testMap->addSpawnPoint(sp);
 
 	TerrainElement* target = new TerrainElement(50,50,VECTOR2((testMap->maxX+testMap->minX)/2,testMap->maxY-200));
+	target->setHealth(10000);
 	target->color = graphicsNS::BLUE;
 	target->setVisible(true);
 	testMap->addTarget(target);
