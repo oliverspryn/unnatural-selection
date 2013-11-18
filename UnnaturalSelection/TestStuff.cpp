@@ -227,6 +227,8 @@ void TestStuff::collisions()
 void TestStuff::render()
 {
 	graphics->spriteBegin();
+	//FIX
+	testMap->camera->centerPosition = testMap->characters[0]->getCenter();
 
 	graphics->setBackColor(graphicsNS::GRAY);
 	testMap->draw();
