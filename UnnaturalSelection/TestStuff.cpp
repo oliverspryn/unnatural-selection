@@ -45,10 +45,10 @@ void TestStuff::initialize(HWND hwnd)
 	if (!projectileIM.initialize(graphics,0,0,0,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
 
-	testProjectile = new Projectile(&projectileTM, this, 8, 8, entityNS::CIRCLE, 1);
+	testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
 
-	testMag = new Magazine(30, 4000, 4000, 1, 100, 100, ONE, testProjectile); 
-	testGun = new Gun(10, 2*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
+	testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
+	testGun = new Gun(10, 20*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
 	testGun->loadNewMag(testMag);
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 	//testGun->setX(100);
@@ -154,7 +154,7 @@ void TestStuff::initialize(HWND hwnd)
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
 
-	TerrainElement* sp = new TerrainElement(10,10,VECTOR2(0,0));
+	TerrainElement* sp = new TerrainElement(10,10,VECTOR2((testMap->maxX+testMap->minX)/2,testMap->maxY-200));
 	sp->color = graphicsNS::RED;
 	sp->setVisible(true);
 	testMap->addSpawnPoint(sp);
@@ -176,6 +176,52 @@ void TestStuff::update()
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
 	player->aimAngle = atan2(mouseRealPos.y-player->getCenterY(), mouseRealPos.x-player->getCenterX());
 	//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
+
+	//bounds mouse
+	D3DXVECTOR2 mousePos(camera->getRealPos(input->getMouseX(), input->getMouseY()));
+	if(camera->centerPosition.y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) < mousePos.y)
+	{
+		if(mousePos.y - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) < testMap->maxY - (1/camera->zoom)*(camera->height/2))
+		{
+			camera->centerPosition.y = mousePos.y - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		}else
+		{
+			camera->centerPosition.y = testMap->maxY - (1/camera->zoom)*(camera->height/2);
+		}
+	}
+	else if(camera->centerPosition.y - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) > mousePos.y)
+	{
+		//camera->centerPosition.y = player->corners[0].y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		if(mousePos.y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2) > testMap->minY + (1/camera->zoom)*(camera->height/2))
+		{
+			camera->centerPosition.y = mousePos.y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		}else
+		{
+			camera->centerPosition.y = testMap->minY + (1/camera->zoom)*(camera->height/2);
+		}
+	}
+	///X Bounds
+	if(camera->centerPosition.x + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) < mousePos.x)
+	{
+		if(mousePos.x - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) < testMap->maxX - (1/camera->zoom)*(camera->width/2))
+		{
+			camera->centerPosition.x = mousePos.x - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2);
+		}else
+		{
+			camera->centerPosition.x = testMap->maxX - (1/camera->zoom)*(camera->width/2);
+		}
+	}
+	else if(camera->centerPosition.x - (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) > mousePos.x)
+	{
+		//camera->centerPosition.y = player->corners[0].y + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->height/2);
+		if(mousePos.x + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2) > testMap->minX + (1/camera->zoom)*(camera->width/2))
+		{
+			camera->centerPosition.x = mousePos.x + (1/camera->zoom)*teststuffNS::cameraMinBorder*(camera->width/2);
+		}else
+		{
+			camera->centerPosition.x = testMap->minX + (1/camera->zoom)*(camera->width/2);
+		}
+	}
 
 	//The camera boxing
 	//int cameraTop(camera->centerPosition.y - (1/camera->zoom)*(camera->height/2));
@@ -224,6 +270,8 @@ void TestStuff::update()
 			camera->centerPosition.x = testMap->minX + (1/camera->zoom)*(camera->width/2);
 		}
 	}
+	
+
 
 	testMap->update(frameTime);
 }
