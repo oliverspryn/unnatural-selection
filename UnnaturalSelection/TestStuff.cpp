@@ -223,7 +223,7 @@ void TestStuff::update()
 	{
 		delete testMap;
 		currentLevel++;
-		if(currentLevel > 5)
+		if(currentLevel > 4)
 		{
 			endGame = true;
 			return;
@@ -235,9 +235,25 @@ void TestStuff::update()
 		testMap->addCharacter(c);
 
 		//WeaponStuff
-		testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
-		testGun = new Gun(10, 20*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
-		testGun->loadNewMag(testMag);
+		if(currentLevel == 1)
+		{
+			testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
+			testGun = new Gun(50, 700, 100, 2000, 1000, 100, 5, 2.0, 0, ONE);
+			testGun->loadNewMag(testMag);
+		}else if(currentLevel == 2){
+			testMag = new Magazine(30000, 40000, 40000, 1, 100, 120, ONE, testProjectile); 
+			testGun = new Gun(300, 1200, 100, 2000, 1000, 100, 3, 2.0, 7, ONE);
+			testGun->loadNewMag(testMag);
+		}else if(currentLevel == 3){
+			testMag = new Magazine(30000, 40000, 40000, 1, 100, 130, ONE, testProjectile); 
+			testGun = new Gun(1000, 3*60, 100, 2000, 2000, 100, 0, 2.0, 1, ONE);
+			testGun->loadNewMag(testMag);
+		}else if(currentLevel == 4){
+			testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
+			testGun = new Gun(10, 20*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
+			testGun->loadNewMag(testMag);
+		}
+
 		testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 
 		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
