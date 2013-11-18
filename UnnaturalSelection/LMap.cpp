@@ -58,14 +58,14 @@ void LMap::update(float frameTime)
 {
 	VECTOR2 collisionVector;//get rid of later when using other collision detection function
 	float angle, fT;
-	/*if(input->isKeyDown('1'))
+	if(input->isKeyDown('1'))
 	{
 		camera->zoom = max(0.1, camera->zoom - frameTime*.5);
 	}
 	if(input->isKeyDown('2'))
 	{
 		camera->zoom = min(10, camera->zoom + frameTime*.5);
-	}*/
+	}
 	if(!editor)
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
