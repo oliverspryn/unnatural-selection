@@ -320,7 +320,7 @@ void LMap::draw()
 	}
 }
 
-bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
+bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM)
 {
 	for(int i = 0; i < numCharacters; i++)
 	{
@@ -351,7 +351,7 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 	{
 		if(targets[i]!=0)
 		{
-			if(!targets[i]->initialize(gamePtr,textureM,ncols))
+			if(!targets[i]->initialize(gamePtr,targetTM,ncols))
 				return false;
 		}
 	}
@@ -618,10 +618,11 @@ float LMap::getXIntercept(float m1, float b1, float m2, float b2)
 //	}
 //}
 
-void LMap::createFileFromLevel(int terNum, int spawn)
+void LMap::createFileFromLevel(int terNum, int spawn, float zoom)
 {
 	ofstream fout;
 	fout.open(this->levelFileName);
+	fout << zoom << std::endl;
 	fout << terNum << std::endl;
 	fout << spawn << std::endl;
 	for(int i = 0; i < numTerrain; i++)

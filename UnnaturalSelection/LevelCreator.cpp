@@ -48,9 +48,12 @@ void LevelCreator::initialize(HWND hwnd)
 	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
 
+	if(!targetTexture.initialize(graphics,TARGET_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing target texture"));
+
 	testMap = new LMap(input,graphics,10000,1000,1,5,10,true);
 
-	if (!testMap->initialize(this,0,0,0,&terrainTexture))
+	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 
 }
@@ -360,10 +363,10 @@ void LevelCreator::consoleCommand()
 
 	if(command == "target")//here
 	{
-		TerrainElement* t = new TerrainElement(50,50,VECTOR2(100,100));
+		TerrainElement* t = new TerrainElement(64,64,VECTOR2(100,100));
 		t->color = graphicsNS::CYAN;
 		oldColor = t->color;
-		t->initialize(this,&terrainTexture,0);//put in new texture manager here
+		t->initialize(this,&targetTexture,0);//put in new texture manager here
 		t->generateSideEquations();
 		if(testMap->addTarget(t))
 		{
@@ -443,7 +446,7 @@ void LevelCreator::consoleCommand()
 	{
 		saveFile = false;
 		testMap->levelFileName = command;
-		testMap->createFileFromLevel(terrainNumToPrint,spawnNumToPrint);
+		testMap->createFileFromLevel(terrainNumToPrint,spawnNumToPrint,testMap->camera->zoom);
 		return;
 	}
 	if(testMap->addedElements == 0 && command == "load")
@@ -464,6 +467,10 @@ void LevelCreator::buildFromFile(std::string fileName)
 	fstream fin;
 	fin.open(fileName);
 	string line = "";
+	float zoom;
+	getline(fin,line);
+	zoom = atof(line.c_str());
+	testMap->camera->zoom;
 	getline(fin,line);
 	int numTerrain = atoi(line.c_str());
 	this->terrainNumToPrint = numTerrain;
@@ -517,8 +524,8 @@ void LevelCreator::buildFromFile(std::string fileName)
 			color = std::strtoul(line.c_str(),0,10);
 			getline(fin,line);
 			health = atoi(line.c_str());
-			TerrainElement* t = new TerrainElement(50,50,VECTOR2(x,y));
-			t->initialize(this,&terrainTexture,0);
+			TerrainElement* t = new TerrainElement(64,64,VECTOR2(x,y));
+			t->initialize(this,&targetTexture,0);
 			t->setHealth(health);
 			t->color = color;
 			t->generateSideEquations();

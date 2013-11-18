@@ -45,6 +45,7 @@ const float FULL_HEALTH = 100;
 
 // graphic images
 const char NEBULA_IMAGE[] =   "pictures\\box(64x64).png";     // photo source NASA/courtesy of nasaimages.org 
+const char TARGET_IMAGE[] =	"pictures\\breakable-target.png";
 const char TEXTURES_IMAGE[] = "pictures\\textures.png";  // game textures
 const char MENU_IMAGE[] =     "pictures\\menu.png";      // menu texture
 

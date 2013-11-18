@@ -48,7 +48,7 @@ private:
 	DWORD oldColor;
 	int boxHeight, boxWidth;
 	int a,r,g,b;
-	TextureManager terrainTexture;
+	TextureManager terrainTexture, targetTexture;
 	LMap* testMap;
 	bool multipleBlocks, firstBlock;
 	bool loadFile;

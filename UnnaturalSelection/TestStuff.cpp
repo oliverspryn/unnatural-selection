@@ -165,7 +165,7 @@ void TestStuff::initialize(HWND hwnd)
 	target->setVisible(true);
 	testMap->addTarget(target);
 
-	if (!testMap->initialize(this,0,0,0,&terrainTexture))
+	if (!testMap->initialize(this,0,0,0,&terrainTexture,&terrainTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	if(testMap->characters[0]!=0)
 	{

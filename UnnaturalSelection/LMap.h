@@ -98,8 +98,8 @@ public:
 	bool addTarget(TerrainElement* target);
 	bool addCharacter(Character* c);
 	//void buildFromFile(std::string fileName);
-	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
-	void createFileFromLevel(int terrain, int spawn);
+	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM);
+	void createFileFromLevel(int terrain, int spawn, float zoom);
 	void collision();
 	bool editor;
 	//used for opening and saving levels to and from files
