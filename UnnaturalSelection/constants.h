@@ -37,8 +37,8 @@ const char TARGET_SHATTER[] = "Light Bulb Breaking-SoundBible.com-53066515";
 const char MUSIC[] = "04 All of Us";
 
 // window
-const char CLASS_NAME[] = "Unatural Selection";
-const char GAME_TITLE[] = "Unatural Selection";
+const char CLASS_NAME[] = "Unnatural Selection";
+const char GAME_TITLE[] = "Unnatural Selection";
 const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1000;              // width of game in pixels
 const UINT GAME_HEIGHT = 600;               // height of game in pixels

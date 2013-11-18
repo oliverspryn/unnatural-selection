@@ -250,6 +250,7 @@ void Character::update(float frameTime) {
 		}
 	} else {
 		walk(frameTime/3);
+		body->jumping = true;
 	}
 
 //Ready? Aim... <insert "fire" statement here, when ready>

@@ -1,6 +1,6 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
-#define SHOW_ANGLE
+//#define SHOW_ANGLE
 
 #include <cmath>
 
