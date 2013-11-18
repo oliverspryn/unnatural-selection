@@ -65,7 +65,9 @@ void TestStuff::initialize(HWND hwnd)
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	testMap = new LMap(input,graphics);
 
-	this->buildFromFile("testLevel.txt");
+	fileNames[0] = "testLevel.txt";
+	currentLevel = 0;
+	this->buildFromFile(fileNames[currentLevel]);
 
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
@@ -190,7 +192,7 @@ void TestStuff::update()
 	{
 		delete testMap;
 		testMap = new LMap(input,graphics);
-		this->buildFromFile("testLevel.txt");
+		this->buildFromFile(fileNames[currentLevel]);
 		Character* c = new Character(this,graphics);
 		//c->initialize();
 		testMap->addCharacter(c);

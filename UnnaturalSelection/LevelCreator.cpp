@@ -51,7 +51,7 @@ void LevelCreator::initialize(HWND hwnd)
 	if(!targetTexture.initialize(graphics,TARGET_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing target texture"));
 
-	testMap = new LMap(input,graphics,10000,1000,1,5,10,true);
+	testMap = new LMap(input,graphics,10000,1000,1,5,100,true);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");

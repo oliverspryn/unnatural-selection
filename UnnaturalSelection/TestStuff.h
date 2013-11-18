@@ -49,6 +49,8 @@ public:
 	Magazine* testMag;
 	Projectile* testProjectile;
 	void buildFromFile(std::string fileName);
+	string fileNames[5];
+	int currentLevel;
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;
