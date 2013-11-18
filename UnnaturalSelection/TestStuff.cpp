@@ -22,6 +22,9 @@ void TestStuff::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
 
+	if(!targetTexture.initialize(graphics,TARGET_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing target texture"));
+
 	if(!terrainTexture.initialize(graphics,NEBULA_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing terrain texture"));
 
@@ -159,13 +162,13 @@ void TestStuff::initialize(HWND hwnd)
 	sp->setVisible(true);
 	testMap->addSpawnPoint(sp);
 
-	TerrainElement* target = new TerrainElement(50,50,VECTOR2((testMap->maxX+testMap->minX)/2,testMap->maxY-200));
+	TerrainElement* target = new TerrainElement(64,64,VECTOR2((testMap->maxX+testMap->minX)/2,testMap->maxY-200));
 	target->setHealth(10000);
 	target->color = graphicsNS::BLUE;
 	target->setVisible(true);
 	testMap->addTarget(target);
 
-	if (!testMap->initialize(this,0,0,0,&terrainTexture,&terrainTexture))
+	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	if(testMap->characters[0]!=0)
 	{
