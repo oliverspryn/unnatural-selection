@@ -57,7 +57,36 @@ void LevelCreator::update()
 		movingObject->setY(y);
 	}
 
+	//camera functions
+	//zoom
+	if(input->isKeyDown('1'))
+	{
+		testMap->camera->zoom = max(0.1, testMap->camera->zoom - frameTime*.5);
+	}
+	if(input->isKeyDown('2'))
+	{
+		testMap->camera->zoom = min(10, testMap->camera->zoom + frameTime*.5);
+	}
 
+	if(input->isKeyDown(VK_LEFT) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x-50,testMap->camera->centerPosition.y);
+	}
+
+	if(input->isKeyDown(VK_RIGHT) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x+50,testMap->camera->centerPosition.y);
+	}
+
+	if(input->isKeyDown(VK_UP) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x,testMap->camera->centerPosition.y-50);
+	}
+
+	if(input->isKeyDown(VK_DOWN) && testMap->editor)
+	{
+		testMap->camera->centerPosition = VECTOR2(testMap->camera->centerPosition.x,testMap->camera->centerPosition.y+50);
+	}
 
 	if(multipleBlocks && input->isKeyDown(VK_SPACE))
 	{
@@ -362,6 +391,7 @@ void LevelCreator::buildFromFile(std::string fileName)
 	int numSpawn = atoi(line.c_str());
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
+	DWORD color;
 	int i = 1;
 	getline(fin,line);
 	while(!fin.fail() && line != "--")
@@ -378,9 +408,12 @@ void LevelCreator::buildFromFile(std::string fileName)
 			y = atoi(line.c_str());
 			getline(fin,line);
 			degree = atof(line.c_str());
+			getline(fin,line);
+			color = std::strtoul(line.c_str(),0,10);
 			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
 			t->setDegrees(degree);
 			t->initialize(this,&terrainTexture,0);
+			t->color = color;
 			t->generateSideEquations();
 			testMap->addTerrain(t);		
 		}

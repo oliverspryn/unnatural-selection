@@ -558,6 +558,7 @@ void LMap::createFileFromLevel(int terNum, int spawn)
 			fout << terrain[i]->getX() << std::endl;
 			fout << terrain[i]->getY() << std::endl;
 			fout << terrain[i]->getDegrees() << std::endl;
+			fout << terrain[i]->color << std::endl;
 		}
 	}
 	for(int i = 0; i < this->totalSpawns; i++)
