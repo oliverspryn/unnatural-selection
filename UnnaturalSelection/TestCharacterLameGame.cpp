@@ -1,47 +1,35 @@
 #include "TestCharacterLameGame.h"
 
-TestCharacterLameGame::TestCharacterLameGame() {
+void testo();
 
-}
+TestCharacterLameGame::TestCharacterLameGame() {}
 
 TestCharacterLameGame::~TestCharacterLameGame() {
-	SAFE_DELETE(testBox);
 	releaseAll();
 }
 
-void TestCharacterLameGame::ai() {
+void TestCharacterLameGame::ai() {}
 
-}
-
-void TestCharacterLameGame::collisions() {
-	D3DXVECTOR2 v;
-	
-	if (character->collidesWith(*testBox, v)) {
-		v.x = 0.0f;
-		v.y = 0.0f;
-
-		character->setVelocity(v);
-		character->setY(testBox->getY() - 86);
-		character->standingOn = testBox;
-	}
-}
+void TestCharacterLameGame::collisions() {}
 
 void TestCharacterLameGame::initialize(HWND hwnd) {
 	Game::initialize(hwnd);
-	character = new Character(this, graphics);
+	menu = new Menu(this, graphics);
 
-//Box things 
-	if (!boxTM.initialize(graphics,"pictures\\box(64x64).png"))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box texture"));
-	if (!boxIM.initialize(graphics,64,64,entityNS::BOX,&projectileTM))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing box"));
+//Create the menu
+	MenuCol items2;
+	items2.push_back(MenuItem("Yay"));
+	items2.push_back(MenuItem("Yay1", true));
+	items2.push_back(MenuItem("Weep"));
 
-	testBox = new StraightPath(32, 512, D3DXVECTOR2(GAME_WIDTH/2-300, 400));
-	testBox->initialize(this, &boxTM, entityNS::ROTATED_BOX);
-	testBox->generateSideEquations();
+	MenuCol items;
+	items.push_back(MenuItem("Play"));
+	items.push_back(MenuItem("Level Select", true));
+	items.push_back(MenuItem("Customize Weapon"));
+	items.push_back(MenuItem("Options", false, items2));
+	items.push_back(MenuItem("Exit", false, testo));
 
-	character->initialize();
-	character->setXY(200, 200);
+	menu->initialize(items);
 }
 
 void TestCharacterLameGame::releaseAll() {
@@ -50,8 +38,7 @@ void TestCharacterLameGame::releaseAll() {
 
 void TestCharacterLameGame::render() {
 	graphics->spriteBegin();
-	character->draw();
-	testBox->draw();
+	menu->draw();
 	graphics->spriteEnd();
 }
 
@@ -60,6 +47,9 @@ void TestCharacterLameGame::resetAll() {
 }
 
 void TestCharacterLameGame::update() {
-	character->update(frameTime);
-	testBox->update(frameTime);
+	menu->update(frameTime);
+}
+
+void testo() {
+	MessageBox(NULL, "Yay!", "Error", MB_OK);
 }
