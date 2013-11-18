@@ -18,13 +18,13 @@ void TestCharacterLameGame::initialize(HWND hwnd) {
 
 //Create the menu
 	MenuCol items2;
-	items2.push_back(MenuItem("Yay"));
-	items2.push_back(MenuItem("Yay1", true));
+	items2.push_back(MenuItem("Yay", true));
+	items2.push_back(MenuItem("Yay1"));
 	items2.push_back(MenuItem("Weep"));
 
 	MenuCol items;
-	items.push_back(MenuItem("Play"));
-	items.push_back(MenuItem("Level Select", true));
+	items.push_back(MenuItem("Play", true));
+	items.push_back(MenuItem("Level Select"));
 	items.push_back(MenuItem("Customize Weapon"));
 	items.push_back(MenuItem("Options", false, items2));
 	items.push_back(MenuItem("Exit", false, testo));

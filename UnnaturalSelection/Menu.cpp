@@ -9,7 +9,7 @@ Menu::Menu(Game* game, Graphics* graphics) :
 Menu::~Menu() { }
 
 void Menu::draw() {
-	int spacing = (GAME_HEIGHT - menuNS::BOUND_BOTTOM - menuNS::BOUND_TOP) / currentMenu->size();
+	int spacing = (GAME_HEIGHT - menuNS::BOUND_BOTTOM - menuNS::BOUND_TOP) / (currentMenu->size() - 1);
 
 //Draw the text
 	for(int i = 0; i < currentMenu->size(); ++i) {
