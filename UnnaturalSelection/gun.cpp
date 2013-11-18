@@ -85,7 +85,7 @@ void Gun::fire(D3DXVECTOR2 initialPos, float angle)
 {
 	chamberedProjectile->fire(initialPos, angle);
 	chamberedProjectile = 0;
-
+	audio->playCue(GUN_SHOT);
 }
 void Gun::multiFire(float frameTime)
 {

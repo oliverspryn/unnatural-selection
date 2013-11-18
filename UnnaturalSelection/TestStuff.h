@@ -51,10 +51,11 @@ public:
 	void buildFromFile(std::string fileName);
 	string fileNames[5];
 	int currentLevel;
-
+	void consoleCommand();
 	float gameTime;
 	int score;
 	bool endGame;
+	bool infiniteTime;
 	int oldTargets;
 	void endGameStuff();
 private:

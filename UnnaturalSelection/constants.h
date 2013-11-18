@@ -27,6 +27,15 @@
 //-----------------------------------------------
 //                  Constants
 //-----------------------------------------------
+
+//audio stuff
+const char WAVE_BANK[] = "audio\\win\\Wave Bank.xwb";
+const char SOUND_BANK[] = "audio\\win\\Sound Bank.xsb";
+//sound cues
+const char GUN_SHOT[] = "gun_sound_effect";
+const char TARGET_SHATTER[] = "Light Bulb Breaking-SoundBible.com-53066515";
+const char MUSIC[] = "04 All of Us";
+
 // window
 const char CLASS_NAME[] = "Unatural Selection";
 const char GAME_TITLE[] = "Unatural Selection";
@@ -48,23 +57,6 @@ const char NEBULA_IMAGE[] =   "pictures\\box(64x64).png";     // photo source NA
 const char TARGET_IMAGE[] =	"pictures\\breakable-target.png";
 const char TEXTURES_IMAGE[] = "pictures\\textures.png";  // game textures
 const char MENU_IMAGE[] =     "pictures\\menu.png";      // menu texture
-
-// audio files required by audio.cpp
-// WAVE_BANK must be location of .xwb file.
-const char WAVE_BANK[]  = "audio\\Win\\waveBank.xwb";
-// SOUND_BANK must be location of .xsb file.
-const char SOUND_BANK[] = "audio\\Win\\soundBank.xsb";
-
-// audio cues
-const char CHEER[]          = "cheer";
-const char COLLIDE[]        = "collide";
-const char EXPLODE[]        = "explode";
-const char ENGINE1[]        = "engine1";
-const char ENGINE2[]        = "engine2";
-const char TORPEDO_CRASH[]  = "torpedoCrash";
-const char TORPEDO_FIRE[]   = "torpedoFire";
-const char TORPEDO_HIT[]    = "torpedoHit";
-
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
