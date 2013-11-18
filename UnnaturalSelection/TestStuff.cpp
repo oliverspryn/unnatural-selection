@@ -62,111 +62,10 @@ void TestStuff::initialize(HWND hwnd)
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	testMap = new LMap(input,graphics);
 
-	//terrain generation
-#pragma region
-	TerrainElement* t = new TerrainElement(2000,50,VECTOR2(0, 0));
-	//t->setDegrees(0.001);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
+	this->buildFromFile("testLevel.txt");
 
-	t = new TerrainElement(2000,50,VECTOR2(2950,0));
-	////t->setDegrees(0.001);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,3000,VECTOR2(0, 2000));
-	//t->setDegrees(0.001);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(500,2000-150));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1000,2000-300));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1500,2000-450));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(2000,2000-600));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(2500,2000-750));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(2000,2000-900));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1500,2000-1050));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1000,2000-1200));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(500,2000-1350));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1000,2000-1500));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1500,2000-1650));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(2000,2000-1800));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-
-	t = new TerrainElement(50,400,VECTOR2(1500,2000-1950));
-	//t->setDegrees(-30);
-	t->generateSideEquations();
-	testMap->addTerrain(t);
-#pragma endregion
-
-	for(int i = 0; i < 10; i++)
-	{
-		t = new TerrainElement(50,100,VECTOR2(2000-(50*i),2000-(bodyNS::HEIGHT/4)*i));
-		//t->setDegrees(-30);
-		t->generateSideEquations();
-		testMap->addTerrain(t);
-	}
-
-	//testMap->buildFromFile("level.txt");
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
-
-	TerrainElement* sp = new TerrainElement(10,10,VECTOR2((testMap->maxX+testMap->minX)/2,testMap->maxY-200));
-	sp->color = graphicsNS::RED;
-	sp->setVisible(true);
-	testMap->addSpawnPoint(sp);
-
-	TerrainElement* target = new TerrainElement(64,64,VECTOR2((testMap->maxX+testMap->minX)/2,testMap->maxY-200));
-	target->setHealth(10000);
-	target->color = graphicsNS::BLUE;
-	target->setVisible(true);
-	testMap->addTarget(target);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -280,9 +179,20 @@ void TestStuff::update()
 		}
 	}
 	
-
+	//if(testMap->activeTargets == 0)
+		//testMap->levelDone = true;
 
 	testMap->update(frameTime);
+	if(testMap->levelDone)
+	{
+		LMap* temp = testMap;
+		testMap = new LMap(input,graphics,1000,1000,1,5,100,false);
+		//delete temp;
+		this->buildFromFile("testMap.txt");
+		Character* c = new Character(this,graphics);
+		c->initialize();
+		testMap->addCharacter(c);
+	}
 }
 
 void TestStuff::ai()
@@ -313,4 +223,78 @@ void TestStuff::resetAll()
 {
 	terrainTexture.onResetDevice();
 	Game::resetAll();
+}
+
+void TestStuff::buildFromFile(std::string fileName)
+{
+	fstream fin;
+	fin.open(fileName);
+	string line = "";
+	float zoom;
+	getline(fin,line);
+	zoom = atof(line.c_str());
+	testMap->camera->zoom;
+	getline(fin,line);
+	int numTerrain = atoi(line.c_str());
+	//this->terrainNumToPrint = numTerrain;
+	getline(fin,line);
+	int numSpawn = atoi(line.c_str());
+	//this->spawnNumToPrint = numSpawn;
+	int height = 0, width = 0, x = 0, y = 0;
+	double degree = 0;
+	DWORD color;
+	int i = 1, health = 0;
+	getline(fin,line);
+	while(!fin.fail() && line != "--")
+	{
+		//it is reading in terrain spots
+		if(i<=numTerrain)
+		{
+			height = atoi(line.c_str());
+			getline(fin,line);
+			width = atoi(line.c_str());
+			getline(fin,line);
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			getline(fin,line);
+			degree = atof(line.c_str());
+			getline(fin,line);
+			color = std::strtoul(line.c_str(),0,10);
+			TerrainElement* t = new TerrainElement(height,width,VECTOR2(x,y));
+			t->setDegrees(degree);
+			t->initialize(this,&terrainTexture,0);
+			t->color = color;
+			t->generateSideEquations();
+			testMap->addTerrain(t);		
+		}
+		else if(i<=numSpawn + numTerrain)
+		{
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			TerrainElement* t = new TerrainElement(50,50,VECTOR2(x,y));
+			t->initialize(this,&terrainTexture,0);
+			t->color = graphicsNS::RED;
+			testMap->addSpawnPoint(t);
+		}
+		else//assume the rest are targets
+		{
+			x = atoi(line.c_str());
+			getline(fin,line);
+			y = atoi(line.c_str());
+			getline(fin,line);
+			color = std::strtoul(line.c_str(),0,10);
+			getline(fin,line);
+			health = atoi(line.c_str());
+			TerrainElement* t = new TerrainElement(64,64,VECTOR2(x,y));
+			t->initialize(this,&targetTexture,0);
+			t->setHealth(health);
+			t->color = color;
+			t->generateSideEquations();
+			testMap->addTarget(t);
+		}
+		getline(fin,line);
+		i++;
+	}
 }

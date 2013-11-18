@@ -107,6 +107,8 @@ public:
 	//used for bullet collisions
 	bool projectileCollide(Projectile &proj, TerrainElement &terra, float &frameTime);
 	void chooseSpawnPoint(Character* c);
+	bool levelDone;
+	int activeTargets;
 };
 
 #endif

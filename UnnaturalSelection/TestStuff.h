@@ -47,6 +47,7 @@ public:
     Gun* testGun;
 	Magazine* testMag;
 	Projectile* testProjectile;
+	void buildFromFile(std::string fileName);
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;

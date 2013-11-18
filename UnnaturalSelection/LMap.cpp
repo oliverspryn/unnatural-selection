@@ -215,6 +215,7 @@ void LMap::update(float frameTime)
 					{
 						targets[k]->setActive(false);
 						targets[k]->setVisible(false);
+						activeTargets--;
 					}
 				}
 			}
@@ -377,6 +378,9 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	activeTargets = 0;
+	totalTargets = 0;
+	levelDone = false;
 	totalTargets = 0;
 	totalSpawns = 0;
 	this->numTargets = numTarget;
@@ -491,6 +495,7 @@ bool LMap::addTarget(TerrainElement* target)
 	{
 		targets[totalTargets] = target;
 		totalTargets++;
+		activeTargets++;
 	}
 	else
 		added = false;
