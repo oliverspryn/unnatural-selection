@@ -51,6 +51,8 @@ public:
 	void buildFromFile(std::string fileName);
 	string fileNames[5];
 	int currentLevel;
+
+	float gameTime;
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;

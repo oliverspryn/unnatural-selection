@@ -2,7 +2,7 @@
 
 TestStuff::TestStuff()
 {
-	
+	gameTime = 120;
 }
 
 TestStuff::~TestStuff()
@@ -84,6 +84,7 @@ void TestStuff::initialize(HWND hwnd)
 
 void TestStuff::update()
 {
+	gameTime -= frameTime;
 	Character* player = testMap->characters[0];
 	Camera* camera = testMap->camera;
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
@@ -230,8 +231,11 @@ void TestStuff::render()
 	graphics->setBackColor(graphicsNS::GRAY);
 	testMap->draw();
 	std::stringstream tempWords;
-	tempWords << "Ammo: \t" << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
+	tempWords << "Ammo: " << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
 	hudFont.print(tempWords.str().c_str(), 300, 550);
+	tempWords.str("");
+	tempWords << "Time: " << gameTime;
+	hudFont.print(tempWords.str().c_str(), 500, 550);
 	graphics->spriteEnd();
 }
 
