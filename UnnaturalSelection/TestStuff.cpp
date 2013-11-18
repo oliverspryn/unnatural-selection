@@ -3,6 +3,7 @@
 TestStuff::TestStuff()
 {
 	gameTime = 120;
+	score = 0;
 }
 
 TestStuff::~TestStuff()
@@ -80,6 +81,7 @@ void TestStuff::initialize(HWND hwnd)
 		testMap->characters[0]->currentMag = testMag;
 		testMap->mags[0] = testMag;
 	}
+	oldTargets = testMap->activeTargets;
 }
 
 void TestStuff::update()
@@ -214,6 +216,11 @@ void TestStuff::update()
 			testMap->mags[0] = testMag;
 		}
 	}
+	if(oldTargets > testMap->activeTargets)
+	{
+		score += oldTargets-testMap->activeTargets;
+	}
+	oldTargets = testMap->activeTargets;
 }
 
 void TestStuff::ai()
@@ -238,6 +245,12 @@ void TestStuff::render()
 	tempWords.str("");
 	tempWords << "Time: " << gameTime;
 	hudFont.print(tempWords.str().c_str(), 500, 550);
+	tempWords.str("");
+	tempWords << "Targets Remaining: " << testMap->activeTargets;
+	hudFont.print(tempWords.str().c_str(), 700, 550);
+	tempWords.str("");
+	tempWords << "Score: " << score;
+	hudFont.print(tempWords.str().c_str(), 100, 550);
 	graphics->spriteEnd();
 }
 

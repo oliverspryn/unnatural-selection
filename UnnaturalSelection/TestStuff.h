@@ -53,6 +53,8 @@ public:
 	int currentLevel;
 
 	float gameTime;
+	int score;
+	int oldTargets;
 private:
 	TextureManager terrainTexture;
 	LMap* testMap;
