@@ -55,6 +55,7 @@ private:
 	bool chooseA, chooseR, chooseG, chooseB;
 	bool addSpawn;
 	bool spawnChosen;
+	bool chooseHealth;
 };
 
 #endif

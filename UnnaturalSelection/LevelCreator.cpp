@@ -23,6 +23,7 @@ LevelCreator::LevelCreator()
 	addSpawn = false;
 	spawnChosen = false;
 	targetSelected = false;
+	chooseHealth = false;
 	oldColor = graphicsNS::BLACK;
 	terrainNumToPrint = 0;
 	spawnNumToPrint = 0;
@@ -367,13 +368,22 @@ void LevelCreator::consoleCommand()
 		if(testMap->addTarget(t))
 		{
 			console->print("adding target...");
+			console->print("select health:");
 			selectedTerrain = totalTerrain;
 			targetToPrint++;
 			moveObject = true;
 			movingObject = t;
+			chooseHealth = true;
 		}
 		else
-			console->print("spawn failed");
+			console->print("target failed");
+		return;
+	}
+
+	if(chooseHealth)
+	{
+		movingObject->setHealth(atoi(command.c_str()));
+		chooseHealth = false;
 		return;
 	}
 
@@ -463,7 +473,7 @@ void LevelCreator::buildFromFile(std::string fileName)
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
 	DWORD color;
-	int i = 1;
+	int i = 1, health = 0;
 	getline(fin,line);
 	while(!fin.fail() && line != "--")
 	{
@@ -503,9 +513,14 @@ void LevelCreator::buildFromFile(std::string fileName)
 			x = atoi(line.c_str());
 			getline(fin,line);
 			y = atoi(line.c_str());
+			getline(fin,line);
+			color = std::strtoul(line.c_str(),0,10);
+			getline(fin,line);
+			health = atoi(line.c_str());
 			TerrainElement* t = new TerrainElement(50,50,VECTOR2(x,y));
 			t->initialize(this,&terrainTexture,0);
-			t->color = graphicsNS::BLUE;
+			t->setHealth(health);
+			t->color = color;
 			t->generateSideEquations();
 			testMap->addTarget(t);
 		}
