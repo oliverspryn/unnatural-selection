@@ -206,18 +206,21 @@ void LMap::update(float frameTime)
 					}
 				}
 				float tempTime = frameTime;
-				for(int k(0); k < totalTargets && (targets[k] != 0 && targets[k]->getActive()); k++)
+				for(int k(0); k < totalTargets; k++)
 				{
-					if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
+					if(targets[k] != 0 && targets[k]->getActive())
 					{
-						mags[i]->projArray[j]->setActive(false);
-						mags[i]->projArray[j]->setVisible(false);
-						targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
-						if(targets[k]->getHealth() < 0)
+						if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
 						{
-							targets[k]->setActive(false);
-							targets[k]->setVisible(false);
-							this->activeTargets--;
+							mags[i]->projArray[j]->setActive(false);
+							mags[i]->projArray[j]->setVisible(false);
+							targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
+							if(targets[k]->getHealth() < 0)
+							{
+								targets[k]->setActive(false);
+								targets[k]->setVisible(false);
+								this->activeTargets--;
+							}
 						}
 					}
 				}
