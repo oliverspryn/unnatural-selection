@@ -3,6 +3,7 @@
 TestStuff::TestStuff()
 {
 	gameTime = 500;
+	infiniteTime = false;
 	score = 0;
 }
 
@@ -22,6 +23,8 @@ TestStuff::~TestStuff()
 void TestStuff::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
+
+	audio->playCue(MUSIC);
 
 	if(hudFont.initialize(graphics, 15, true, false, "Arial") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
@@ -55,7 +58,7 @@ void TestStuff::initialize(HWND hwnd)
 	testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
 
 	testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
-	testGun = new Gun(10, 20*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
+	testGun = new Gun(32, 16*60*60, 100, 2000, 1000, 100, 10, 2.0, 16, ONE);
 	testGun->loadNewMag(testMag);
 	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 	//testGun->setX(100);
@@ -95,11 +98,16 @@ void TestStuff::endGameStuff()
 
 void TestStuff::update()
 {
+	/*if(input->isKeyDown(VK_SPACE))
+	{
+		audio->playCue(GUN_SHOT);
+	}*/
 	if(endGame)
 	{
 		endGameStuff();
 	}
-	gameTime -= frameTime;
+	if(!infiniteTime)
+		gameTime -= frameTime;
 	Character* player = testMap->characters[0];
 	Camera* camera = testMap->camera;
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
@@ -245,6 +253,7 @@ void TestStuff::update()
 	if(oldTargets > testMap->activeTargets)
 	{
 		score += oldTargets-testMap->activeTargets;
+		audio->playCue(TARGET_SHATTER);
 	}
 	oldTargets = testMap->activeTargets;
 }
@@ -363,5 +372,22 @@ void TestStuff::buildFromFile(std::string fileName)
 		}
 		getline(fin,line);
 		i++;
+	}
+}
+
+void TestStuff::consoleCommand()
+{
+	std::string command = console->getCommand();
+	if(command == "")
+		return;
+	if(command == "skip_level")
+	{
+		testMap->levelDone = true;
+		return;
+	}
+	if(command == "infinite_time")
+	{
+		infiniteTime=!infiniteTime;
+		return;
 	}
 }
