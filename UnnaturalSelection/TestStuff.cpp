@@ -179,19 +179,34 @@ void TestStuff::update()
 		}
 	}
 	
-	//if(testMap->activeTargets == 0)
-		//testMap->levelDone = true;
+	if(testMap->activeTargets == 0)
+		testMap->levelDone = true;
 
 	testMap->update(frameTime);
 	if(testMap->levelDone)
 	{
-		LMap* temp = testMap;
-		testMap = new LMap(input,graphics,1000,1000,1,5,100,false);
-		//delete temp;
+		delete testMap;
+		testMap = new LMap(input,graphics);
 		this->buildFromFile("testLevel.txt");
 		Character* c = new Character(this,graphics);
-		c->initialize();
+		//c->initialize();
 		testMap->addCharacter(c);
+
+		//WeaponStuff
+		testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
+		testGun = new Gun(10, 20*60*60, 100, 2000, 1000, 100, 30, 2.0, 0, ONE);
+		testGun->loadNewMag(testMag);
+		testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+
+		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
+			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		
+		if(testMap->characters[0]!=0)
+		{
+			testMap->characters[0]->currentWeapon = testGun;
+			testMap->characters[0]->currentMag = testMag;
+			testMap->mags[0] = testMag;
+		}
 	}
 }
 
