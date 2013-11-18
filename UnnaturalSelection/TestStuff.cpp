@@ -3,6 +3,7 @@
 TestStuff::TestStuff()
 {
 	gameTime = 180;
+	currentLevel=0;
 	endGame = false;
 	infiniteTime = false;
 	score = 0;
@@ -240,13 +241,15 @@ void TestStuff::update()
 
 	if(testMap->levelDone)
 	{
-		delete testMap;
 		currentLevel++;
 		if(currentLevel > 4)
 		{
 			endGame = true;
 			return;
 		}
+		delete testMap;
+		
+		
 		testMap = new LMap(input,graphics);
 		this->buildFromFile(fileNames[currentLevel]);
 		Character* c = new Character(this,graphics);
