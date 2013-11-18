@@ -115,7 +115,7 @@ void TestStuff::update()
 	{
 		audio->playCue(GUN_SHOT);
 	}*/
-	if (controlState < 4) {
+	if (controlState < 4 && controlState!=-1) {
 		if(input->wasKeyPressed(VK_SPACE))
 			++controlState;
 
