@@ -40,9 +40,9 @@ namespace myLines
 	void Line::setSpeed(float in)
 	{
 		in = abs(in);
+		velocity = in*velocity/length;
 		length = in;
-		velocity.x = cos(angle)*length;
-		velocity.y = sin(angle)*length;
+
 	}
 
 	//Sets the time if line intersects b 

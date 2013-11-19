@@ -93,6 +93,10 @@ void Gun::multiFire(float frameTime)
 	float recoilTime = frameTime/count;
 	if(fireMode != AUTO)//accounts for burst fire
 	{
+		if(gunState == NONE && count == 0)
+		{
+			count = 1;
+		}
 		count = min(burstCount, count);
 		burstCount -= count;
 	}
