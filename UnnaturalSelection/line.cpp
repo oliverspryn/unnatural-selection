@@ -6,6 +6,17 @@
 
 namespace myLines
 {
+	int sign(float in)
+	{
+		if(in < 0)
+		{
+			return -1;
+		}else if(0 < in){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 	Line::Line()
 	{
 		pos = D3DXVECTOR2(0, 0);
@@ -118,6 +129,100 @@ namespace myLines
 			}
 		}
 
+		return false;
+	}
+	bool Ray::getTimeOfIntersectMoveingPoint(D3DXVECTOR2 thisVel, D3DXVECTOR2 point, D3DXVECTOR2 pointVel, float &time)
+	{
+		//times each end of the vectors hit
+		float t1(0);
+		//weather the ray hits at the time
+		bool v1(false);
+		
+		if(thisVel == pointVel  || pointVel == D3DXVECTOR2(0,0))
+		{
+			return false;
+		}else{
+			//this start pos
+			t1 = D3DXVec2CCW(&D3DXVECTOR2(getPosition(0)-point), &getVelocity())/D3DXVec2CCW(&D3DXVECTOR2(pointVel-thisVel), &getVelocity());
+		}
+		//Collision points on ray
+		D3DXVECTOR2 c1 = point + pointVel*t1-(getPosition(0) + thisVel*t1);
+		v1 = (t1 >= 0 && c1.x*c1.x + c1.y*c1.y <= rayLength*rayLength && sign(c1.x) == sign(getVelocity().x) && sign(c1.y) == sign(getVelocity().y));
+		if(v1)
+		{
+			time = t1;
+			return true;
+		}
+		return false;
+	}
+
+	bool Ray::getTimeOfIntersectMovingRays(D3DXVECTOR2 thisVel, Ray &b, D3DXVECTOR2 velB, float &time)
+	{
+		//times each end of the vectors hit
+		float tempTime(0), hitTime(0);
+		bool hit(false);
+		float thisEndTime(rayLength/getLength()), bEndTime(b.getRayLength()/b.getLength());
+		//this start pos
+		if(getTimeOfIntersectMoveingPoint(thisVel, b.getPosition(0), velB, tempTime))
+		{
+			if(hit)
+			{
+				if(tempTime < hitTime)
+				{
+					hitTime = tempTime;
+				}
+			}else{
+				hit = true;
+				hitTime = tempTime;
+			}
+		}
+		//this end pos
+		if(getTimeOfIntersectMoveingPoint(thisVel, b.getPosition(bEndTime), velB, tempTime))
+		{
+			if(hit)
+			{
+				if(tempTime < hitTime)
+				{
+					hitTime = tempTime;
+				}
+			}else{
+				hit = true;
+				hitTime = tempTime;
+			}
+		}
+		//Line b start pos
+		if(b.getTimeOfIntersectMoveingPoint(velB, getPosition(0), thisVel, tempTime))
+		{
+			if(hit)
+			{
+				if(tempTime < hitTime)
+				{
+					hitTime = tempTime;
+				}
+			}else{
+				hit = true;
+				hitTime = tempTime;
+			}
+		}
+		//Line b end pos
+		if(b.getTimeOfIntersectMoveingPoint(velB, getPosition(thisEndTime), thisVel, tempTime))
+		{
+			if(hit)
+			{
+				if(tempTime < hitTime)
+				{
+					hitTime = tempTime;
+				}
+			}else{
+				hit = true;
+				hitTime = tempTime;
+			}
+		}
+		if(hit)
+		{
+			time = hitTime;
+			return true;
+		}
 		return false;
 	}
 }

@@ -60,7 +60,9 @@ namespace myLines
 		}
 		virtual bool getTimeOfIntersect(Line &b, float &time);
 		virtual bool getTimeOfIntersectRay(Ray &b, float &time);
-
+		virtual bool getTimeOfIntersectMoveingPoint(D3DXVECTOR2 thisVel, D3DXVECTOR2 point, D3DXVECTOR2 pointVel, float &time);
+		//returns this shortest time for any of the points of collision
+		virtual bool getTimeOfIntersectMovingRays(D3DXVECTOR2 thisVel, Ray &b, D3DXVECTOR2 velB, float &time);
 
 	private:
 		float rayLength;
