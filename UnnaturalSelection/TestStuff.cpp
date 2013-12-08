@@ -76,8 +76,8 @@ void TestStuff::initialize(HWND hwnd)
 
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
-	c = new Character(this,graphics);
-	testMap->addCharacter(c);
+	AI* a = new AI(this,graphics);
+	testMap->addCharacter(reinterpret_cast<Character*>(a));
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");

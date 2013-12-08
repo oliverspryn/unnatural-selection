@@ -3,6 +3,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "terrainElement.h"
 #include "Character.h"
+#include "AI.h"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>

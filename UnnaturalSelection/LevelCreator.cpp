@@ -237,9 +237,9 @@ void LevelCreator::consoleCommand()
 	if(command == "ai")
 	{
 		console->print("adding ai character");
-		Character* c = new Character(this,graphics);
-		c->initialize();
-		testMap->addCharacter(c);
+		AI* a = new AI(this,graphics);
+		a->initialize();
+		testMap->addCharacter(reinterpret_cast<Character*>(a));
 		return;
 	}
 
