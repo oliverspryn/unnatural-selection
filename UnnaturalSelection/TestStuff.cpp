@@ -58,12 +58,6 @@ void TestStuff::initialize(HWND hwnd)
 	if (!projectileIM.initialize(graphics,0,0,0,&projectileTM))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing projectile"));
 
-	testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
-
-	testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
-	testGun = new Gun(32, 16*60*60, 100, 2000, 1000, 100, 10, 2.0, 16, ONE);
-	testGun->loadNewMag(testMag);
-	testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 	//testGun->setX(100);
 	//testGun->setY(100);
 
@@ -87,11 +81,19 @@ void TestStuff::initialize(HWND hwnd)
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
-	if(testMap->characters[0]!=0)
+	for(int i = 0; i < testMap->totalCharacters; i++)
 	{
-		testMap->characters[0]->currentWeapon = testGun;
-		testMap->characters[0]->currentMag = testMag;
-		testMap->mags[0] = testMag;
+		if(testMap->characters[i]!=0)
+		{
+			testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
+			testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
+			testGun = new Gun(32, 16*60*60, 100, 2000, 1000, 100, 10, 2.0, 16, ONE);
+			testGun->loadNewMag(testMag);
+			testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+			testMap->characters[i]->currentWeapon = testGun;
+			testMap->characters[i]->currentMag = testMag;
+			testMap->mags[i] = testMag;
+		}
 	}
 	oldTargets = testMap->activeTargets;
 
@@ -133,7 +135,11 @@ void TestStuff::update()
 	Character* player = testMap->characters[0];
 	Camera* camera = testMap->camera;
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
-	player->aimAngle = atan2(mouseRealPos.y-player->getCenterY(), mouseRealPos.x-player->getCenterX());
+	//make it change angle for all characters you control
+	for(int i = 0; i < testMap->totalCharacters; i++)
+	{
+		testMap->characters[i]->aimAngle = atan2(mouseRealPos.y-testMap->characters[i]->getCenterY(), mouseRealPos.x-testMap->characters[i]->getCenterX());
+	}
 	//testGun->act(frameTime, input->getMouseLButton(), input->getMouseRButton(), false, false, false);
 
 	//bounds mouse
@@ -282,12 +288,14 @@ void TestStuff::update()
 
 		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
-		
-		if(testMap->characters[0]!=0)
+		for(int i = 0; i < testMap->totalCharacters; i++)
 		{
-			testMap->characters[0]->currentWeapon = testGun;
-			testMap->characters[0]->currentMag = testMag;
-			testMap->mags[0] = testMag;
+			if(testMap->characters[i]!=0)
+			{
+				testMap->characters[i]->currentWeapon = testGun;
+				testMap->characters[i]->currentMag = testMag;
+				testMap->mags[i] = testMag;
+			}
 		}
 	}
 	if(oldTargets > testMap->activeTargets)

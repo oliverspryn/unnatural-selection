@@ -145,7 +145,7 @@ void LMap::update(float frameTime)
 	}
 	if(!editor)
 	{
-		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+		for(int i = 0; i < totalCharacters; i++)
 		{
 			if(characters[i]!=0)
 			{
@@ -171,8 +171,8 @@ void LMap::update(float frameTime)
 	{
 		for(int j(0); j < mags[i]->projArrayIndex; j++)
 		{
-				if(mags[i]->projArray[j]->getActive())
-				{
+			if(mags[i]->projArray[j]->getActive())
+			{
 				if(!mags[i]->projArray[j]->rayUpdated)
 				{
 					float tempTime = frameTime;
@@ -190,6 +190,25 @@ void LMap::update(float frameTime)
 				{
 					if(targets[k] != 0 && targets[k]->getActive())
 					{
+						if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
+						{
+							mags[i]->projArray[j]->setActive(false);
+							mags[i]->projArray[j]->setVisible(false);
+							targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
+							if(targets[k]->getHealth() < 0)
+							{
+								targets[k]->setActive(false);
+								targets[k]->setVisible(false);
+								this->activeTargets--;
+							}
+						}
+					}
+				}
+				for(int k(0); k < totalCharacters; i++)
+				{
+					if(characters[k] != 0 && characters[k]->body->getActive())
+					{
+						//stuff here do things
 						if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
 						{
 							mags[i]->projArray[j]->setActive(false);
@@ -699,4 +718,19 @@ bool LMap::projectileCollide(Projectile &proj, TerrainElement &terra, float &fra
 	}
 	//proj.setStaticHitTime(frameTime);
 	return false;
+}
+
+bool LMap::collidesWithCharacter(Entity* c, Entity* p, float& fT)
+{
+	VECTOR2 characterStartP = VECTOR2(c->getCenterX(),c->getCenterY());
+	VECTOR2 characterV = c->getVelocity();
+	VECTOR2 bulletStartP = VECTOR2(p->getCenterX(),p->getCenterY());
+	VECTOR2 bulletV = p->getVelocity();
+	//end positions
+	VECTOR2 characterEndP = characterStartP + fT*characterV;
+	VECTOR2 bulletEndP = bulletStartP + fT*bulletV;
+	//difference between ends
+	VECTOR2 diff = bulletEndP-characterEndP;
+	//int
+	return true;
 }

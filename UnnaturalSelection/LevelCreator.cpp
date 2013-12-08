@@ -61,9 +61,6 @@ void LevelCreator::initialize(HWND hwnd)
 		Character* c = new Character(this,graphics);
 		c->initialize();
 		testMap->addCharacter(c);
-		c = new Character(this,graphics);
-		c->initialize();
-		testMap->addCharacter(c);
 	}
 }
 
