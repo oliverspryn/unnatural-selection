@@ -90,7 +90,7 @@ public:
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);
-	LMap(Input* i, Graphics* g, int numT = 1000, int numM = 1000, int numC = 1, int numS = 5, int numTarget = 10, bool edit = false);
+	LMap(Input* i, Graphics* g, int numT = 1000, int numM = 1000, int numC = 10, int numS = 5, int numTarget = 10, bool edit = false);
 	void update(float frameTime);
 	void draw();
 	bool addTerrain(TerrainElement* t);

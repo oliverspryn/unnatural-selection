@@ -68,7 +68,7 @@ void LMap::update(float frameTime)
 	}
 	if(!editor)
 	{
-		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
+		for(int i = 0; i < this->totalCharacters; i++)
 		{
 			if(characters[i]!=0)
 			{
@@ -143,26 +143,6 @@ void LMap::update(float frameTime)
 			}
 		}
 	}
-	//collision of bullets with terrain
-	//for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
-	//{
-	//	for(int j = 0; j < numTerrain; j++)
-	//	{
-	//		if(terrain[j]!=0)
-	//		{
-	//			//if(projectiles[i]->collidesWith(*terrain[j],collisionVector))
-	//			//{
-	//			//	//make the bullet stop...
-	//			//	projectiles[i]->setVisible(false);
-	//			//	projectiles[i]->setActive(false);
-	//			//}
-	//		}
-	//	}
-	//}
-	/*for(int i = 0; i < levelNS::NUM_PROJECTILES; i++)
-	{
-		projectiles[i]->update(frameTime);
-	}*/
 	if(!editor)
 	{
 		for(int i = 0; i < levelNS::NUM_CHARACTERS; i++)
@@ -329,7 +309,7 @@ void LMap::draw()
 
 bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM)
 {
-	for(int i = 0; i < numCharacters; i++)
+	for(int i = 0; i < totalCharacters; i++)
 	{
 		if(characters[i]!=0)
 		{
@@ -487,6 +467,7 @@ bool LMap::addCharacter(Character* c)
 	if(this->totalCharacters<this->numCharacters)
 	{
 		characters[totalCharacters] = c;
+		//this->numCharacters++;
 		totalCharacters++;
 	}
 	else

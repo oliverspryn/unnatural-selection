@@ -51,11 +51,20 @@ void LevelCreator::initialize(HWND hwnd)
 	if(!targetTexture.initialize(graphics,TARGET_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing target texture"));
 
-	testMap = new LMap(input,graphics,10000,1000,1,5,100,true);
+	testMap = new LMap(input,graphics,10000,1000,10,5,100,true);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 
+	if(testMap->totalCharacters == 0)
+	{
+		Character* c = new Character(this,graphics);
+		c->initialize();
+		testMap->addCharacter(c);
+		c = new Character(this,graphics);
+		c->initialize();
+		testMap->addCharacter(c);
+	}
 }
 
 void LevelCreator::update()
@@ -63,8 +72,8 @@ void LevelCreator::update()
 	if(moveObject)
 	{
 		int x,y;
-		x = testMap->camera->getRealPos(input->getMouseX(),0).x;
-		y = testMap->camera->getRealPos(0,input->getMouseY()).y;
+		x = testMap->camera->getRealPos(input->getMouseX(),0).x - this->blockMoveX;
+		y = testMap->camera->getRealPos(0,input->getMouseY()).y - this->blockMoveY;
 		movingObject->setX(x);
 		movingObject->setY(y);
 	}
@@ -120,6 +129,7 @@ void LevelCreator::update()
 		int x,y;
 		x = testMap->camera->getRealPos(input->getMouseX(),0).x;
 		y = testMap->camera->getRealPos(0,input->getMouseY()).y;
+
 		//if they click off object to deselect
 		if(objectChosen)
 		{
@@ -130,6 +140,8 @@ void LevelCreator::update()
 		movingObject = findEntityByClick(x,y,found);
 		if(found)
 		{
+			blockMoveX = x-movingObject->getX();
+			blockMoveY = y-movingObject->getY();
 			oldColor = movingObject->color;
 			objectChosen = true;
 			movingObject->color = graphicsNS::BLUE;
@@ -225,6 +237,15 @@ void LevelCreator::consoleCommand()
     if(command == "")                   // if no command
         return;
 
+	if(command == "ai")
+	{
+		console->print("adding ai character");
+		Character* c = new Character(this,graphics);
+		c->initialize();
+		testMap->addCharacter(c);
+		return;
+	}
+
 	if(command == "info")
 	{
 		std::stringstream temp;
@@ -244,13 +265,10 @@ void LevelCreator::consoleCommand()
 		if(this->spawnNumToPrint>0)
 		{
 			testMap->editor = false;
-			if(testMap->totalCharacters == 0)
+			for(int i = 0; i < testMap->totalCharacters; i++)
 			{
-				Character* c = new Character(this,graphics);
-				c->initialize();
-				testMap->addCharacter(c);
+				testMap->chooseSpawnPoint(testMap->characters[i]);
 			}
-			testMap->chooseSpawnPoint(testMap->characters[0]);
 		}
 		return;
 	}
@@ -308,7 +326,8 @@ void LevelCreator::consoleCommand()
 
 	if(getHeight)
 	{
-		boxHeight = atoi(command.c_str());
+		double tempHeight = atof(command.c_str());
+		boxHeight = tempHeight * testMap->characters[0]->getHeight();
 		console->print("width");
 		getHeight = false;
 		getWidth = true;
@@ -318,13 +337,18 @@ void LevelCreator::consoleCommand()
 
 	if(getWidth)
 	{
-		boxWidth = atoi(command.c_str());
+		double tempWidth = atof(command.c_str());
+		boxWidth = tempWidth*testMap->characters[0]->getHeight();
 		TerrainElement* t = new TerrainElement(boxHeight,boxWidth,VECTOR2(100,100));
 		
 		t->initialize(this,&terrainTexture,0);
 		t->generateSideEquations();
 		if(testMap->addTerrain(t))
 		{
+			this->blockMoveX =boxWidth/2;
+			this->blockMoveY = boxHeight/2;
+			t->setX(input->getMouseX()-blockMoveX);
+			t->setY(input->getMouseY()-blockMoveY);
 			console->print("adding block...");
 			selectedTerrain = totalTerrain;
 			totalTerrain++;
@@ -349,6 +373,10 @@ void LevelCreator::consoleCommand()
 		t->generateSideEquations();
 		if(testMap->addSpawnPoint(t))
 		{
+			this->blockMoveX =boxWidth/2;
+			this->blockMoveY = boxHeight/2;
+			t->setX(input->getMouseX()-blockMoveX);
+			t->setY(input->getMouseY()-blockMoveY);
 			console->print("adding spawn...");
 			selectedTerrain = totalTerrain;
 			moveObject = true;
@@ -370,6 +398,10 @@ void LevelCreator::consoleCommand()
 		t->generateSideEquations();
 		if(testMap->addTarget(t))
 		{
+			this->blockMoveX =boxWidth/2;
+			this->blockMoveY = boxHeight/2;
+			t->setX(input->getMouseX()-blockMoveX);
+			t->setY(input->getMouseY()-blockMoveY);
 			console->print("adding target...");
 			console->print("select health:");
 			selectedTerrain = totalTerrain;
@@ -394,6 +426,7 @@ void LevelCreator::consoleCommand()
     {
         console->print("Console Commands:");
         console->print("fps - toggle display of frames per second");
+		console->print("The unit for building items is based on the character height");
 		console->print("block- build a new terrainElement of your desired size");
 		console->print("blockM- build multiple blocks of the desired size");
 		console->print("color- change the color of your selected block");

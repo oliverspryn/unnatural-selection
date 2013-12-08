@@ -33,6 +33,7 @@ public:
 	void consoleCommand();
 	TextDX* mousePoint;
 private:
+	int blockMoveX,blockMoveY;
 	int totalTarget, targetToPrint;
 	void buildFromFile(std::string fileName);
 	TerrainElement* movingObject;
