@@ -40,7 +40,7 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 			break;
 		case 1:
 			ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-			ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-24);
+			ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
 			break;
 		case 2:
 			ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
@@ -48,7 +48,7 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 			break;
 		case 3:
 			ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-			ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+24);
+			ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+ent->getWidth()/2);
 			break;
 		}
 	}
@@ -204,25 +204,25 @@ void LMap::update(float frameTime)
 						}
 					}
 				}
-				for(int k(0); k < totalCharacters; i++)
-				{
-					if(characters[k] != 0 && characters[k]->body->getActive())
-					{
-						//stuff here do things
-						if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
-						{
-							mags[i]->projArray[j]->setActive(false);
-							mags[i]->projArray[j]->setVisible(false);
-							targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
-							if(targets[k]->getHealth() < 0)
-							{
-								targets[k]->setActive(false);
-								targets[k]->setVisible(false);
-								this->activeTargets--;
-							}
-						}
-					}
-				}
+				//for(int k(0); k < totalCharacters; i++)
+				//{
+				//	if(characters[k] != 0 && characters[k]->body->getActive())
+				//	{
+				//		//stuff here do things
+				//		if(projectileCollide(*mags[i]->projArray[j], *targets[k], tempTime))
+				//		{
+				//			mags[i]->projArray[j]->setActive(false);
+				//			mags[i]->projArray[j]->setVisible(false);
+				//			targets[k]->setHealth(targets[k]->getHealth() - mags[i]->projArray[j]->damage);
+				//			if(targets[k]->getHealth() < 0)
+				//			{
+				//				targets[k]->setActive(false);
+				//				targets[k]->setVisible(false);
+				//				this->activeTargets--;
+				//			}
+				//		}
+				//	}
+				//}
 			}
 		}
 		mags[i]->updateMagsProjectiles(frameTime);
