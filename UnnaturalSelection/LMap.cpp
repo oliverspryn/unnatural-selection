@@ -40,7 +40,7 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 			break;
 		case 1:
 			ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-			ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-ent->getWidth()/2);
+			ent->setX((t->getCenterX()-(t->getWidth()+ent->getWidth())/2)-24);
 			break;
 		case 2:
 			ent->setVelocity(VECTOR2(ent->getVelocity().x,0));
@@ -48,7 +48,7 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 			break;
 		case 3:
 			ent->setVelocity(VECTOR2(0,ent->getVelocity().y));
-			ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+ent->getWidth()/2);
+			ent->setX((t->getCenterX()+(t->getWidth()-ent->getWidth())/2)+24);
 			break;
 		}
 	}

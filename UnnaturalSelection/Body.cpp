@@ -76,8 +76,8 @@ void Body::evalSize() {
 	spriteData.rect.top = -height / 2;
 
 	edge.bottom = height / 2;
-	edge.left = -(width - 20) / 2;
-	edge.right = (width - 20) / 2;
+	edge.left = -24;
+	edge.right = 24;
 	edge.top = -height / 2;
 }
 

@@ -220,7 +220,7 @@ void Character::update(float frameTime) {
 	} else {
 		int xpos = body->getX();
 
-		if (body->getX() + body->getWidth() < standingOn->corners[0].x || body->getX() > standingOn->corners[3].x) {
+		if (body->getCenterX() + 12 < standingOn->corners[0].x || body->getCenterX() - 12 > standingOn->corners[3].x) {
 			standingOn = 0;
 		}
 	}
