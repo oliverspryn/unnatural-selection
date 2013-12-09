@@ -8,7 +8,11 @@
 class AI : public Character {
 public : 
 	AI(Game* game, Graphics* graphics);
-	~AI();
+	virtual void update(float frameTime)
+	{
+		//throw "ertyui";
+	}
+
 };
 
 #endif
