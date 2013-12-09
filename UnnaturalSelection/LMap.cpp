@@ -330,7 +330,10 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 	{
 		if(characters[i]!=0)
 		{
-			characters[i] = new Character(gamePtr,graphics);
+			if(characters[i]==0)
+				characters[i] = new Character(gamePtr,graphics);
+			else
+				characters[i] = new AI(gamePtr,graphics);
 			characters[i]->initialize();
 			chooseSpawnPoint(characters[i]);
 		}

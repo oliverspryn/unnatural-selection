@@ -71,13 +71,13 @@ void TestStuff::initialize(HWND hwnd)
 	if (!testTerrain->initialize(this, &terrainTexture,1))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	TutorialLevel* intro = new TutorialLevel(input,graphics);
-	levels[0] = reinterpret_cast<LMap*>(intro);
-	levels[1] = new LMap(input,graphics);
+	levels[1] = reinterpret_cast<LMap*>(intro);
+	levels[0] = new LMap(input,graphics);
 	levels[2] = new LMap(input,graphics);
 	auto testMap = levels[currentLevel];
 
-	fileNames[0] = "maps//introLevel.txt";
-	fileNames[1] = "maps//faceOff.txt";
+	fileNames[1] = "maps//introLevel.txt";
+	fileNames[0] = "maps//faceOff.txt";
 	fileNames[2] = "maps//level3.txt";
 	fileNames[3] = "maps//level4.txt";
 	fileNames[4] = "maps//level5.txt";

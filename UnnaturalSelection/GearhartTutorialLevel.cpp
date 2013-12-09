@@ -15,18 +15,18 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 	{
 		doors = new TerrainElement*[numDoors];
 		//target door
-		doors[0] = new TerrainElement(146,438,VECTOR2(-1726,-1542));
-		doors[0]->initialize(gamePtr,146,438,ncols,textureM);
+		doors[0] = new TerrainElement(438,146,VECTOR2(-1726,-1542));
+		doors[0]->initialize(gamePtr,textureM,ncols);
 		doors[0]->generateSideEquations();
 		LMap::addTerrain(doors[0]);
 		//duck and cover door
-		doors[1] = new TerrainElement(146,438,VECTOR2(1109,1483));
-		doors[1]->initialize(gamePtr,146,438,ncols,textureM);
+		doors[1] = new TerrainElement(438,146,VECTOR2(1109,1483));
+		doors[1]->initialize(gamePtr,textureM,ncols);
 		doors[1]->generateSideEquations();
 		LMap::addTerrain(doors[1]);
 		//run and shoot door
-		doors[2] = new TerrainElement(146,438,VECTOR2(4096,-1428));
-		doors[2]->initialize(gamePtr,146,438,ncols,textureM);
+		doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		doors[2]->initialize(gamePtr,textureM,ncols);
 		doors[2]->generateSideEquations();
 		LMap::addTerrain(doors[2]);
 		

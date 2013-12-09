@@ -13,6 +13,7 @@ Turret::Turret(VECTOR2 position) : TerrainElement(100,100,position)
 	{
 		//shots[i] = new Projectile(
 	}
+	this->color = graphicsNS::WHITE;
 }
 
 void Turret::update(float frameTime)
