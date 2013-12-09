@@ -11,6 +11,7 @@ public :
 	virtual void update(float frameTime)
 	{
 		//throw "ertyui";
+		frameTime++;
 	}
 
 };
