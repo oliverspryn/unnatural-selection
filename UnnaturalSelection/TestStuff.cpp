@@ -87,7 +87,7 @@ void TestStuff::initialize(HWND hwnd)
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
 	AI* a = new AI(this,graphics);
-	testMap->addCharacter(reinterpret_cast<Character*>(a));
+	testMap->addCharacter(a);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -300,7 +300,7 @@ void TestStuff::update()
 
 		testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 
-		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
+		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture))
 			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 		for(int i = 0; i < testMap->totalCharacters; i++)
 		{
