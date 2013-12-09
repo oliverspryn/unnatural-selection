@@ -6,6 +6,7 @@
 #include "textureManager.h"
 #include "image.h"
 #include "textDX.h"
+#include "GearhartTutorialLevel.h"
 #include "LMap.h"
 #include "gun.h"
 #include <vector>
@@ -18,9 +19,6 @@ namespace teststuffNS
 {
 	const float cameraMaxBorder(1/4.0f);
 	const float cameraMinBorder(1/4.0f);
-
-
-
 }
 
 class TestStuff : public Game
@@ -39,7 +37,7 @@ public:
     void render();      // "
     void releaseAll();
     void resetAll();
-	TextureManager gunTM, magTM, projectileTM, boxTM, targetTexture;   // textures
+	TextureManager gunTM, magTM, projectileTM, boxTM, targetTexture, turretTexture;   // textures
 	TextDX	hudFont;
 	Image   gunIM;
     Image   magIM;
@@ -59,7 +57,11 @@ public:
 	int oldTargets;
 private:
 	TextureManager terrainTexture;
-	LMap* testMap;
+	//make an array of levels
+	LMap** levels;
+	//LMap* testMap;
+	int numLevels;
+	//TutorialLevel* introMap;
 
 	TextureManager openTM, storyTM, controlTM, endTM;
 	Image open, story, control, end;

@@ -1,1 +1,96 @@
 #include "GearhartTutorialLevel.h"
+
+TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g)
+{
+	numDoors = 3;
+	numTurrets = 5;
+	currentDoor = 0;
+	this->room2TurretsKilled = 0;
+}
+
+//need to fix issues with door collision detection not quite working
+bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTexture)
+{
+	if(LMap::initialize(gamePtr,width,height,ncols,textureM,targetTM))
+	{
+		doors = new TerrainElement*[numDoors];
+		//target door
+		doors[0] = new TerrainElement(146,438,VECTOR2(-1726,-1542));
+		doors[0]->initialize(gamePtr,146,438,ncols,textureM);
+		doors[0]->generateSideEquations();
+		LMap::addTerrain(doors[0]);
+		//duck and cover door
+		doors[1] = new TerrainElement(146,438,VECTOR2(1109,1483));
+		doors[1]->initialize(gamePtr,146,438,ncols,textureM);
+		doors[1]->generateSideEquations();
+		LMap::addTerrain(doors[1]);
+		//run and shoot door
+		doors[2] = new TerrainElement(146,438,VECTOR2(4096,-1428));
+		doors[2]->initialize(gamePtr,146,438,ncols,textureM);
+		doors[2]->generateSideEquations();
+		LMap::addTerrain(doors[2]);
+		
+		turrets = new Turret*[this->numTurrets];
+		for(int i = 0; i < this->numTurrets; i++)
+		{
+			turrets[i] = new Turret(VECTOR2(-1135,-540));
+			turrets[i]->initialize(gamePtr,300,420,1,turretTexture);
+			turrets[i]->generateSideEquations();
+			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
+		}
+		return true;
+	}
+	else
+		return false;
+}
+
+void TutorialLevel::update(float frameTime)
+{
+	LMap::update(frameTime);
+
+	//need to modify the implementation of this
+	if(this->levelDone)
+	{
+		//testing only
+		levelDone = false;
+
+		//
+		doors[0]->setActive(false);
+		doors[0]->setVisible(false);
+	}
+
+	if(this->room2TurretsKilled == 5)
+	{
+		doors[1]->setActive(false);
+		doors[1]->setVisible(false);
+	}
+
+	for(int i = 0; i < this->numTurrets; i++)
+	{
+		turrets[i]->update(frameTime);
+	}
+
+	//collision with turrets on terrain
+	VECTOR2 collisionVector;
+	for(int i = 0; i < this->numTurrets; i++)
+	{
+		for(int j = 0; j < this->addedElements; j++)
+		{
+			if(turrets[i]!=terrain[j] && turrets[i]->collidesWith(*terrain[j],collisionVector))
+			{
+				turrets[i]->setVelocity(turrets[i]->getVelocity()*-1);
+			}
+		}
+	}
+	//need to make turrets killable
+}
+
+void TutorialLevel::draw()
+{
+	LMap::draw();
+	for(int i = 0; i < this->numTurrets; i++)
+	{
+		if(turrets[i]!=0)
+			;//this->camera->draw(*turrets[i]);
+	}
+}

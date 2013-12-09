@@ -93,14 +93,14 @@ public:
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);
 	LMap(Input* i, Graphics* g, int numT = 1000, int numM = 1000, int numC = 10, int numS = 5, int numTarget = 10, bool edit = false);
-	void update(float frameTime);
-	void draw();
+	virtual void update(float frameTime);
+	virtual void draw();
 	bool addTerrain(TerrainElement* t);
 	bool addSpawnPoint(TerrainElement* pt);
 	bool addTarget(TerrainElement* target);
 	bool addCharacter(Character* c);
 	//void buildFromFile(std::string fileName);
-	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM=0, TextureManager *turretTM=0);
 	void createFileFromLevel(int terrain, int spawn, float zoom);
 	void collision();
 	bool editor;
@@ -111,6 +111,7 @@ public:
 	void chooseSpawnPoint(Character* c);
 	bool levelDone;
 	int activeTargets;
+	bool targetsDestroyed;
 };
 
 #endif

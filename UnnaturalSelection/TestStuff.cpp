@@ -8,6 +8,9 @@ TestStuff::TestStuff()
 	infiniteTime = false;
 	score = 0;
 	controlState = 1;
+	numLevels = 3;
+	currentLevel=0;
+	levels = new LMap*[this->numLevels];
 }
 
 TestStuff::~TestStuff()
@@ -20,7 +23,7 @@ TestStuff::~TestStuff()
 	{
 		//delete testProjectile;
 	}
-	delete testMap;
+	delete levels[numLevels-1];
 }
 
 void TestStuff::initialize(HWND hwnd)
@@ -40,6 +43,9 @@ void TestStuff::initialize(HWND hwnd)
 
 	if (!gunTM.initialize(graphics,"pictures\\AssultRifle(128x32).png"))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
+
+	if (!turretTexture.initialize(graphics,"pictures\\birmingham.png"))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing turret texture"));
 
     // Weapon texture
     if (!magTM.initialize(graphics,"pictures\\mag(8x8).png"))
@@ -64,13 +70,17 @@ void TestStuff::initialize(HWND hwnd)
 	/*testTerrain = new StraightPath(5,1000,VECTOR2(100,100));
 	if (!testTerrain->initialize(this, &terrainTexture,1))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
-	testMap = new LMap(input,graphics);
+	TutorialLevel* intro = new TutorialLevel(input,graphics);
+	levels[0] = reinterpret_cast<LMap*>(intro);
+	levels[1] = new LMap(input,graphics);
+	levels[2] = new LMap(input,graphics);
+	auto testMap = levels[currentLevel];
 
-	fileNames[0] = "faceOff.txt";
-	fileNames[1] = "level2.txt";
-	fileNames[2] = "level3.txt";
-	fileNames[3] = "level4.txt";
-	fileNames[4] = "level5.txt";
+	fileNames[0] = "maps//introLevel.txt";
+	fileNames[1] = "maps//faceOff.txt";
+	fileNames[2] = "maps//level3.txt";
+	fileNames[3] = "maps//level4.txt";
+	fileNames[4] = "maps//level5.txt";
 	currentLevel = 0;
 	this->buildFromFile(fileNames[currentLevel]);
 
@@ -79,7 +89,7 @@ void TestStuff::initialize(HWND hwnd)
 	AI* a = new AI(this,graphics);
 	testMap->addCharacter(reinterpret_cast<Character*>(a));
 
-	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
+	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	for(int i = 0; i < testMap->totalCharacters; i++)
 	{
@@ -119,6 +129,7 @@ void TestStuff::update()
 	{
 		audio->playCue(GUN_SHOT);
 	}*/
+	auto testMap = levels[this->currentLevel];
 	if (controlState < 4 && controlState!=-1) {
 		if(input->wasKeyPressed(VK_SPACE))
 			++controlState;
@@ -237,7 +248,10 @@ void TestStuff::update()
 	}
 	
 	if(testMap->activeTargets == 0)
+	{
+		testMap->targetsDestroyed=true;
 		testMap->levelDone = true;
+	}
 
 	testMap->update(frameTime);
 
@@ -258,7 +272,7 @@ void TestStuff::update()
 		delete testMap;
 		
 		
-		testMap = new LMap(input,graphics);
+		testMap = levels[currentLevel];
 		this->buildFromFile(fileNames[currentLevel]);
 		Character* c = new Character(this,graphics);
 		//c->initialize();
@@ -316,6 +330,7 @@ void TestStuff::collisions()
 
 void TestStuff::render()
 {
+	auto testMap = levels[currentLevel];
 	graphics->spriteBegin();
 
 	if (controlState == 1) {
@@ -376,6 +391,7 @@ void TestStuff::resetAll()
 
 void TestStuff::buildFromFile(std::string fileName)
 {
+	auto testMap = levels[currentLevel];
 	fstream fin;
 	fin.open(fileName);
 	string line = "";
@@ -455,7 +471,7 @@ void TestStuff::consoleCommand()
 		return;
 	if(command == "skip_level")
 	{
-		testMap->levelDone = true;
+		levels[currentLevel]->levelDone = true;
 		return;
 	}
 	if(command == "infinite_time")

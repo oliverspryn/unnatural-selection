@@ -324,7 +324,7 @@ void LMap::draw()
 	}
 }
 
-bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM)
+bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM)
 {
 	for(int i = 0; i < totalCharacters; i++)
 	{
@@ -381,6 +381,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	targetsDestroyed = true;
 	activeTargets = 0;
 	totalTargets = 0;
 	levelDone = false;
@@ -718,6 +719,8 @@ bool LMap::projectileCollide(Projectile &proj, TerrainElement &terra, float &fra
 	return false;
 }
 
+//doesn't really work yet
+//the equations need radius values
 //takes two entities, but really should take a character and a projectile
 bool LMap::collidesWithCharacter(Character* c, Projectile* p, float& fT)
 {
