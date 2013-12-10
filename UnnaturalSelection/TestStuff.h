@@ -61,8 +61,7 @@ public:
 	int oldTargets;
 	Menu* menu;
 
-	Gun* gunz[1];
-	int gunzCount;
+	
 private:
 	TextureManager terrainTexture;
 	//make an array of levels

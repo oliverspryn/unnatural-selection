@@ -1,5 +1,9 @@
 #include "TestStuff.h"
 //hi just a test to make sure github is working // its working Jake
+Gun* gunz[4];
+int gunzCount;
+
+
 void incrementCounter() {
 	controlState = 4;
 }
@@ -18,7 +22,11 @@ TestStuff::TestStuff()
 	levels = new LMap*[this->numLevels];
 
 	gunz[0] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
-	gunzCount = 1;
+	gunz[1] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunz[2] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunz[3] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+
+	gunzCount = 4;
 }
 
 TestStuff::~TestStuff()
