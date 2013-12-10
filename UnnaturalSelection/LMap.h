@@ -100,7 +100,7 @@ public:
 	bool addTarget(TerrainElement* target);
 	bool addCharacter(Character* c);
 	//void buildFromFile(std::string fileName);
-	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM=0, TextureManager *turretTM=0);
+	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM=0, TextureManager *turretTM=0, Magazine* m = 0);
 	void createFileFromLevel(int terrain, int spawn, float zoom);
 	void collision();
 	bool editor;

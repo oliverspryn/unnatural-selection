@@ -362,8 +362,9 @@ void TestStuff::update()
 
 		testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 
-		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture))
+		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
 			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+
 		for(int i = 0; i < testMap->totalCharacters; i++)
 		{
 			if(testMap->characters[i]!=0)

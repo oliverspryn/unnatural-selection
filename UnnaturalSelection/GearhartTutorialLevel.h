@@ -9,7 +9,7 @@ class TutorialLevel : public LMap
 {
 public:
 	TutorialLevel(Input* i, Graphics* g);
-	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM);
+	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM, Magazine* m);
 	void update(float frameTime);
 	void draw();
 	TerrainElement** doors;

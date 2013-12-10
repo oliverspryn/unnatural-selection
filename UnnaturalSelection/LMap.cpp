@@ -172,7 +172,7 @@ void LMap::update(float frameTime)
 							mags[i]->projArray[j]->setVisible(false);
 							if(terrain[k]->destructable)
 							{
-								terrain[k]->setHealth(terrain[k]->getHealth()-mags[i]->projArray[j]->damage);
+ 								terrain[k]->setHealth(terrain[k]->getHealth()-mags[i]->projArray[j]->damage);
 							}
 						}
 					}
@@ -338,7 +338,7 @@ void LMap::draw()
 	}
 }
 
-bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM)
+bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM,Magazine* m)
 {
 	for(int i = 0; i < totalCharacters; i++)
 	{
