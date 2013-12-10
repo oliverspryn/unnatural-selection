@@ -88,13 +88,12 @@ public :
 			{
 				if(this->faceDir > 0)
 				{
-					currentWeapon->setAngle(PI);
+					aimAngle = PI;
 				}else{
-					currentWeapon->setAngle(0);
+					aimAngle = 0;
 				}
-			}else{
-				currentWeapon->setAngle(aimAngle);
 			}
+			currentWeapon->setAngle(aimAngle);
 			currentWeapon->setX(getCenterX() + weaponPos.x * std::cos(aimAngle) + weaponPos.y * std::sin(aimAngle) - currentWeapon->getWidth()/2);
 			currentWeapon->setY(getCenterY() + weaponPos.y * std::cos(aimAngle) + weaponPos.x * std::sin(aimAngle) -currentWeapon->getHeight()/2);
 

@@ -24,7 +24,7 @@ namespace characterNS {
 	const int   DAMAGE_BODY_CONST = 5;       // A value decremeted from the Character who receives body damage
 	const int   DAMAGE_HEAD_CONST = 10;      // A value decremeted from the Character who receives head damage
 	const float ENERGY_REGEN_RATE = 1.002f;  // The rate, per frame, which the Character regerates energy
-	const float HEALTH_POINTS     = 1000.0f;  // Initial starting health
+	const float HEALTH_POINTS     = 300.0f;  // Initial starting health
 	const float HEALTH_REGEN_RATE = 1.0f;    // The rate, per frame, which the Character regerates health
 	const float GRAVITY_X         = 1.0f;    // Direction and speed of gravity, in the X direction
 	const float GRAVITY_Y         = 980.0f;  // Direction and speed of gravity, in the Y direction
