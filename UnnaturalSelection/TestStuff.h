@@ -9,11 +9,15 @@
 #include "GearhartTutorialLevel.h"
 #include "LMap.h"
 #include "gun.h"
+#include "Menu.h"
 #include <vector>
 using std::vector;
 #include <ctime>
 #include <sstream>
 using std::stringstream;
+
+static int controlState = 1;
+static void incrementCounter();
 
 namespace teststuffNS
 {
@@ -55,6 +59,7 @@ public:
 	bool endGame;
 	bool infiniteTime;
 	int oldTargets;
+	Menu* menu;
 private:
 	TextureManager terrainTexture;
 	//make an array of levels
@@ -65,7 +70,6 @@ private:
 
 	TextureManager openTM, storyTM, controlTM, endTM;
 	Image open, story, control, end;
-	int controlState;
 };
 
 #endif

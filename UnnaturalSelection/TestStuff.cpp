@@ -1,5 +1,9 @@
 #include "TestStuff.h"
-//hi just a test to make sure github is working
+//hi just a test to make sure github is working // its working Jake
+void incrementCounter() {
+	controlState = 4;
+}
+
 TestStuff::TestStuff()
 {
 	this->fpsOn=true;
@@ -30,6 +34,20 @@ TestStuff::~TestStuff()
 void TestStuff::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
+
+	menu = new Menu(this, graphics);
+
+//Create the menu
+	MenuCol items2;
+	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true));
+	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER));
+	items2.push_back(MenuItem("Schrodinger Shotgun (Semi) - Pellets: 6, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER));
+
+	MenuCol items;
+	items.push_back(MenuItem("Play", menuNS::ALIGN_CENTER, true, items2));
+	items.push_back(MenuItem("Exit", menuNS::ALIGN_CENTER, incrementCounter));
+
+	menu->initialize(items);
 
 	audio->playCue(MUSIC);
 
@@ -115,8 +133,8 @@ void TestStuff::initialize(HWND hwnd)
 			testMap->mags[i] = testMag;
 		}
 	}
-	for(int i = 1; i < testMap->totalCharacters; i++)
-	{
+
+	for (int i = 1; i < testMap->totalCharacters; i++) {
 		reinterpret_cast<AI*>(testMap->characters[i])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);
 	}
 	oldTargets = testMap->activeTargets;
@@ -145,9 +163,14 @@ void TestStuff::update()
 	}*/
 	auto testMap = levels[this->currentLevel];
 	if (controlState < 4 && controlState!=-1) {
-		if(input->wasKeyPressed(VK_SPACE))
-			++controlState;
+		//if(input->wasKeyPressed(VK_SPACE))
+		//	++controlState;
 
+		//return;
+	}
+
+	if (controlState == 1) {
+		menu->update(frameTime);
 		return;
 	}
 
@@ -161,7 +184,7 @@ void TestStuff::update()
 	Camera* camera = testMap->camera;
 	D3DXVECTOR2 mouseRealPos = testMap->camera->getRealPos(player->cursor->getCenterX(), player->cursor->getCenterY());
 	//make it change angle for all characters you control
-	for(int i = 0; i < testMap->totalCharacters; i++)
+	for(int i = 0; i < 1; i++)
 	{
 		testMap->characters[i]->aimAngle = atan2(mouseRealPos.y-testMap->characters[i]->getCenterY(), mouseRealPos.x-testMap->characters[i]->getCenterX());
 	}
@@ -348,7 +371,8 @@ void TestStuff::render()
 	graphics->spriteBegin();
 
 	if (controlState == 1) {
-		open.draw();
+		//open.draw();
+		menu->draw();
 		graphics->spriteEnd();
 		return;
 	}
