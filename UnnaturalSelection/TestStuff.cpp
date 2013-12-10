@@ -27,7 +27,7 @@ TestStuff::TestStuff()
 
 	gunz[0] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
 	gunz[1] = new Gun(2, 30*60, 500, 1000, 2000, 0, 0, 1, 0, ONE);
-	gunz[2] = new Gun(3, 15*60, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunz[2] = new Gun(3, 15*60, 500, 1000, 2000, 0, 0, 1, 1, ONE);
 	gunz[3] = new Gun(1, 6*60*60, 500, 1000, 2000, 0, 0, 1, 6, ONE);
 
 
@@ -152,6 +152,7 @@ void TestStuff::initialize(HWND hwnd)
 			testMap->characters[i]->body->color = D3DCOLOR_ARGB(255, v*(rand()%(255/v)), v*(rand()%(255/v)), v*(rand()%(255/v)));
 			testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
 			testMag = new Magazine(3000, 16, 16, 1, 0, 0, ONE, testProjectile); 
+//			testGun = new Gun(*gunz[weaponSelected]);
 			testGun = new Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
 			testGun->loadNewMag(testMag);
 			testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
