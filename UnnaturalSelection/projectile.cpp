@@ -70,8 +70,8 @@ void Projectile::fire(D3DXVECTOR2 initialPos, float angle)
 	visible = true;
 	lifeTime = 0;
 	distance = 0;
-	spriteData.x = initialPos.x;
-	spriteData.y = initialPos.y;
+	spriteData.x = initialPos.x-(spriteData.width*spriteData.scale)/2;
+	spriteData.y = initialPos.y-(spriteData.height*spriteData.scale)/2;
 	spriteData.angle = angle;
 	velocity = D3DXVECTOR2(muzzelVelocity*cos(angle), muzzelVelocity*sin(angle));
 	ray = myLines::Ray(*getCenter(), velocity, maxRange);
