@@ -151,8 +151,8 @@ void TestStuff::initialize(HWND hwnd)
 			int v(2);
 			testMap->characters[i]->body->color = D3DCOLOR_ARGB(255, v*(rand()%(255/v)), v*(rand()%(255/v)), v*(rand()%(255/v)));
 			testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
-			testMag = new Magazine(30000, 40000, 40000, 1, 100, 0, ONE, testProjectile); 
-			testGun = new Gun(0, 16*60*60/5, 100, 2000, 1000, 100, 10, 2.0, 0, ONE);
+			testMag = new Magazine(3000, 16, 16, 1, 0, 0, ONE, testProjectile); 
+			testGun = new Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
 			testGun->loadNewMag(testMag);
 			testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 			testMap->characters[i]->currentWeapon = testGun;
@@ -431,11 +431,11 @@ void TestStuff::render()
 	background->draw();
 	testMap->draw();
 	std::stringstream tempWords;
-	/*tempWords << "Ammo: " << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
-	hudFont.print(tempWords.str().c_str(), 300, 550);*/
+	tempWords << "Health: " << testMap->characters[0]->healthPoints;
+	hudFont.print(tempWords.str().c_str(), 300, 550);
 	tempWords.str("");
 	tempWords << "Time: " << gameTime;
-	hudFont.print(tempWords.str().c_str(), 500, 550);
+	hudFont.print(tempWords.str().c_str(), 500, 550); 
 	tempWords.str("");
 	tempWords << "Targets Remaining: " << testMap->activeTargets;
 	hudFont.print(tempWords.str().c_str(), 700, 550);

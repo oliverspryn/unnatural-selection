@@ -304,6 +304,10 @@ void Character::update(float frameTime) {
 			reloadTimer += frameTime;
 			if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime)
 			{
+				if(static_cast<Gun*>(currentWeapon)->isMagInGun)
+				{
+					currentMag->loadAmmo();
+				}
 				static_cast<Gun*>(currentWeapon)->loadMag();
 				reloadStep = 0;
 			}

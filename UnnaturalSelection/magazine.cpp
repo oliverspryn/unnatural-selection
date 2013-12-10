@@ -48,7 +48,7 @@ void Magazine::updateMagsProjectiles(float frameTime)
 }
 void Magazine::loadAmmo()
 {
-	totalAmmo += ammoCount;
+	//totalAmmo += ammoCount;
 	ammoCount = min(totalAmmo, size);
 	//totalAmmo -= ammoCount;
 }
