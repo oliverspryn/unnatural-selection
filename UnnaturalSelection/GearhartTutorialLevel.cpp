@@ -35,7 +35,7 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		for(int i = 0; i < this->numTurrets; i++)
 		{
 			//turrets[i] = new Turret(VECTOR2(-1135,430+(i*100)),new Gun(*reinterpret_cast<Gun*>(characters[0]->currentWeapon)),new Magazine(30000,30000,30000,0,0,0,ONE,reinterpret_cast<Gun*>(characters[0]->currentWeapon)->mag->projectile));
-			turrets[i] = new Turret(VECTOR2(-1135,430+(i*100)),gunz[0],m,characters[0]);
+			turrets[i] = new Turret(VECTOR2(-1135,430+(i*200)),gunz[0],m,characters[0]);
 			turrets[i]->initialize(gamePtr,300,420,1,turretTexture);
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
@@ -66,26 +66,30 @@ void TutorialLevel::update(float frameTime)
 	}
 
 	//alter for situation
-	if(this->room2TurretsKilled == 5)
+	if(this->room2TurretsKilled == this->numTurrets)
 	{
 		doors[1]->setActive(false);
 		doors[1]->setVisible(false);
 	}
 
-	for(int i = 0; i < this->numTurrets; i++)
+	if(this->activeTargets==0)
 	{
-		turrets[i]->update(frameTime);
+		for(int i = 0; i < this->numTurrets; i++)
+		{
+			if(turrets[i]->getActive())
+				turrets[i]->update(frameTime);
+		}
 	}
 
 	//collision with turrets on terrain
 	VECTOR2 collisionVector;
-	for(int i = 0; i < 1; i++)
+	for(int i = 0; i < numTurrets; i++)
 	{
 		for(int j = 0; j < this->addedElements; j++)
 		{
 			if(turrets[i]!=terrain[j] && turrets[i]->collidesWith(*terrain[j],collisionVector))
 			{
-				turrets[i]->setVelocity(turrets[i]->getVelocity()*-1);
+				turrets[i]->direction*=-1;
 			}
 		}
 		if(turrets[i]->getHealth()<0 && turrets[i]->getActive())

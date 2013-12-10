@@ -20,6 +20,10 @@ Turret::Turret(VECTOR2 position, Gun* g, Magazine* m,Character* c) : TerrainElem
 void Turret::update(float frameTime)
 {
 	gun->act(frameTime,true,false,false,false,false);
+	gun->setX(this->getX());
+	gun->setY(this->getY());
+	float xPos = this->getX() + this->getVelocity().x*frameTime*direction;
+	this->setX(xPos);
 	if(target->getX()<this->getX())
 	{
 		direction = -1;
@@ -32,6 +36,4 @@ void Turret::update(float frameTime)
 	{
 		direction = 0;
 	}
-	float xPos = this->getX() + this->getVelocity().x*frameTime*direction;
-	this->setX(xPos);
 }
