@@ -103,7 +103,7 @@ void TestStuff::initialize(HWND hwnd)
 	{
 		if(testMap->characters[i]!=0)
 		{
-			int v(6);
+			int v(2);
 			testMap->characters[i]->body->color = D3DCOLOR_ARGB(255, v*(rand()%(255/v)), v*(rand()%(255/v)), v*(rand()%(255/v)));
 			testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
 			testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
