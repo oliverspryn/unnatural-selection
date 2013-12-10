@@ -16,6 +16,9 @@ TestStuff::TestStuff()
 	numLevels = 3;
 	currentLevel=0;
 	levels = new LMap*[this->numLevels];
+
+	gunz[0] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunzCount = 1;
 }
 
 TestStuff::~TestStuff()
@@ -29,6 +32,10 @@ TestStuff::~TestStuff()
 		//delete testProjectile;
 	}
 	delete levels[numLevels-1];
+	for(int i(0); i < gunzCount; i++)
+	{
+		delete gunz[i];
+	}
 }
 
 void TestStuff::initialize(HWND hwnd)
@@ -103,6 +110,11 @@ void TestStuff::initialize(HWND hwnd)
 	currentLevel = 0;
 	this->buildFromFile(fileNames[currentLevel]);
 
+
+	for(int i(0); i < gunzCount; i++)
+	{
+		gunz[i]->initialize(this, 128, 32, entityNS::NONE, &gunTM);
+	}
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
 	AI* a = new AI(this,graphics);
