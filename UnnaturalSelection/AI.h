@@ -8,9 +8,22 @@
 
 class AI : public Character {
 public : 
-	AI(Game* game, Graphics* graphics, int charSize = 0, Character** chars = 0, int terrainSize = 0, TerrainElement** terrains = 0);
+	AI(Game* game, Graphics* graphics);
 	virtual void update(float frameTime)
 	{
+		if(target == 0 && characterSize > 1)
+		{
+			target = characters[rand()%characterSize];
+			while(target == this)
+			{
+				target = characters[rand()%characterSize];
+			}
+		}
+		if(target != 0)
+		{
+				aimAngle = atan2(target->getCenterY()-this->getCenterY(), target->getCenterX()-this->getCenterX());
+		}
+
 		if (standingOn == 0 || !standingOn->getActive()) {
 			D3DXVECTOR2 v (
 				body->getVelocity().x, 
@@ -120,7 +133,13 @@ public :
 			currentWeapon->act(frameTime, 0, false, false, false, false);
 		}
 	}
-	
+	void giveInfo(int charSize, Character** chars, int terrainSize, TerrainElement** terrains)
+	{
+		characterSize = charSize;
+		characters = chars;
+		this->terrainSize = terrainSize;
+		terrain = terrains;
+	}
 
 
 	//number of other characharers
