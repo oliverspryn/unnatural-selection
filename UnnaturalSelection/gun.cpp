@@ -7,9 +7,17 @@
 /**************************
 INITALIZERS
 **************************/
-Gun::Gun(const Gun& in): fireRate(in.fireRate.RPM)
+Gun::Gun(const Gun& in): damage(in.damage), fireRate(in.fireRate.RPM), minRange(in.minRange), maxRange(in.maxRange), muzzelVelocity(in.muzzelVelocity), recoilReduction(in.recoilReduction), spread(in.spread), reloadTime(in.reloadTime), fireMode(in.fireMode), magType(in.magType)
 {
-	Gun(in.damage, in.fireRate.RPM, in.minRange, in.maxRange, in.muzzelVelocity, in.recoilReduction, in.spread, in.reloadTime, in.fireMode, in.magType);
+	//Gun(in.damage, in.fireRate.RPM, in.minRange, in.maxRange, in.muzzelVelocity, in.recoilReduction, in.spread, in.reloadTime, in.fireMode, in.magType);
+	timeSinceLastFired = 0;
+	mag = 0;
+	isMagInGun = false;
+	chamberedProjectile = 0;
+	gunState = NONE;
+	gunTimer = 0;
+	fireLocation = D3DXVECTOR2(50, 0);
+	burstCount = 0;
 	if(in.initialized)
 	{
 		input = in.input;
@@ -17,6 +25,7 @@ Gun::Gun(const Gun& in): fireRate(in.fireRate.RPM)
 		graphics = in.graphics;
 		spriteData = in.spriteData;
 		initialized = true;
+		fireLocation = in.fireLocation;
 	}
 }
 Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, int fireMode, MagType magType): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType)
