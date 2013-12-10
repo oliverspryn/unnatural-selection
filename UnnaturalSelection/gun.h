@@ -148,6 +148,7 @@ public:
 	/**************************
 	INITALIZERS
 	**************************/
+	Gun(const Gun& in);
 	Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, int fireMode, MagType magType);
 };
 

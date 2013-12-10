@@ -7,6 +7,10 @@
 /**************************
 INITALIZERS
 **************************/
+Gun::Gun(const Gun& in): fireRate(in.fireRate.RPM)
+{
+	Gun(in.damage, in.fireRate.RPM, in.minRange, in.maxRange, in.muzzelVelocity, in.recoilReduction, in.spread, in.reloadTime, in.fireMode, in.magType);
+}
 Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, int fireMode, MagType magType): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType)
 {
 	timeSinceLastFired = 0;

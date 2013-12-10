@@ -60,6 +60,8 @@ public:
 	bool infiniteTime;
 	int oldTargets;
 	Menu* menu;
+
+	Gun gunz[3];
 private:
 	TextureManager terrainTexture;
 	//make an array of levels
