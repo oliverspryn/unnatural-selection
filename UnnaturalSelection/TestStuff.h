@@ -17,7 +17,7 @@ using std::vector;
 using std::stringstream;
 
 static int controlState = 1;
-static void incrementCounter();
+static void incrementCounter(int index, string text);
 
 namespace teststuffNS
 {

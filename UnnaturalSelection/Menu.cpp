@@ -81,7 +81,7 @@ void Menu::update(float frametime) {
 		if (input->isKeyDown(menuNS::INPUT_SELECT)) {
 		//Call the callback function, if there isn't a sub menu to drill into
 			if ((*currentMenu)[selectedIndex].callback != 0) {
-				(*currentMenu)[selectedIndex].callback();
+				(*currentMenu)[selectedIndex].callback(selectedIndex, (*currentMenu)[selectedIndex].text);
 			}
 
 		//Drill down into the sub menu

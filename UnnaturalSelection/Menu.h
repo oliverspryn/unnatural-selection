@@ -39,7 +39,7 @@ namespace menuNS {
 	const int        MAX_TEXT_ITEMS      = 15;
 }
 
-typedef void(*FPtr)(); 
+typedef void(*FPtr)(int, string); 
 
 struct MenuItem {
 public : 

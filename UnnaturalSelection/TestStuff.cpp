@@ -4,7 +4,7 @@ Gun* gunz[4];
 int gunzCount;
 
 
-void incrementCounter() {
+void incrementCounter(int index, string text) {
 	controlState = 4;
 }
 
@@ -54,9 +54,9 @@ void TestStuff::initialize(HWND hwnd)
 
 //Create the menu
 	MenuCol items2;
-	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true));
-	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER));
-	items2.push_back(MenuItem("Schrodinger Shotgun (Semi) - Pellets: 6, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER));
+	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Schrodinger Shotgun (Semi) - Pellets: 6, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
 
 	MenuCol items;
 	items.push_back(MenuItem("Play", menuNS::ALIGN_CENTER, true, items2));
