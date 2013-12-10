@@ -3,9 +3,13 @@
 Gun* gunz[4];
 int gunzCount;
 
-
 void incrementCounter(int index, string text) {
 	controlState = 4;
+	weaponSelected = 1+index;
+}
+
+void endGameNow(int a, string b){
+	PostQuitMessage(0);
 }
 
 TestStuff::TestStuff()
@@ -22,9 +26,10 @@ TestStuff::TestStuff()
 	levels = new LMap*[this->numLevels];
 
 	gunz[0] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
-	gunz[1] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
-	gunz[2] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
-	gunz[3] = new Gun(1, 300, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunz[1] = new Gun(2, 30*60, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunz[2] = new Gun(3, 15*60, 500, 1000, 2000, 0, 0, 1, 0, ONE);
+	gunz[3] = new Gun(1, 6*60*60, 500, 1000, 2000, 0, 0, 1, 6, ONE);
+
 
 	gunzCount = 4;
 }
@@ -60,7 +65,7 @@ void TestStuff::initialize(HWND hwnd)
 
 	MenuCol items;
 	items.push_back(MenuItem("Play", menuNS::ALIGN_CENTER, true, items2));
-	items.push_back(MenuItem("Exit", menuNS::ALIGN_CENTER, incrementCounter));
+	items.push_back(MenuItem("Exit", menuNS::ALIGN_CENTER, endGameNow));
 
 	menu->initialize(items);
 

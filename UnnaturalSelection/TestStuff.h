@@ -18,6 +18,9 @@ using std::stringstream;
 
 static int controlState = 1;
 static void incrementCounter(int index, string text);
+static void endGameNow(int a, string b);
+
+static int weaponSelected = 1;
 
 namespace teststuffNS
 {
