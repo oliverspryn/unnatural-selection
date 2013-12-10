@@ -1,6 +1,6 @@
 #include "GearhartTutorialLevel.h"
 
-TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g)
+TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10,false)
 {
 	numDoors = 3;
 	numTurrets = 5;
@@ -8,7 +8,6 @@ TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g)
 	this->room2TurretsKilled = 0;
 }
 
-//need to fix issues with door collision detection not quite working
 bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTexture)
 {
 	if(LMap::initialize(gamePtr,width,height,ncols,textureM,targetTM))
@@ -33,7 +32,7 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		turrets = new Turret*[this->numTurrets];
 		for(int i = 0; i < this->numTurrets; i++)
 		{
-			turrets[i] = new Turret(VECTOR2(-1135,-540));
+			turrets[i] = new Turret(VECTOR2(-1135,1030));
 			turrets[i]->initialize(gamePtr,300,420,1,turretTexture);
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
@@ -85,26 +84,38 @@ void TutorialLevel::update(float frameTime)
 				turrets[i]->setVelocity(turrets[i]->getVelocity()*-1);
 			}
 		}
-		//need to make turrets killable
-		//going to double detection on turrets... should probably change later
-		for(int j = 0; j < this->totalCharacters; j++)
+		if(turrets[i]->getHealth()<0)
 		{
-			for(int k = 0; k < this->numMags && mags[j]!=0; k++)
-			{
-				float tempTime = frameTime;
-				for(int l = 0; l < mags[j]->projArrayIndex; j++)
-				{
-					if(!mags[j]->projArray[l]->rayUpdated)
-					{
-						//check collisions with turret
-						if(projectileCollide(*mags[j]->projArray[l], *turrets[i], tempTime))
-						{
-							//do stuff with turret getting damage
-						}
-					}
-				}
-			}
+			turrets[i]->setActive(false);
+			turrets[i]->setVisible(false);
+			this->room2TurretsKilled++;
 		}
+		//need to make turrets killable
+		////going to double detection on turrets... should probably change later
+		//for(int j = 0; j < this->totalCharacters; j++)
+		//{
+		//	for(int k = 0; k < this->numMags && mags[j]!=0; k++)
+		//	{
+		//		float tempTime = frameTime;
+		//		for(int l = 0; l < mags[j]->projArrayIndex; j++)
+		//		{
+		//			if(!mags[j]->projArray[l]->rayUpdated)
+		//			{
+		//				//check collisions with turret
+		//				if(projectileCollide(*mags[j]->projArray[l], *turrets[i], tempTime))
+		//				{
+		//					/*turrets[i]->healthValue-=mags[j]->projArray[l]->damage;
+		//					if(turrets[i]->healthValue < 0)
+		//					{
+		//						turrets[i]->setVisible(false);
+		//						turrets[i]->setActive(false);
+		//						room2TurretsKilled++;
+		//					}*/
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 	}
 }
 

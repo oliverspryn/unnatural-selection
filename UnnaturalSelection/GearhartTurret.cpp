@@ -7,6 +7,7 @@ Turret::~Turret()
 
 Turret::Turret(VECTOR2 position) : TerrainElement(100,100,position)
 {
+	health = 0;
 	this->setVelocity(VECTOR2(1000,0));
 	shots = new Projectile*[10];
 	for(int i = 0; i < 10; i++)
@@ -14,6 +15,7 @@ Turret::Turret(VECTOR2 position) : TerrainElement(100,100,position)
 		//shots[i] = new Projectile(
 	}
 	this->color = graphicsNS::WHITE;
+	this->destructable = true;
 }
 
 void Turret::update(float frameTime)

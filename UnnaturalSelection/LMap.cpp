@@ -170,6 +170,10 @@ void LMap::update(float frameTime)
 						{
 							mags[i]->projArray[j]->setActive(false);
 							mags[i]->projArray[j]->setVisible(false);
+							if(terrain[k]->destructable)
+							{
+								terrain[k]->setHealth(terrain[k]->getHealth()-mags[i]->projArray[j]->damage);
+							}
 						}
 					}
 				}

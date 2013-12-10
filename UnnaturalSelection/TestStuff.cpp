@@ -115,6 +115,10 @@ void TestStuff::initialize(HWND hwnd)
 			testMap->mags[i] = testMag;
 		}
 	}
+	for(int i = 1; i < testMap->totalCharacters; i++)
+	{
+		reinterpret_cast<AI*>(testMap->characters[i])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);
+	}
 	oldTargets = testMap->activeTargets;
 
 //Crap for the starting stuff

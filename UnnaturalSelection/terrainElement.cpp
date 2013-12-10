@@ -6,6 +6,7 @@ TerrainElement::TerrainElement()
 	mass = terrainNS::MASS;
 	color = D3DCOLOR_ARGB(255, 0, 0, 0);
 	type = 'B';
+	destructable = false;
 }
 
 TerrainElement::TerrainElement(int height, int width, VECTOR2 center)
@@ -22,6 +23,7 @@ TerrainElement::TerrainElement(int height, int width, VECTOR2 center)
 	edge.bottom = (height/2);
 	color = D3DCOLOR_ARGB(255, 0, 0, 0);
 	type = 'B';
+	destructable = false;
 }
 
 TerrainElement::TerrainElement(int height, int width, VECTOR2 center, int a, int r, int g, int b)
@@ -38,6 +40,7 @@ TerrainElement::TerrainElement(int height, int width, VECTOR2 center, int a, int
 	edge.bottom = (height/2);
 	color = D3DCOLOR_ARGB(a, r, g, b);
 	type = 'B';
+	destructable = false;
 }
 
 void TerrainElement::generateSideEquations()
