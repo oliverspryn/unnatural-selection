@@ -18,15 +18,15 @@ namespace menuNS {
 	const int        ALIGN_LEFT          = DT_LEFT;
 	const int        ALIGN_RIGHT         = DT_RIGHT;
 
-	const int        BOUND_BOTTOM        = 100;
+	const int        BOUND_BOTTOM        = 200;
 	const int        BOUND_LEFT          = 100;
 	const int        BOUND_RIGHT         = 100;
-	const int        BOUND_TOP           = 100;
+	const int        BOUND_TOP           = 300;
 
 	const char       FONT[]              = "Arial";
 	const COLOR_ARGB FONT_COLOR_DISABLED = D3DCOLOR_ARGB(255, 100, 100, 100); // Greyish
-	const COLOR_ARGB FONT_COLOR_NORMAL   = D3DCOLOR_ARGB(255, 206, 206, 206); // Grey
-	const COLOR_ARGB FONT_COLOR_SELECTED = D3DCOLOR_ARGB(255, 0, 0, 0);       // Black
+	const COLOR_ARGB FONT_COLOR_NORMAL   = D3DCOLOR_ARGB(255, 255, 255, 0);   // Yellow
+	const COLOR_ARGB FONT_COLOR_SELECTED = D3DCOLOR_ARGB(255, 0, 255, 0);     // Green
 	const int        FONT_SIZE_DISABLED  = 18;
 	const int        FONT_SIZE_NORMAL    = 18;
 	const int        FONT_SIZE_SELECTED  = 20;

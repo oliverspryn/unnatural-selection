@@ -140,7 +140,7 @@ void TestStuff::initialize(HWND hwnd)
 	oldTargets = testMap->activeTargets;
 
 //Crap for the starting stuff
-	if (openTM.initialize(graphics, "pictures\\title.jpg") && 
+	if (openTM.initialize(graphics, "pictures\\splash.jpg") && 
 		storyTM.initialize(graphics, "pictures\\story.png") && 
 		controlTM.initialize(graphics, "pictures\\controls.png") && 
 		endTM.initialize(graphics, "pictures\\endGame.png")) {
@@ -371,7 +371,7 @@ void TestStuff::render()
 	graphics->spriteBegin();
 
 	if (controlState == 1) {
-		//open.draw();
+		open.draw();
 		menu->draw();
 		graphics->spriteEnd();
 		return;
