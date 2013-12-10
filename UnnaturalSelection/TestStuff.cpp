@@ -2,6 +2,7 @@
 //hi just a test to make sure github is working
 TestStuff::TestStuff()
 {
+	this->fpsOn=true;
 	gameTime = 180;
 	currentLevel=0;
 	endGame = false;
@@ -88,7 +89,14 @@ void TestStuff::initialize(HWND hwnd)
 	testMap->addCharacter(c);
 	AI* a = new AI(this,graphics);
 	testMap->addCharacter(a);
-
+	a = new AI(this,graphics);
+	testMap->addCharacter(a);
+	a = new AI(this,graphics);
+	testMap->addCharacter(a);
+	a = new AI(this,graphics);
+	testMap->addCharacter(a);
+	a = new AI(this,graphics);
+	testMap->addCharacter(a);
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	for(int i = 0; i < testMap->totalCharacters; i++)
@@ -97,7 +105,7 @@ void TestStuff::initialize(HWND hwnd)
 		{
 			testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
 			testMag = new Magazine(30000, 40000, 40000, 1, 100, 103, ONE, testProjectile); 
-			testGun = new Gun(32, 16*60*60, 100, 2000, 1000, 100, 10, 2.0, 16, ONE);
+			testGun = new Gun(32, 16*60*60, 100, 2000, 1000, 100, 10, 2.0, 0, ONE);
 			testGun->loadNewMag(testMag);
 			testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 			testMap->characters[i]->currentWeapon = testGun;
