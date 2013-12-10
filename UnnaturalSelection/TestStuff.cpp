@@ -56,6 +56,8 @@ void TestStuff::initialize(HWND hwnd)
 	Game::initialize(hwnd);
 
 	menu = new Menu(this, graphics);
+	background = new Background(this, graphics);
+	background->initialize(180.0);
 
 //Create the menu
 	MenuCol items2;
@@ -203,6 +205,7 @@ void TestStuff::update()
 	{
 		controlState = -1;
 	}
+	background->update(frameTime);
 	if(!infiniteTime)
 		gameTime -= frameTime;
 	Character* player = testMap->characters[0];
@@ -425,6 +428,7 @@ void TestStuff::render()
 	testMap->camera->centerPosition = testMap->characters[0]->getCenter();
 
 	graphics->setBackColor(graphicsNS::GRAY);
+	background->draw();
 	testMap->draw();
 	std::stringstream tempWords;
 	/*tempWords << "Ammo: " << static_cast<Gun*>(testMap->characters[0]->currentWeapon)->mag->ammoCount;
@@ -438,6 +442,7 @@ void TestStuff::render()
 	tempWords.str("");
 	tempWords << "Score: " << score;
 	hudFont.print(tempWords.str().c_str(), 100, 550);
+	
 	graphics->spriteEnd();
 }
 

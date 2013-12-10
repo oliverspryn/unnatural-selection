@@ -10,6 +10,7 @@
 #include "LMap.h"
 #include "gun.h"
 #include "Menu.h"
+#include "Background.h"
 #include <vector>
 using std::vector;
 #include <ctime>
@@ -63,7 +64,7 @@ public:
 	bool infiniteTime;
 	int oldTargets;
 	Menu* menu;
-
+	Background* background;
 	
 private:
 	TextureManager terrainTexture;
