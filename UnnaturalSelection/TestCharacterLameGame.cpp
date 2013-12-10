@@ -18,16 +18,13 @@ void TestCharacterLameGame::initialize(HWND hwnd) {
 
 //Create the menu
 	MenuCol items2;
-	items2.push_back(MenuItem("Yay", true));
-	items2.push_back(MenuItem("Yay1"));
-	items2.push_back(MenuItem("Weep"));
+	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true));
+	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER));
+	items2.push_back(MenuItem("Schrodinger Shotgun (Semi) - Pellets: 6, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER));
 
 	MenuCol items;
-	items.push_back(MenuItem("Play", true));
-	items.push_back(MenuItem("Level Select"));
-	items.push_back(MenuItem("Customize Weapon"));
-	items.push_back(MenuItem("Options", false, items2));
-	items.push_back(MenuItem("Exit", false, testo));
+	items.push_back(MenuItem("Play", menuNS::ALIGN_CENTER, items2));
+	items.push_back(MenuItem("Exit", menuNS::ALIGN_CENTER, items2));
 
 	menu->initialize(items);
 }

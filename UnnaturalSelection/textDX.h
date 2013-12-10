@@ -36,13 +36,13 @@ public:
     //      bold = true/false
     //      italic = true/false
     //      &fontName = name of font to use
-    virtual bool initialize(Graphics *g, int height, bool bold, bool italic, const std::string &fontName);
+    virtual bool initialize(Graphics *g, int height, bool bold, bool italic, const std::string &fontName, int width = GAME_WIDTH);
 
     // Print at x,y. Call between spriteBegin()/spriteEnd()
     // Return 0 on fail, height of text on success
     // Pre: &str contains text to display
     //      x, y = screen location
-    virtual int print(const std::string &str, int x, int y);
+    virtual int print(const std::string &str, int x, int y, int align = DT_LEFT);
 
     // Print inside rect using format. Call between spriteBegin()/spriteEnd()
     // Return 0 on fail, height of text on success

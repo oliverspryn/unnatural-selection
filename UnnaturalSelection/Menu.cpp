@@ -6,7 +6,19 @@ Menu::Menu(Game* game, Graphics* graphics) :
 		int i = 0;
 }
 
-Menu::~Menu() { }
+Menu::~Menu() {
+//Delete all the menus!
+	delete currentMenu;
+
+	for (int i = 0; i < parents.size(); ++i) {
+		parents.pop();
+	}
+
+//Delete all the text!
+	for (int i = 0; i < rendered.size(); ++i) {
+		delete rendered[i];
+	}
+}
 
 void Menu::draw() {
 	int spacing = (GAME_HEIGHT - menuNS::BOUND_BOTTOM - menuNS::BOUND_TOP) / (currentMenu->size() - 1);
@@ -17,7 +29,8 @@ void Menu::draw() {
 		rendered[i]->print(
 			(*currentMenu)[i].text,
 			menuNS::BOUND_LEFT, 
-			menuNS::BOUND_TOP + i * spacing
+			menuNS::BOUND_TOP + i * spacing,
+			(*currentMenu)[i].align
 		);
 	}
 }
@@ -39,7 +52,7 @@ void Menu::initialize(MenuCol mi) {
 	for(int i = 0; i < menuNS::MAX_TEXT_ITEMS; ++i) {
 		rendered[i] = new TextDX();
 		
-		if(!rendered[i]->initialize(graphics, menuNS::FONT_SIZE_NORMAL, true, false, menuNS::FONT))
+		if(!rendered[i]->initialize(graphics, menuNS::FONT_SIZE_NORMAL, true, false, menuNS::FONT, GAME_WIDTH - menuNS::BOUND_RIGHT))
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Menus are sad without text"));
 	}
 

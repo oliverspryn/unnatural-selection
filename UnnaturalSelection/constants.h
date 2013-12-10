@@ -58,6 +58,9 @@ const char TARGET_IMAGE[] =	"pictures\\breakable-target.png";
 const char TEXTURES_IMAGE[] = "pictures\\textures.png";  // game textures
 const char MENU_IMAGE[] =     "pictures\\menu.png";      // menu texture
 
+//Background
+const char SPLASH_IMAGE[] = "pictures\\splash.jpg";
+
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
 // it would be possible to save and restore key mappings from a data file.

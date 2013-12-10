@@ -34,9 +34,10 @@ TextDX::~TextDX()
 // Create DirectX Font
 //=============================================================================
 bool TextDX::initialize(Graphics *g, int height, bool bold, bool italic, 
-                        const std::string &fontName)
+                        const std::string &fontName, int width)
 {
     graphics = g;                   // the graphics system
+	fontRect.right = width;
 
     UINT weight = FW_NORMAL;
     if(bold)
@@ -60,7 +61,7 @@ bool TextDX::initialize(Graphics *g, int height, bool bold, bool italic,
 // pre: spriteBegin()
 // post: spriteEnd()
 //=============================================================================
-int TextDX::print(const std::string &str, int x, int y)
+int TextDX::print(const std::string &str, int x, int y, int align)
 {
     if(dxFont == NULL)
         return 0;
@@ -74,7 +75,7 @@ int TextDX::print(const std::string &str, int x, int y)
     D3DXMatrixTransformation2D(&matrix, NULL, 0.0f, NULL, &rCenter, angle, NULL);
     // Tell the sprite about the matrix "Hello Neo"
     graphics->getSprite()->SetTransform(&matrix);
-    return dxFont->DrawTextA(graphics->getSprite(), str.c_str(), -1, &fontRect, DT_LEFT, color);
+    return dxFont->DrawTextA(graphics->getSprite(), str.c_str(), -1, &fontRect, align, color);
 }
 
 //=============================================================================
