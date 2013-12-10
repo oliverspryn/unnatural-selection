@@ -3,15 +3,18 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "terrainElement.h"
-#include "projectile.h"
+#include "gun.h"
+#include "Character.h"
 //need to make turret fire
 class Turret : public TerrainElement
 {
 public:
 	~Turret();
-	Turret(VECTOR2 position);
+	Turret(VECTOR2 position, Gun* g,Magazine* m,Character*);
 	void update(float frameTime);
-	Projectile** shots;
+	Gun* gun;
+	Character* target;
+	int direction;
 private:
 };
 

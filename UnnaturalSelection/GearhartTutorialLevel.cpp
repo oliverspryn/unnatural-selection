@@ -1,5 +1,7 @@
 #include "GearhartTutorialLevel.h"
 
+extern Gun* gunz[4];
+
 TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10,false)
 {
 	numDoors = 3;
@@ -8,7 +10,7 @@ TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10
 	this->room2TurretsKilled = 0;
 }
 
-bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTexture)
+bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTexture, Magazine* m)
 {
 	if(LMap::initialize(gamePtr,width,height,ncols,textureM,targetTM))
 	{
@@ -19,20 +21,21 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[0]->generateSideEquations();
 		LMap::addTerrain(doors[0]);
 		//duck and cover door
-		//doors[1] = new TerrainElement(438,146,VECTOR2(1109,1483));
-		//doors[1]->initialize(gamePtr,textureM,ncols);
-		//doors[1]->generateSideEquations();
-		//LMap::addTerrain(doors[1]);
-		////run and shoot door
-		//doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
-		//doors[2]->initialize(gamePtr,textureM,ncols);
-		//doors[2]->generateSideEquations();
-		//LMap::addTerrain(doors[2]);
+		doors[1] = new TerrainElement(438,146,VECTOR2(1109,1483));
+		doors[1]->initialize(gamePtr,textureM,ncols);
+		doors[1]->generateSideEquations();
+		LMap::addTerrain(doors[1]);
+		//run and shoot door
+		doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		doors[2]->initialize(gamePtr,textureM,ncols);
+		doors[2]->generateSideEquations();
+		LMap::addTerrain(doors[2]);
 		
 		turrets = new Turret*[this->numTurrets];
 		for(int i = 0; i < this->numTurrets; i++)
 		{
-			turrets[i] = new Turret(VECTOR2(-1135,1030));
+			//turrets[i] = new Turret(VECTOR2(-1135,430+(i*100)),new Gun(*reinterpret_cast<Gun*>(characters[0]->currentWeapon)),new Magazine(30000,30000,30000,0,0,0,ONE,reinterpret_cast<Gun*>(characters[0]->currentWeapon)->mag->projectile));
+			turrets[i] = new Turret(VECTOR2(-1135,430+(i*100)),gunz[0],m,characters[0]);
 			turrets[i]->initialize(gamePtr,300,420,1,turretTexture);
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
@@ -62,6 +65,7 @@ void TutorialLevel::update(float frameTime)
 		doors[0]->setVisible(false);
 	}
 
+	//alter for situation
 	if(this->room2TurretsKilled == 5)
 	{
 		doors[1]->setActive(false);
@@ -75,7 +79,7 @@ void TutorialLevel::update(float frameTime)
 
 	//collision with turrets on terrain
 	VECTOR2 collisionVector;
-	for(int i = 0; i < this->numTurrets; i++)
+	for(int i = 0; i < 1; i++)
 	{
 		for(int j = 0; j < this->addedElements; j++)
 		{
@@ -84,38 +88,12 @@ void TutorialLevel::update(float frameTime)
 				turrets[i]->setVelocity(turrets[i]->getVelocity()*-1);
 			}
 		}
-		if(turrets[i]->getHealth()<0)
+		if(turrets[i]->getHealth()<0 && turrets[i]->getActive())
 		{
 			turrets[i]->setActive(false);
 			turrets[i]->setVisible(false);
 			this->room2TurretsKilled++;
 		}
-		//need to make turrets killable
-		////going to double detection on turrets... should probably change later
-		//for(int j = 0; j < this->totalCharacters; j++)
-		//{
-		//	for(int k = 0; k < this->numMags && mags[j]!=0; k++)
-		//	{
-		//		float tempTime = frameTime;
-		//		for(int l = 0; l < mags[j]->projArrayIndex; j++)
-		//		{
-		//			if(!mags[j]->projArray[l]->rayUpdated)
-		//			{
-		//				//check collisions with turret
-		//				if(projectileCollide(*mags[j]->projArray[l], *turrets[i], tempTime))
-		//				{
-		//					/*turrets[i]->healthValue-=mags[j]->projArray[l]->damage;
-		//					if(turrets[i]->healthValue < 0)
-		//					{
-		//						turrets[i]->setVisible(false);
-		//						turrets[i]->setActive(false);
-		//						room2TurretsKilled++;
-		//					}*/
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
 	}
 }
 
