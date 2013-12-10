@@ -50,7 +50,7 @@ void Magazine::loadAmmo()
 {
 	totalAmmo += ammoCount;
 	ammoCount = min(totalAmmo, size);
-	totalAmmo -= ammoCount;
+	//totalAmmo -= ammoCount;
 }
 //Calls display for all active projectiles
 void Magazine::displayMagsProjectiles()
@@ -83,7 +83,7 @@ Projectile* Magazine::getNextProjectile()
 	{
 		Projectile* nextRound = projArray[projArrayIndex];
 		projArrayIndex++;
-		//ammoCount--;
+		ammoCount--;
 		return nextRound;
 	}
 	else

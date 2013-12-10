@@ -293,7 +293,8 @@ void Character::update(float frameTime) {
 		currentWeapon->setX(getCenterX() + weaponPos.x * std::cos(aimAngle) + weaponPos.y * std::sin(aimAngle) - currentWeapon->getWidth()/2);
 		currentWeapon->setY(getCenterY() + weaponPos.y * std::cos(aimAngle) + weaponPos.x * std::sin(aimAngle) -currentWeapon->getHeight()/2);
 		currentWeapon->update(frameTime);
-		if(input->isKeyDown('R') && reloadStep == 0)
+		//Reload if r is pressed or the ammoCount is 0
+		if(reloadStep == 0 && (input->isKeyDown('R') || reinterpret_cast<Gun*>(currentWeapon)->mag->ammoCount == 0))
 		{
 			reloadStep = 1;
 			reloadTimer = frameTime;
@@ -306,7 +307,7 @@ void Character::update(float frameTime) {
 				static_cast<Gun*>(currentWeapon)->loadMag();
 				reloadStep = 0;
 			}
-			else if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime/3)
+			else if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime/100)
 			{
 				static_cast<Gun*>(currentWeapon)->removeMag();
 				currentMag->loadAmmo();
