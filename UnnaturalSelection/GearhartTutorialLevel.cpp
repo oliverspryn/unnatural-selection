@@ -85,8 +85,16 @@ void TutorialLevel::update(float frameTime)
 				turrets[i]->setVelocity(turrets[i]->getVelocity()*-1);
 			}
 		}
+		//need to make turrets killable
+		//going to double detection on turrets... should probably change later
+		for(int j = 0; j < this->totalCharacters; j++)
+		{
+			for(int k = 0; k < this->numMags; k++)
+			{
+
+			}
+		}
 	}
-	//need to make turrets killable
 }
 
 void TutorialLevel::draw()

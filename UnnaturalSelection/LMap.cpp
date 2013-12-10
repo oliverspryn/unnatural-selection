@@ -205,6 +205,11 @@ void LMap::update(float frameTime)
 							mags[i]->projArray[j]->setVisible(false);
 							mags[i]->projArray[j]->setActive(false);
 							characters[k]->charFrameTime=fT;
+							characters[k]->healthPoints-=mags[i]->projArray[j]->damage;
+							if(characters[k]->healthPoints < 0)
+							{
+								this->chooseSpawnPoint(characters[k]);
+							}
 						}
 					}
 				}
