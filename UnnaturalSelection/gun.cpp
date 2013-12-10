@@ -23,9 +23,22 @@ Gun::Gun(const Gun& in): damage(in.damage), fireRate(in.fireRate.RPM), minRange(
 		input = in.input;
 		audio = in.audio;
 		graphics = in.graphics;
-		spriteData = in.spriteData;
+		textureManager = in.textureManager;
+		spriteData.texture = textureManager->getTexture();
+        float width = textureManager->getWidth();     // use full width of texture
+        spriteData.width = width;
+        float height = textureManager->getHeight();   // use full height of texture
+        spriteData.height = height;
+		cols = in.cols;                               // if 0 cols use 1
+
+        // configure spriteData.rect to draw currentFrame
+        spriteData.rect.left = (currentFrame % cols) * spriteData.width;
+        // right edge + 1
+        spriteData.rect.right = spriteData.rect.left + spriteData.width;
+        spriteData.rect.top = (currentFrame / cols) * spriteData.height;
+        // bottom edge + 1
+        spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
 		initialized = true;
-		fireLocation = in.fireLocation;
 	}
 }
 Gun::Gun(int damage, int rpm, int minRange, int maxRange, int muzzelVelocity, int recoilReduction, int spread, float reloadTime, int fireMode, MagType magType): damage(damage), fireRate(rpm), minRange(minRange), maxRange(maxRange), muzzelVelocity(muzzelVelocity), recoilReduction(recoilReduction), spread(spread), reloadTime(reloadTime), fireMode(fireMode), magType(magType)
