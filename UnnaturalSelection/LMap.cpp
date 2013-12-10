@@ -56,6 +56,10 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 
 void LMap::update(float frameTime)
 {
+	if(this->activeTargets==0)
+	{
+		this->levelDone=true;
+	}
 	VECTOR2 collisionVector;//get rid of later when using other collision detection function
 	float angle, fT;
 	if(input->isKeyDown('1'))

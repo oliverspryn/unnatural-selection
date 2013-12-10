@@ -247,11 +247,11 @@ void TestStuff::update()
 		}
 	}
 	
-	if(testMap->activeTargets == 0)
+	/*if(testMap->activeTargets == 0)
 	{
 		testMap->targetsDestroyed=true;
 		testMap->levelDone = true;
-	}
+	}*/
 
 	testMap->update(frameTime);
 
