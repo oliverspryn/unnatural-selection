@@ -72,7 +72,7 @@ void Gun::act(float frameTime, bool input1, bool input2, bool input3, bool input
 			{
 				if(gunState == NONE)
 				{
-					multiFire(frameTime);
+					multiFire(max(fireRate.fireTime, frameTime));
 					timeSinceLastFired = 0;
 					gunState = FIREING;
 				}
