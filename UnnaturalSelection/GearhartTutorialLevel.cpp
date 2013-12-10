@@ -20,15 +20,15 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[0]->generateSideEquations();
 		LMap::addTerrain(doors[0]);
 		//duck and cover door
-		doors[1] = new TerrainElement(438,146,VECTOR2(1109,1483));
-		doors[1]->initialize(gamePtr,textureM,ncols);
-		doors[1]->generateSideEquations();
-		LMap::addTerrain(doors[1]);
-		//run and shoot door
-		doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
-		doors[2]->initialize(gamePtr,textureM,ncols);
-		doors[2]->generateSideEquations();
-		LMap::addTerrain(doors[2]);
+		//doors[1] = new TerrainElement(438,146,VECTOR2(1109,1483));
+		//doors[1]->initialize(gamePtr,textureM,ncols);
+		//doors[1]->generateSideEquations();
+		//LMap::addTerrain(doors[1]);
+		////run and shoot door
+		//doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		//doors[2]->initialize(gamePtr,textureM,ncols);
+		//doors[2]->generateSideEquations();
+		//LMap::addTerrain(doors[2]);
 		
 		turrets = new Turret*[this->numTurrets];
 		for(int i = 0; i < this->numTurrets; i++)
@@ -47,12 +47,16 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 void TutorialLevel::update(float frameTime)
 {
 	LMap::update(frameTime);
-
+	//maybe modify later to check in a different way...
+	if(characters[0]->getCenterX() > 6607 && characters[0]->getCenterY() > 282)
+	{
+		this->levelDone = true;
+	}
 	//need to modify the implementation of this
-	if(this->levelDone)
+	if(this->activeTargets==0)
 	{
 		//testing only
-		levelDone = false;
+		//levelDone = false;
 
 		//
 		doors[0]->setActive(false);
