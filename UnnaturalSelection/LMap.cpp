@@ -157,7 +157,6 @@ void LMap::update(float frameTime)
 	for(int i(0); i < numMags && mags[i] != 0; i++)
 	{
 		//update projectiles
-		mags[i]->updateMagsProjectiles(frameTime);
 		for(int j(0); j < mags[i]->projArrayIndex; j++)
 		{
 			if(mags[i]->projArray[j]->getActive())
@@ -211,6 +210,7 @@ void LMap::update(float frameTime)
 				}
 			}
 		}
+		mags[i]->updateMagsProjectiles(frameTime);
 	}
 	//update character
 	if(!editor)
@@ -341,7 +341,7 @@ bool LMap::initialize(Game *gamePtr, int width, int height, int ncols, TextureMa
 			}
 			else
 			{
-				characters[i] = new AI(gamePtr,graphics);
+				characters[i] = new AI(gamePtr,graphics, totalCharacters, characters, addedElements, terrain);
 			}
 			characters[i]->initialize();
 			chooseSpawnPoint(characters[i]);
