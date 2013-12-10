@@ -89,9 +89,20 @@ void TutorialLevel::update(float frameTime)
 		//going to double detection on turrets... should probably change later
 		for(int j = 0; j < this->totalCharacters; j++)
 		{
-			for(int k = 0; k < this->numMags; k++)
+			for(int k = 0; k < this->numMags && mags[j]!=0; k++)
 			{
-
+				float tempTime = frameTime;
+				for(int l = 0; l < mags[j]->projArrayIndex; j++)
+				{
+					if(!mags[j]->projArray[l]->rayUpdated)
+					{
+						//check collisions with turret
+						if(projectileCollide(*mags[j]->projArray[l], *turrets[i], tempTime))
+						{
+							//do stuff with turret getting damage
+						}
+					}
+				}
 			}
 		}
 	}
