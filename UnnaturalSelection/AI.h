@@ -11,6 +11,23 @@ public :
 	AI(Game* game, Graphics* graphics);
 	virtual void update(float frameTime)
 	{
+		D3DXVECTOR2 distance = characters[0]->getCenter()-this->getCenter();
+		float minDist = (distance.x*distance.x + distance.y*distance.y);
+		int closest = 0;
+		for(int i(0); i < characterSize; i++)
+		{
+			if(characters[i] != this)
+			{
+				distance = characters[i]->getCenter()-this->getCenter();
+				float dist = (distance.x*distance.x + distance.y*distance.y);
+				if(dist < minDist)
+				{
+					minDist = dist;
+					closest = i;
+				}
+			}
+		}
+		target = characters[closest];
 		if(target == 0 && characterSize > 1)
 		{
 			target = characters[rand()%characterSize];
