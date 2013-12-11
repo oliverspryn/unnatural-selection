@@ -75,6 +75,7 @@ public :
 		}
 
 		firing = !firing;
+//		Character::update(frameTime, false, false, false, false, false);
 		Character::update(frameTime, goRight, goLeft, callJump || standingOn == 0, shouldShoot(target) && firing, false);
 	
 	}
