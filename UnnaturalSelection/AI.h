@@ -151,7 +151,8 @@ public :
 					currentMag->loadAmmo();
 				}
 			}
-			currentWeapon->act(frameTime, minDist < 500*500, false, false, false, false);
+			firing = !firing;
+			currentWeapon->act(frameTime, firing && shouldShoot(target), false, false, false, false);
 		}
 	}
 	void giveInfo(int charSize, Character** chars, int terrainSize, TerrainElement** terrains)
@@ -161,7 +162,26 @@ public :
 		this->terrainSize = terrainSize;
 		terrain = terrains;
 	}
-
+	
+	bool shouldShoot(Character* enemy)
+	{
+		int sightDistance = 500;
+		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
+		if(sightDistance*sightDistance < delta.x*delta.x + delta.y*delta.y)
+		{
+			return false;
+		}
+		myLines::Ray rayOfSight(getCenter(), delta, sightDistance);
+		for(int i(0); i < terrainSize; i++)
+		{
+			float ft = 1;
+			if(terrain[i]->collidesWithRay(&rayOfSight, ft))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
 	//number of other characharers
 	int characterSize;
