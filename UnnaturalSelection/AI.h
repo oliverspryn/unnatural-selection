@@ -166,8 +166,10 @@ public :
 	bool shouldShoot(Character* enemy)
 	{
 		int sightDistance = 500;
+		int minShootDistance = 50;
 		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
-		if(sightDistance*sightDistance < delta.x*delta.x + delta.y*delta.y)
+		float distSquared = delta.x*delta.x + delta.y*delta.y;
+		if(sightDistance*sightDistance < distSquared || minShootDistance*minShootDistance > distSquared)
 		{
 			return false;
 		}
