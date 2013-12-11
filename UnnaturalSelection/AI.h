@@ -11,6 +11,7 @@ public :
 	AI(Game* game, Graphics* graphics);
 	virtual void update(float frameTime)
 	{
+		bool goRight(false), goLeft(false), callJump(false);
 		D3DXVECTOR2 distance = characters[0]->getCenter()-this->getCenter();
 		float minDist = (distance.x*distance.x + distance.y*distance.y);
 		int closest = 0;
@@ -43,17 +44,24 @@ public :
 		//TARGET FOUND AT THIS POINT
 
 		//Start Movement Code
-		bool callJump = false;
 		if(target->standingOn == standingOn)
 		{
 			callJump = true;
 		}
 
 		//END movement Code
-
+		if(target != 0)
+		{
+			if(moveDirection(target))
+			{
+				goRight = true;
+			}else{
+				goLeft = true;
+			}
+		}
 
 		firing = !firing;
-		Character::update(frameTime, false, false, callJump || standingOn == 0, shouldShoot(target) && firing, false);
+		Character::update(frameTime, goRight, goLeft, callJump || standingOn == 0, shouldShoot(target) && firing, false);
 	
 	}
 	void giveInfo(int charSize, Character** chars, int terrainSize, TerrainElement** terrains)
@@ -66,8 +74,7 @@ public :
 	
 	bool shouldShoot(Character* enemy)
 	{
-		int sightDistance = 500;
-		int minShootDistance = 50;
+		
 		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
 		float distSquared = delta.x*delta.x + delta.y*delta.y;
 		if(sightDistance*sightDistance < distSquared || minShootDistance*minShootDistance > distSquared)
@@ -85,6 +92,11 @@ public :
 		}
 		return true;
 	}
+	//true is right
+	bool moveDirection(Character* enemy)
+	{
+		return rand()%2;
+	}
 
 	//number of other characharers
 	int characterSize;
@@ -98,6 +110,9 @@ public :
 	Character* target;
 	//If gun was shot last round
 	bool firing;
+	//Lines of sight
+	int sightDistance ;
+	int minShootDistance;
 
 };
 
