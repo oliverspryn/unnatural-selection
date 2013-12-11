@@ -9,6 +9,7 @@ HealthBar::~HealthBar() {
 }
 
 void HealthBar::draw() {
+	Bar::draw();
 	DWORD color;
 
 //Determine the health bar color
