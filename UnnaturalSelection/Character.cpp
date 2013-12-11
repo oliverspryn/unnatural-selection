@@ -324,10 +324,6 @@ void Character::update(float frameTime, bool rightButton, bool leftButton, bool 
 {
 	
 //Show the Character angle
-	#ifdef SHOW_ANGLE
-	sin.str("");
-    sin << aimAngle;
-	#endif
 
 //Movement based on collision detection
 	if (standingOn == 0 || !standingOn->getActive()) {
@@ -354,9 +350,6 @@ void Character::update(float frameTime, bool rightButton, bool leftButton, bool 
 		body->walking = false;
 	}
 
-//Crouch, disabled, sad face :(
-	//body->crouch = input->isKeyDown(characterNS::CROUCH);
-	//head->crouch = input->isKeyDown(characterNS::CROUCH);
 
 	if (standingOn != 0) {
 		walk(frameTime);
@@ -371,13 +364,6 @@ void Character::update(float frameTime, bool rightButton, bool leftButton, bool 
 		walk(frameTime/3);
 		body->jumping = true;
 	}
-
-//Ready? Aim... <insert "fire" statement here, when ready>
-	
-	//aimAngle = atan2(
-	//	body->getY() - static_cast<float>(input->getMouseY()),
-	//	body->getX() - static_cast<float>(input->getMouseX())
-	//);
 
 //Determine orientation of the player, based on the mouse direction
 	if (aimAngle > PI2) { // Quadrant 1
