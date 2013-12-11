@@ -6,4 +6,5 @@ AI::AI(Game* game, Graphics* graphics) : Character(game, graphics) {
 	firing = false;
 	sightDistance = 500;
 	minShootDistance = 50;
+	shootDistance = 1400;
 }

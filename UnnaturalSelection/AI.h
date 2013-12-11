@@ -52,10 +52,11 @@ public :
 		//END movement Code
 		if(target != 0)
 		{
-			if(moveDirection(target))
+			int goDir = moveDirection(target);
+			if(goDir > 0)
 			{
 				goRight = true;
-			}else{
+			}else if(goDir < 0){
 				goLeft = true;
 			}
 		}
@@ -77,7 +78,7 @@ public :
 		
 		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
 		float distSquared = delta.x*delta.x + delta.y*delta.y;
-		if(sightDistance*sightDistance < distSquared || minShootDistance*minShootDistance > distSquared)
+		if(shootDistance*shootDistance < distSquared || minShootDistance*minShootDistance > distSquared)
 		{
 			return false;
 		}
@@ -93,9 +94,17 @@ public :
 		return true;
 	}
 	//true is right
-	bool moveDirection(Character* enemy)
+	int moveDirection(Character* enemy)
 	{
-		return rand()%2;
+		D3DXVECTOR2 distance = enemy->getCenter()-getCenter();
+		if((minShootDistance+sightDistance)/2 < abs(distance.x))
+		{
+			return (distance.x < 0? -1: 1);
+		}else if(abs(distance.x) < (minShootDistance+sightDistance)/2){
+			return (distance.x < 0? 1: -1);
+		}
+		//return rand()%2;
+		return 0;
 	}
 
 	//number of other characharers
@@ -111,7 +120,8 @@ public :
 	//If gun was shot last round
 	bool firing;
 	//Lines of sight
-	int sightDistance ;
+	int sightDistance;
+	int shootDistance;
 	int minShootDistance;
 
 };
