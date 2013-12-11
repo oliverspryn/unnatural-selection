@@ -7,7 +7,7 @@
 #include "Body.h"
 #include "Cursor.h"
 #include "game.h"
-#include "Head.h"
+//#include "Head.h"
 #include "terrainElement.h"
 #include "gun.h"
 
@@ -104,7 +104,7 @@ public :
 	float           energyRegenRate;
 	int             faceDir;
 	D3DXVECTOR2*    gravity;
-	Head*           head;
+	//Head*           head;
 	float           healthPoints;
 	float           healthRegenRate;
 	float           initialSpeed;

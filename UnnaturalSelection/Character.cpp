@@ -1,7 +1,7 @@
 #include "Character.h"
 
 Character::Character(Game* game, Graphics* graphics) : game(game), graphics(graphics){
-	head = 0;
+//	head = 0;
 	body = 0;
 	aimAngle = 0.0f;
 	damageBodyConst = characterNS::DAMAGE_BODY_CONST;
@@ -33,11 +33,11 @@ Character::~Character() {
 	SAFE_DELETE(body);
 	delete cursor;
 	SAFE_DELETE(gravity);
-	SAFE_DELETE(head);
+//	SAFE_DELETE(head);
 }
 
 bool Character::collidesWith(Entity &ent, VECTOR2 &collisionVector) {
-	return body->collidesWith(ent, collisionVector) | head->collidesWith(ent, collisionVector);
+	return body->collidesWith(ent, collisionVector)/* | head->collidesWith(ent, collisionVector)*/;
 }
 
 void Character::draw() {
@@ -57,7 +57,7 @@ float Character::getCenterX() {
 }
 
 float Character::getCenterY() {
-	int total = body->getHeight() + head->getHeight();
+	int total = body->getHeight()/* + head->getHeight()*/;
 
 	return corners[0].y + total / 2.0f;
 }
@@ -68,7 +68,7 @@ D3DXVECTOR2 Character::getCenter() {
 }
 
 int Character::getHeight() {
-	return body->getHeight() + head->getHeight();
+	return body->getHeight()/* + head->getHeight()*/;
 }
 
 D3DXVECTOR2 Character::getVelocity() {
@@ -103,11 +103,11 @@ float Character::getY() {
 void Character::initialize() {
 	body = new Body(game, graphics);
 	cursor = new Cursor(game, graphics);
-	head = new Head(game, graphics);
+//	head = new Head(game, graphics);
 
 	body->initialize();
 	cursor->initialize();
-	head->initialize();
+//	head->initialize();
 
 //Generate the aim angle text
 	#ifdef SHOW_ANGLE
@@ -135,7 +135,7 @@ void Character::jump() {
 #pragma region
 void Character::setVelocity(D3DXVECTOR2 v) {
 	body->setVelocity(v);
-	head->setVelocity(v);
+//	head->setVelocity(v);
 }
 
 void Character::setVelocityX(float x) {
@@ -144,7 +144,7 @@ void Character::setVelocityX(float x) {
 	v.y = body->getVelocity().y;
 
 	body->setVelocity(v);
-	head->setVelocity(v);
+//	head->setVelocity(v);
 }
 
 void Character::setVelocityY(float y) {
@@ -153,47 +153,47 @@ void Character::setVelocityY(float y) {
 	v.y = y;
 
 	body->setVelocity(v);
-	head->setVelocity(v);
+//	head->setVelocity(v);
 }
 
 void Character::setX(float x) {
 	body->setX(x);
-	head->setX(x + body->getWidth() / 2 - head->getWidth() / 2);
+//	head->setX(x + body->getWidth() / 2 - head->getWidth() / 2);
 }
 
 void Character::setXC(float x) {
 	body->setX(x - body->getWidth() / 2);
-	head->setX(x - body->getWidth() / 2 - head->getWidth() / 2);
+//	head->setX(x - body->getWidth() / 2 - head->getWidth() / 2);
 }
 
 void Character::setXY(float x, float y) {
 	body->setX(x);
-	head->setX(x + body->getWidth() / 2 - head->getWidth() / 2);
+//	head->setX(x + body->getWidth() / 2 - head->getWidth() / 2);
 
-	body->setY(y + head->getHeight());
-	head->setY(y);
+	body->setY(y/* + head->getHeight()*/);
+//	head->setY(y);
 }
 
 void Character::setXYC(float x, float y) {
 	body->setX(x - body->getWidth() / 2);
-	head->setX(x - body->getWidth() / 2 - head->getWidth() / 2);
+//	head->setX(x - body->getWidth() / 2 - head->getWidth() / 2);
 
-	int total = body->getHeight() + head->getHeight();
+	int total = body->getHeight()/* + head->getHeight()*/;
 
-	body->setY(y - total / 2 + head->getHeight());
-	head->setY(y - total / 2);
+	body->setY(y - total / 2/* + head->getHeight()*/);
+//	head->setY(y - total / 2);
 }
 
 void Character::setY(float y) {
-	body->setY(y + head->getHeight());
-	head->setY(y);
+	body->setY(y/* + head->getHeight()*/);
+//	head->setY(y);
 }
 
 void Character::setYC(float y) {
-	int total = body->getHeight() + head->getHeight();
+	int total = body->getHeight()/* + head->getHeight()*/;
 
-	body->setY(y - total / 2 + head->getHeight());
-	head->setY(y - total / 2);
+	body->setY(y - total / 2/* + head->getHeight()*/);
+//	head->setY(y - total / 2);
 }
 #pragma endregion
 
@@ -278,11 +278,11 @@ void Character::update(float frameTime) {
 
 //Set the direction of the player
 	body->faceDir = faceDir;
-	head->faceDir = faceDir;
+//	head->faceDir = faceDir;
 
 	body->update(frameTime);
 	//cursor->update(frameTime);
-	head->update(frameTime);
+//	head->update(frameTime);
 
 	updateCorners();
 
@@ -384,11 +384,11 @@ void Character::update(float frameTime, bool rightButton, bool leftButton, bool 
 
 //Set the direction of the player
 	body->faceDir = faceDir;
-	head->faceDir = faceDir;
+//	head->faceDir = faceDir;
 
 	body->update(frameTime);
 	//cursor->update(frameTime);
-	head->update(frameTime);
+//	head->update(frameTime);
 
 	updateCorners();
 
@@ -428,13 +428,15 @@ void Character::update(float frameTime, bool rightButton, bool leftButton, bool 
 
 void Character::updateCorners() {
 	corners[0].x = body->getX();
-	corners[0].y = head->getY();
+//	corners[0].y = head->getY();
+	corners[0].y = body->getY();
 	corners[1].x = body->getX();
 	corners[1].y = body->getY() + body->getHeight();
 	corners[2].x = body->getX() + body->getWidth();
 	corners[2].y = body->getY() + body->getHeight();
 	corners[3].x = body->getX() + body->getWidth();
-	corners[3].y = head->getY();
+//	corners[3].y = head->getY();
+	corners[3].y = body->getY();
 }
 
 int Character::velSign() {

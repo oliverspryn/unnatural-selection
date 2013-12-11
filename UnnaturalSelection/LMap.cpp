@@ -308,7 +308,7 @@ void LMap::draw()
 			if(characters[i]!=0)
 			{
 				camera->draw(*characters[i]->body);
-				camera->draw(*characters[i]->head);
+//				camera->draw(*characters[i]->head);
 				characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
 				//camera->draw(*characters[i]->cursor);
 				characters[i]->cursor->draw();
