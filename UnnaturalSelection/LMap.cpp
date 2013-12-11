@@ -204,7 +204,7 @@ void LMap::update(float frameTime)
 						//stuff here do things
 						//collidesWithCharacter(Entity* c, Entity* p, float& fT)
 						float fT = frameTime;
-						if(collidesWithCharacter(characters[k],mags[i]->projArray[j],fT))
+						if(k!=i&&collidesWithCharacter(characters[k],mags[i]->projArray[j],fT))
 						{
 							mags[i]->projArray[j]->setVisible(false);
 							mags[i]->projArray[j]->setActive(false);
