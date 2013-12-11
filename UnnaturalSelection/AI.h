@@ -97,10 +97,10 @@ public :
 	int moveDirection(Character* enemy)
 	{
 		D3DXVECTOR2 distance = enemy->getCenter()-getCenter();
-		if((minShootDistance+sightDistance)/2 < abs(distance.x))
+		if((minShootDistance+2*sightDistance)/3 < abs(distance.x))
 		{
 			return (distance.x < 0? -1: 1);
-		}else if(abs(distance.x) < (minShootDistance+sightDistance)/2){
+		}else if(abs(distance.x) < (minShootDistance+2*sightDistance)/3){
 			return (distance.x < 0? 1: -1);
 		}
 		//return rand()%2;
