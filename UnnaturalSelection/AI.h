@@ -15,20 +15,33 @@ public :
 		D3DXVECTOR2 distance = characters[0]->getCenter()-this->getCenter();
 		float minDist = (distance.x*distance.x + distance.y*distance.y);
 		int closest = 0;
-		for(int i(0); i < characterSize; i++)
+		
+		if(target != 0 && canSee(target))
 		{
-			if(characters[i] != this)
+
+		}else{
+			for(int i(0); i < characterSize; i++)
 			{
-				distance = characters[i]->getCenter()-this->getCenter();
-				float dist = (distance.x*distance.x + distance.y*distance.y);
-				if(dist < minDist)
+				if(characters[i] != this)
 				{
-					minDist = dist;
-					closest = i;
+					distance = characters[i]->getCenter()-this->getCenter();
+					float dist = (distance.x*distance.x + distance.y*distance.y);
+					if(canSee(characters[i]))
+					{
+						target = characters[i];
+					}
+					if(dist < minDist)
+					{
+						minDist = dist;
+						closest = i;
+					}
 				}
 			}
+			if(!canSee(target))
+			{
+				target = characters[closest];
+			}
 		}
-		target = characters[closest];
 		if(target == 0 && characterSize > 1)
 		{
 			target = characters[rand()%characterSize];
@@ -73,15 +86,9 @@ public :
 		terrain = terrains;
 	}
 	
-	bool shouldShoot(Character* enemy)
+	bool canSee(Character* enemy)
 	{
-		
 		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
-		float distSquared = delta.x*delta.x + delta.y*delta.y;
-		if(shootDistance*shootDistance < distSquared || minShootDistance*minShootDistance > distSquared)
-		{
-			return false;
-		}
 		myLines::Ray rayOfSight(getCenter(), delta, sightDistance);
 		for(int i(0); i < terrainSize; i++)
 		{
@@ -92,6 +99,18 @@ public :
 			}
 		}
 		return true;
+	}
+
+	bool shouldShoot(Character* enemy)
+	{
+		
+		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
+		float distSquared = delta.x*delta.x + delta.y*delta.y;
+		if(shootDistance*shootDistance < distSquared || minShootDistance*minShootDistance > distSquared)
+		{
+			return false;
+		}
+		return canSee(enemy);
 	}
 	//true is right
 	int moveDirection(Character* enemy)

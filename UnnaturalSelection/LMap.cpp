@@ -213,6 +213,11 @@ void LMap::update(float frameTime)
 							if(characters[k]->healthPoints < 0)
 							{
 								this->chooseSpawnPoint(characters[k]);
+								//if it was killed by the player
+								if(i==0)
+								{
+									numKills++;
+								}
 							}
 						}
 					}
@@ -388,6 +393,8 @@ void LMap::chooseSpawnPoint(Character* c)
 	{
 		point = rand()%totalSpawns;
 	}
+	c->setVelocityX(0);
+	c->setVelocityY(0);
 	c->setX(spawnPoints[point]->getX());
 	c->setY(spawnPoints[point]->getY());
 	c->healthPoints = characterNS::HEALTH_POINTS;
@@ -395,6 +402,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	numKills = 0;
 	targetsDestroyed = true;
 	activeTargets = 0;
 	totalTargets = 0;

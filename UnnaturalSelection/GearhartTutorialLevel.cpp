@@ -5,7 +5,7 @@ extern Gun* gunz[4];
 TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10,false)
 {
 	numDoors = 3;
-	numTurrets = 5;
+	numTurrets = 1;
 	currentDoor = 0;
 	this->room2TurretsKilled = 0;
 }

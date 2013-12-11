@@ -112,6 +112,7 @@ public:
 	bool levelDone;
 	int activeTargets;
 	bool targetsDestroyed;
+	int numKills;
 };
 
 #endif

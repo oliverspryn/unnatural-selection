@@ -120,7 +120,8 @@ void TestStuff::initialize(HWND hwnd)
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	TutorialLevel* intro = new TutorialLevel(input,graphics);
 	levels[1] = reinterpret_cast<LMap*>(intro);
-	levels[0] = new LMap(input,graphics);
+	ArenaLevel* arena = new ArenaLevel(input,graphics);
+	levels[0] = reinterpret_cast<LMap*>(arena);
 	levels[2] = new LMap(input,graphics);
 	auto testMap = levels[currentLevel];
 
@@ -440,7 +441,6 @@ void TestStuff::render()
 
 	graphics->setBackColor(graphicsNS::GRAY);
 	background->draw();
-	healthBar->draw();
 	testMap->draw();
 	std::stringstream tempWords;
 	tempWords << "Health: " << testMap->characters[0]->healthPoints;
@@ -452,8 +452,9 @@ void TestStuff::render()
 	tempWords << "Targets Remaining: " << testMap->activeTargets;
 	hudFont.print(tempWords.str().c_str(), 700, 550);
 	tempWords.str("");
-	tempWords << "Score: " << score;
+	tempWords << "Score: " << levels[currentLevel]->numKills;
 	hudFont.print(tempWords.str().c_str(), 100, 550);
+	healthBar->draw();
 	graphics->spriteEnd();
 }
 
