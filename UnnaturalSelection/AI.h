@@ -40,6 +40,16 @@ public :
 		{
 				aimAngle = atan2(target->getCenterY()-this->getCenterY(), target->getCenterX()-this->getCenterX());
 		}
+		//TARGET FOUND AT THIS POINT
+
+		//Start Movement Code
+		bool callJump = false;
+		if(target->standingOn == standingOn)
+		{
+			callJump = true;
+		}
+
+		//END movement Code
 
 		if (standingOn == 0 || !standingOn->getActive()) {
 			D3DXVECTOR2 v (
@@ -56,22 +66,16 @@ public :
 			}
 		}
 
-	////Move left or right
-	//	if (input->isKeyDown(characterNS::WALK_LEFT) ^ input->isKeyDown(characterNS::WALK_RIGHT)) {
-	//		faceDir = input->isKeyDown(characterNS::WALK_RIGHT) ? 1 : -1;
-
-	//		body->walking = true;
-	//	} else {
-	//		faceDir = 0;
-	//		body->walking = false;
-	//	}
-
-	//Crouch, disabled, sad face :(
-		//body->crouch = input->isKeyDown(characterNS::CROUCH);
-		//head->crouch = input->isKeyDown(characterNS::CROUCH);
 
 		if (standingOn != 0) {
-			body->jumping = false;
+			//walk(frameTime);
+		
+			if (callJump) {
+				jump();
+				body->jumping = true;
+			} else {
+				body->jumping = false;
+			}
 			
 		} else {
 			walk(frameTime/3);
