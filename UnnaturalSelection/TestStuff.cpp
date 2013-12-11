@@ -28,9 +28,9 @@ TestStuff::TestStuff()
 
 // Test gun Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
 	gunz[0] = new Gun(1, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
-	gunz[1] = new Gun(15, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
-	gunz[2] = new Gun(50, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
-	gunz[3] = new Gun(30, 6*60*60, 500, 2000, 1000, 0, 20, 0.5, 6, ONE);
+	gunz[1] = new Gun(8, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[2] = new Gun(25, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[3] = new Gun(15, 6*60*60, 500, 2000, 1000, 0, 20, 0.5, 6, ONE);
 
 
 	gunzCount = 4;
@@ -441,7 +441,7 @@ void TestStuff::render()
 	tempWords.str("");
 	tempWords << "Score: " << levels[currentLevel]->numKills;
 	hudFont.print(tempWords.str().c_str(), 100, 550);
-	healthBar->draw();
+	//healthBar->draw();
 	graphics->spriteEnd();
 }
 

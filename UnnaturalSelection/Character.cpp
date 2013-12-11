@@ -241,7 +241,7 @@ void Character::update(float frameTime) {
 	if (standingOn != 0) {
 		walk(frameTime);
 
-		if (input->isKeyDown(characterNS::JUMP)) {
+		if (input->isKeyDown(characterNS::JUMP) || input->isKeyDown('W')) {
 			jump();
 			body->jumping = true;
 		} else {
