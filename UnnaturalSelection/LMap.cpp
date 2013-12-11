@@ -1,5 +1,8 @@
 #include "LMap.h"
 
+extern Gun* gunz[4];
+extern int weaponSelected;
+
 LMap::~LMap()
 {
 	for(int t = 0; t < addedElements; t++)
@@ -61,6 +64,11 @@ void LMap::update(float frameTime)
 	{
 		this->levelDone=true;
 	}*/
+	if(first)
+	{
+		this->givePlayerGun();
+		first = false;
+	}
 	VECTOR2 collisionVector;//get rid of later when using other collision detection function
 	float angle, fT;
 #if defined(DEBUG) | defined(_DEBUG)
@@ -404,6 +412,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	first = true;
 	numKills = 0;
 	targetsDestroyed = true;
 	activeTargets = 0;
@@ -743,9 +752,6 @@ bool LMap::projectileCollide(Projectile &proj, TerrainElement &terra, float &fra
 	return false;
 }
 
-//doesn't really work yet
-//the equations need radius values
-//takes two entities, but really should take a character and a projectile
 bool LMap::collidesWithCharacter(Character* c, Projectile* p, float& fT)
 {
 	for(int i(0); i < 4; i++)
@@ -780,4 +786,29 @@ bool LMap::collidesWithCharacter(Character* c, Projectile* p, float& fT)
 	}
 
 	return false;
+}
+
+void LMap::givePlayerGun()
+{
+	testMag = new Magazine(3000, 16, 16, 0, 0, 0, ONE, testProjectile); 
+	testGun = new Gun(*gunz[weaponSelected]);
+	testGun->loadNewMag(testMag);
+	this->characters[0]->currentWeapon = testGun;
+	this->characters[0]->currentMag = testMag;
+	this->characters[0]->currentWeapon = testGun;
+	this->characters[0]->currentMag = testMag;
+	this->mags[0] = testMag;
+
+	for(int i(1); i < totalCharacters; i++)
+	{
+		testMag = new Magazine(3000, 8, 8, 0, 0, 0, ONE, testProjectile); 
+		testGun = new Gun(*gunz[rand()%3+1]);
+		testGun->loadNewMag(testMag);
+		this->characters[i]->currentWeapon = testGun;
+		this->characters[i]->currentMag = testMag;
+		this->characters[i]->currentWeapon = testGun;
+		this->characters[i]->currentMag = testMag;
+		this->mags[i] = testMag;
+
+	}
 }

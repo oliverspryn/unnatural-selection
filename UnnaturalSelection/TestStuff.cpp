@@ -2,6 +2,7 @@
 //hi just a test to make sure github is working // its working Jake
 Gun* gunz[4];
 int gunzCount;
+int weaponSelected;
 
 void incrementCounter(int index, string text) {
 	controlState = 4;
@@ -150,25 +151,11 @@ void TestStuff::initialize(HWND hwnd)
 	testMap->addCharacter(a);
 	a = new AI(this,graphics);
 	testMap->addCharacter(a);
-	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture))
+	testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
+	//testProjectile->init
+	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&projectileTM))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
-	for(int i = 0; i < testMap->totalCharacters; i++)
-	{
-		if(testMap->characters[i]!=0)
-		{
-			int v(2);
-			testMap->characters[i]->body->color = D3DCOLOR_ARGB(255, v*(rand()%(255/v)), v*(rand()%(255/v)), v*(rand()%(255/v)));
-			testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
-			testMag = new Magazine(3000, 16, 16, 0, 0, 0, ONE, testProjectile); 
-			testGun = new Gun(*gunz[weaponSelected]);
-//			testGun = new Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
-			testGun->loadNewMag(testMag);
-//			testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
-			testMap->characters[i]->currentWeapon = testGun;
-			testMap->characters[i]->currentMag = testMag;
-			testMap->mags[i] = testMag;
-		}
-	}
+	levels[0]->testProjectile = testProjectile;
 
 	for (int i = 1; i < testMap->totalCharacters; i++) {
 		reinterpret_cast<AI*>(testMap->characters[i])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);

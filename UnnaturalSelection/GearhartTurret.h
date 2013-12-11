@@ -15,6 +15,7 @@ public:
 	Gun* gun;
 	Character* target;
 	int direction;
+	int fireTime;
 private:
 };
 

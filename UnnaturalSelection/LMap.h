@@ -113,6 +113,11 @@ public:
 	int activeTargets;
 	bool targetsDestroyed;
 	int numKills;
+	void givePlayerGun();
+	Projectile* testProjectile;
+	Magazine* testMag;
+	Gun* testGun;
+	bool first;
 };
 
 #endif

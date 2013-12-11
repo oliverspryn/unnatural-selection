@@ -27,10 +27,10 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[1]->generateSideEquations();
 		LMap::addTerrain(doors[1]);
 		//run and shoot door
-		doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		/*doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
 		doors[2]->initialize(gamePtr,textureM,ncols);
 		doors[2]->generateSideEquations();
-		LMap::addTerrain(doors[2]);
+		LMap::addTerrain(doors[2]);*/
 		camera->zoom = zoomValue;
 		turrets = new Turret*[this->numTurrets];
 		for(int i = 0; i < this->numTurrets; i++)
