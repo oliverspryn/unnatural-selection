@@ -228,7 +228,6 @@ void Character::update(float frameTime) {
 //Move left or right
 	if (input->isKeyDown(characterNS::WALK_LEFT) ^ input->isKeyDown(characterNS::WALK_RIGHT)) {
 		faceDir = input->isKeyDown(characterNS::WALK_RIGHT) ? 1 : -1;
-
 		body->walking = true;
 	} else {
 		faceDir = 0;
@@ -318,6 +317,126 @@ void Character::update(float frameTime) {
 			}
 		}
 		currentWeapon->act(frameTime, input->getMouseLButton(), false, false, false, false);
+	}
+}
+
+void Character::update(float frameTime, bool rightButton, bool leftButton, bool jumpButton, bool shootButton, bool reloadButton)
+{
+	
+//Show the Character angle
+	#ifdef SHOW_ANGLE
+	sin.str("");
+    sin << aimAngle;
+	#endif
+
+//Movement based on collision detection
+	if (standingOn == 0 || !standingOn->getActive()) {
+		D3DXVECTOR2 v (
+			body->getVelocity().x, 
+			body->getVelocity().y + frameTime * characterNS::GRAVITY_Y
+		);
+
+		setVelocity(v);
+	} else {
+		int xpos = body->getX();
+
+		if (body->getCenterX() + 12 < standingOn->corners[0].x || body->getCenterX() - 12 > standingOn->corners[3].x) {
+			standingOn = 0;
+		}
+	}
+
+//Move left or right
+	if (leftButton ^ rightButton) {
+		faceDir = rightButton ? 1 : -1;
+		body->walking = true;
+	} else {
+		faceDir = 0;
+		body->walking = false;
+	}
+
+//Crouch, disabled, sad face :(
+	//body->crouch = input->isKeyDown(characterNS::CROUCH);
+	//head->crouch = input->isKeyDown(characterNS::CROUCH);
+
+	if (standingOn != 0) {
+		walk(frameTime);
+
+		if (jumpButton) {
+			jump();
+			body->jumping = true;
+		} else {
+			body->jumping = false;
+		}
+	} else {
+		walk(frameTime/3);
+		body->jumping = true;
+	}
+
+//Ready? Aim... <insert "fire" statement here, when ready>
+	
+	//aimAngle = atan2(
+	//	body->getY() - static_cast<float>(input->getMouseY()),
+	//	body->getX() - static_cast<float>(input->getMouseX())
+	//);
+
+//Determine orientation of the player, based on the mouse direction
+	if (aimAngle > PI2) { // Quadrant 1
+		faceDir = 1;
+	}
+
+	if (aimAngle < PI2 && aimAngle > 0.0) { // Quadrant 2
+		faceDir = -1;
+	}
+
+	if (aimAngle > -PI2 && aimAngle <= 0.0) { // Quadrant 3
+		faceDir = -1;
+	}
+
+	if (aimAngle < -PI2 && aimAngle <= 0.0) { // Quadrant 4
+		faceDir = 1;
+	}
+
+//Set the direction of the player
+	body->faceDir = faceDir;
+	head->faceDir = faceDir;
+
+	body->update(frameTime);
+	//cursor->update(frameTime);
+	head->update(frameTime);
+
+	updateCorners();
+
+	if(currentWeapon != 0)
+	{
+		currentWeapon->setAngle(aimAngle);
+		currentWeapon->setX(getCenterX() + weaponPos.x * std::cos(aimAngle) + weaponPos.y * std::sin(aimAngle) - currentWeapon->getWidth()/2);
+		currentWeapon->setY(getCenterY() + weaponPos.y * std::cos(aimAngle) + weaponPos.x * std::sin(aimAngle) -currentWeapon->getHeight()/2);
+		currentWeapon->update(frameTime);
+		//Reload if r is pressed or the ammoCount is 0
+		if(reloadStep == 0 && (reloadButton || reinterpret_cast<Gun*>(currentWeapon)->mag->ammoCount == 0))
+		{
+			reloadStep = 1;
+			reloadTimer = frameTime;
+		}
+		if(reloadStep != 0)
+		{
+			reloadTimer += frameTime;
+			if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime)
+			{
+				if(static_cast<Gun*>(currentWeapon)->isMagInGun)
+				{
+					currentMag->loadAmmo();
+				}
+				static_cast<Gun*>(currentWeapon)->loadMag();
+				reloadStep = 0;
+			}
+			else if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime/100)
+			{
+				static_cast<Gun*>(currentWeapon)->removeMag();
+				currentMag->loadAmmo();
+			}
+		}
+		currentWeapon->act(frameTime, shootButton, false, false, false, false);
 	}
 }
 

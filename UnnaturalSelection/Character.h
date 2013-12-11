@@ -70,6 +70,7 @@ public :
 	virtual void draw();
 	virtual void initialize();
 	virtual void update(float frameTime);
+	virtual void update(float frameTime, bool rightButton, bool leftButton, bool jumpButton, bool shootButton, bool reloadButton);
 
 	float getCenterX();
 	float getCenterY();
