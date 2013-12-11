@@ -128,7 +128,7 @@ public :
 			currentWeapon->setY(getCenterY() + weaponPos.y * std::cos(aimAngle) + weaponPos.x * std::sin(aimAngle) -currentWeapon->getHeight()/2);
 
 			currentWeapon->update(frameTime);
-			if(input->isKeyDown('R') && reloadStep == 0)
+			if(reloadStep == 0 && (input->isKeyDown('R') || reinterpret_cast<Gun*>(currentWeapon)->mag->ammoCount == 0))
 			{
 				reloadStep = 1;
 				reloadTimer = frameTime;
@@ -138,16 +138,20 @@ public :
 				reloadTimer += frameTime;
 				if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime)
 				{
+					if(static_cast<Gun*>(currentWeapon)->isMagInGun)
+					{
+						currentMag->loadAmmo();
+					}
 					static_cast<Gun*>(currentWeapon)->loadMag();
 					reloadStep = 0;
 				}
-				else if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime/3)
+				else if(reloadTimer > static_cast<Gun*>(currentWeapon)->reloadTime/100)
 				{
 					static_cast<Gun*>(currentWeapon)->removeMag();
 					currentMag->loadAmmo();
 				}
 			}
-			currentWeapon->act(frameTime, 0, false, false, false, false);
+			currentWeapon->act(frameTime, minDist < 500*500, false, false, false, false);
 		}
 	}
 	void giveInfo(int charSize, Character** chars, int terrainSize, TerrainElement** terrains)
@@ -169,6 +173,8 @@ public :
 	TerrainElement** terrain;
 	//The Current target
 	Character* target;
+	//If gun was shot last round
+	bool firing;
 
 };
 
