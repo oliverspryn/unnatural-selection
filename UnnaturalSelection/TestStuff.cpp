@@ -452,7 +452,7 @@ void TestStuff::render()
 	tempWords << "Targets Remaining: " << testMap->activeTargets;
 	hudFont.print(tempWords.str().c_str(), 700, 550);
 	tempWords.str("");
-	tempWords << "Score: " << score;
+	tempWords << "Score: " << levels[currentLevel]->numKills;
 	hudFont.print(tempWords.str().c_str(), 100, 550);
 	healthBar->draw();
 	graphics->spriteEnd();
