@@ -437,7 +437,7 @@ void TestStuff::render()
 	}
 
 	//FIX
-	testMap->camera->centerPosition = testMap->characters[0]->getCenter();
+	//testMap->camera->centerPosition = testMap->characters[0]->getCenter();
 
 	graphics->setBackColor(graphicsNS::GRAY);
 	background->draw();
