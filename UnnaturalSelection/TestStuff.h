@@ -7,6 +7,7 @@
 #include "image.h"
 #include "textDX.h"
 #include "GearhartTutorialLevel.h"
+#include "GearhartArenaLevel.h"
 #include "LMap.h"
 #include "gun.h"
 #include "Menu.h"
