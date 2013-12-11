@@ -51,38 +51,9 @@ public :
 
 		//END movement Code
 
-		if (standingOn == 0 || !standingOn->getActive()) {
-			D3DXVECTOR2 v (
-				body->getVelocity().x, 
-				body->getVelocity().y + frameTime * characterNS::GRAVITY_Y
-			);
 
-			setVelocity(v);
-		} else {
-			int xpos = body->getX();
-
-			if (body->getCenterX() + 12 < standingOn->corners[0].x || body->getCenterX() - 12 > standingOn->corners[3].x) {
-				standingOn = 0;
-			}
-		}
-
-
-		if (standingOn != 0) {
-			//walk(frameTime);
-		
-			if (callJump) {
-				jump();
-				body->jumping = true;
-			} else {
-				body->jumping = false;
-			}
-			
-		} else {
-			walk(frameTime/3);
-			body->jumping = true;
-		}
 		firing = !firing;
-		Character::update(frameTime, false, false, callJump, shouldShoot(target) && firing, false);
+		Character::update(frameTime, false, false, callJump || standingOn == 0, shouldShoot(target) && firing, false);
 	
 	}
 	void giveInfo(int charSize, Character** chars, int terrainSize, TerrainElement** terrains)
