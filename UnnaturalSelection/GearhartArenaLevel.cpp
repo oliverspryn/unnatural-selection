@@ -10,6 +10,7 @@ bool ArenaLevel::initialize(Game *gamePtr, int width, int height, int ncols, Tex
 {
 	if(LMap::initialize(gamePtr,width,height,ncols,textureM,targetTM))
 	{
+		camera->zoom = .7;
 		return true;
 	}
 	else

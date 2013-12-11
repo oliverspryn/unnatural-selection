@@ -18,6 +18,7 @@ public:
 	int currentDoor;
 	int numTurrets;
 	int room2TurretsKilled;
+	float zoomValue;
 private:
 };
 

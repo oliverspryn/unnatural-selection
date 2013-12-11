@@ -8,6 +8,7 @@ TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10
 	numTurrets = 1;
 	currentDoor = 0;
 	this->room2TurretsKilled = 0;
+	zoomValue = .5;
 }
 
 bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTexture, Magazine* m)
@@ -30,7 +31,7 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[2]->initialize(gamePtr,textureM,ncols);
 		doors[2]->generateSideEquations();
 		LMap::addTerrain(doors[2]);
-		
+		camera->zoom = zoomValue;
 		turrets = new Turret*[this->numTurrets];
 		for(int i = 0; i < this->numTurrets; i++)
 		{
