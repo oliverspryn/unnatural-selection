@@ -8,6 +8,17 @@ HealthBar::~HealthBar() {
 
 }
 
-//void HealthBar::draw() {
-//	bar.draw(healthBarNS::HEALTH_GOOD_COLOR);
-//}
+void HealthBar::draw() {
+	DWORD color;
+
+//Determine the health bar color
+	if (percent >= healthBarNS::HEALTH_FAIR_VALUE) {
+		color = healthBarNS::HEALTH_GOOD_COLOR;
+	} else if (percent >= healthBarNS::HEALTH_BAD_VALUE && percent < healthBarNS::HEALTH_FAIR_VALUE) {
+		color = healthBarNS::HEALTH_FAIR_COLOR;
+	} else {
+		color = healthBarNS::HEALTH_BAD_COLOR;
+	}
+
+	bar.draw(color);
+}

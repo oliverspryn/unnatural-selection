@@ -1,6 +1,6 @@
 #include "Bar.h"
 
-Bar::Bar(Game* game, Graphics* graphics) : color(barNS::DEFAULT_COLOR), game(game), graphics(graphics), percent(0.0f), x(0.0f), y(0.0f) {
+Bar::Bar(Game* game, Graphics* graphics) : color(barNS::DEFAULT_COLOR), height(barNS::HEIGHT), game(game), graphics(graphics), percent(barNS::DEFAULT_PERCENT), width(barNS::WIDTH), x(0.0f), y(0.0f) {
 
 }
 
@@ -12,8 +12,16 @@ void Bar::draw() {
 	bar.draw(color);
 }
 
+int Bar::getHeight() {
+	return height;
+}
+
 float Bar::getPercent() {
 	return percent;
+}
+
+int Bar::getWidth() {
+	return width;
 }
 
 float Bar::getX() {
@@ -43,8 +51,16 @@ void Bar::setColor(DWORD color) {
 	this->color = color;
 }
 
+void Bar::setHeight(int height) {
+	this->height = height;
+}
+
 void Bar::setPercent(float percent) {
 	this->percent = percent;
+}
+
+void Bar::setWidth(int width) {
+	this->width = width;
 }
 
 void Bar::setX(float x) {

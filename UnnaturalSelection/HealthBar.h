@@ -10,7 +10,6 @@ namespace healthBarNS {
 
 	const float HEALTH_BAD_VALUE  = 0.2f;
 	const float HEALTH_FAIR_VALUE = 0.4f;
-	const float HEALTH_GOOD_VALUE = 0.6f;
 }
 
 class HealthBar : public Bar {
@@ -18,7 +17,7 @@ public :
 	HealthBar(Game* game, Graphics* graphics);
 	~HealthBar();
 
-	//void draw();
+	void draw();
 };
 
 #endif
