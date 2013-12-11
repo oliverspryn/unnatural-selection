@@ -11,6 +11,7 @@
 #include "gun.h"
 #include "Menu.h"
 #include "Background.h"
+#include "HealthBar.h"
 #include <vector>
 using std::vector;
 #include <ctime>
@@ -65,6 +66,7 @@ public:
 	int oldTargets;
 	Menu* menu;
 	Background* background;
+	HealthBar* healthBar;
 	
 private:
 	TextureManager terrainTexture;

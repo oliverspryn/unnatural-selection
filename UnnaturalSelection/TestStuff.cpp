@@ -56,11 +56,9 @@ void TestStuff::initialize(HWND hwnd)
 {
 	Game::initialize(hwnd);
 
-	menu = new Menu(this, graphics);
-	background = new Background(this, graphics);
-	background->initialize(180.0);
-
 //Create the menu
+	menu = new Menu(this, graphics);
+
 	MenuCol items2;
 	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
 	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
@@ -71,6 +69,14 @@ void TestStuff::initialize(HWND hwnd)
 	items.push_back(MenuItem("Exit", menuNS::ALIGN_CENTER, endGameNow));
 
 	menu->initialize(items);
+
+//Create the animated background
+	background = new Background(this, graphics);
+	background->initialize(180.0);
+
+//Create the health bar
+	healthBar = new HealthBar(this, graphics);
+	healthBar->initialize();
 
 	audio->playCue(MUSIC);
 
@@ -208,6 +214,9 @@ void TestStuff::update()
 		controlState = -1;
 	}
 	background->update(frameTime);
+	healthBar->setX(100.0f);
+	healthBar->setY(100.0f);
+	healthBar->update(frameTime);
 	if(!infiniteTime)
 		gameTime -= frameTime;
 	Character* player = testMap->characters[0];
@@ -431,6 +440,7 @@ void TestStuff::render()
 
 	graphics->setBackColor(graphicsNS::GRAY);
 	background->draw();
+	healthBar->draw();
 	testMap->draw();
 	std::stringstream tempWords;
 	tempWords << "Health: " << testMap->characters[0]->healthPoints;
@@ -444,7 +454,6 @@ void TestStuff::render()
 	tempWords.str("");
 	tempWords << "Score: " << score;
 	hudFont.print(tempWords.str().c_str(), 100, 550);
-	
 	graphics->spriteEnd();
 }
 
