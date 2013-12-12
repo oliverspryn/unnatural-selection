@@ -63,7 +63,7 @@ void Bar::initialize(float health) {
 	}
 
 //Initialize the bar images
-	if (!bar.initialize(graphics, barNS::WIDTH, barNS::HEIGHT, 1, &tmBar)) {
+	if (!bar.initialize(graphics, barNS::WIDTH, height, 1, &tmBar)) {
 		throw GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize the bar image");
 	}
 
