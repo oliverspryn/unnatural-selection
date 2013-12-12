@@ -122,6 +122,8 @@ public :
 	Weapon*			currentWeapon;
 	Magazine*		currentMag;
 	D3DXVECTOR2		weaponPos;
+
+	int			invertColorCount;
 };
 
 #endif

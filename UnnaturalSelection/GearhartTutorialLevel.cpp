@@ -17,12 +17,12 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 	{
 		doors = new TerrainElement*[numDoors];
 		//target door
-		doors[0] = new TerrainElement(438,146,VECTOR2(-1726,-1542));
+		/*doors[0] = new TerrainElement(438,146,VECTOR2(-1726,-1542));
 		doors[0]->initialize(gamePtr,textureM,ncols);
 		doors[0]->generateSideEquations();
-		LMap::addTerrain(doors[0]);
+		LMap::addTerrain(doors[0]);*/
 		//duck and cover door
-		doors[1] = new TerrainElement(438,146,VECTOR2(1109,1483));
+		doors[1] = new TerrainElement(128,2752,VECTOR2(-1603,68));
 		doors[1]->initialize(gamePtr,textureM,ncols);
 		doors[1]->generateSideEquations();
 		LMap::addTerrain(doors[1]);
@@ -36,8 +36,9 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		for(int i = 0; i < this->numTurrets; i++)
 		{
 			//turrets[i] = new Turret(VECTOR2(-1135,430+(i*100)),new Gun(*reinterpret_cast<Gun*>(characters[0]->currentWeapon)),new Magazine(30000,30000,30000,0,0,0,ONE,reinterpret_cast<Gun*>(characters[0]->currentWeapon)->mag->projectile));
-			turrets[i] = new Turret(VECTOR2(-1135,430+(i*200)),gunz[0],m,characters[0]);
+			turrets[i] = new Turret(VECTOR2(-1135,-500),gunz[0],m,characters[0]);
 			turrets[i]->initialize(gamePtr,300,420,1,turretTexture);
+			
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
 		}
@@ -73,7 +74,7 @@ void TutorialLevel::update(float frameTime)
 		doors[1]->setVisible(false);
 	}
 
-	if(this->activeTargets==0)
+	if(this->activeTargets!=0)
 	{
 		for(int i = 0; i < this->numTurrets; i++)
 		{
@@ -109,5 +110,20 @@ void TutorialLevel::draw()
 	{
 		if(turrets[i]!=0)
 			;//this->camera->draw(*turrets[i]);
+	}
+}
+
+void TutorialLevel::givePlayerGun()
+{
+	LMap::givePlayerGun();
+	testMag = new Magazine(3000, 1234567, 1234567, 0, 0, 0, ONE, testProjectile); 
+	testGun = new Gun(*gunz[0]);
+	testGun->loadNewMag(testMag);
+	for(int i = 0; i < this->numTurrets; i++)
+	{
+		turrets[i]->gun = testGun;
+		turrets[i]->gun->mag = testMag;
+		this->mags[this->totalMags] = testMag;
+		totalMags++;
 	}
 }

@@ -19,6 +19,7 @@ public:
 	int numTurrets;
 	int room2TurretsKilled;
 	float zoomValue;
+	void givePlayerGun();
 private:
 };
 

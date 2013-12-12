@@ -220,6 +220,13 @@ void LMap::update(float frameTime)
 							mags[i]->projArray[j]->setActive(false);
 							characters[k]->charFrameTime=fT;
 							characters[k]->healthPoints-=mags[i]->projArray[j]->damage;
+							if(characters[k]->invertColorCount == 0)
+							{
+								characters[k]->body->color = D3DCOLOR_ARGB(510,255,255,255) - characters[k]->body->color;
+							}
+							characters[k]->invertColorCount = 5;
+
+
 							if(characters[k]->healthPoints < 0)
 							{
 								this->chooseSpawnPoint(characters[k]);
@@ -412,6 +419,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	totalMags=0;
 	first = true;
 	numKills = 0;
 	targetsDestroyed = true;
@@ -798,14 +806,13 @@ void LMap::givePlayerGun()
 	this->characters[0]->currentWeapon = testGun;
 	this->characters[0]->currentMag = testMag;
 	this->mags[0] = testMag;
-
+	totalMags++;
 	for(int i(1); i < totalCharacters; i++)
 	{
+		totalMags++;
 		testMag = new Magazine(3000, 8, 8, 0, 0, 0, ONE, testProjectile); 
 		testGun = new Gun(*gunz[rand()%3+1]);
 		testGun->loadNewMag(testMag);
-		this->characters[i]->currentWeapon = testGun;
-		this->characters[i]->currentMag = testMag;
 		this->characters[i]->currentWeapon = testGun;
 		this->characters[i]->currentMag = testMag;
 		this->mags[i] = testMag;

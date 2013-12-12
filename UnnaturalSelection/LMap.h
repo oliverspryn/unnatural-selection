@@ -70,6 +70,7 @@ public:
 	~LMap();
 	int minX, maxX, minY, maxY;
 	int numTerrain, numCharacters, numSpawns, numMags, totalSpawns;//totalSpawns is the number of active spawn points
+	int totalMags;
 	int numTargets, totalTargets;//num is the available ones total is the ones created
 	int totalCharacters;//characters added in
 	int addedElements;
@@ -113,7 +114,7 @@ public:
 	int activeTargets;
 	bool targetsDestroyed;
 	int numKills;
-	void givePlayerGun();
+	virtual void givePlayerGun();
 	Projectile* testProjectile;
 	Magazine* testMag;
 	Gun* testGun;
