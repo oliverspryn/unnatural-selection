@@ -27,6 +27,15 @@ public :
 
 	virtual void update(float frameTime)
 	{
+		if(invertColorCount > 0)
+		{
+			if(invertColorCount == 1)
+			{
+				this->body->color = D3DCOLOR_ARGB(510,255,255,255) - this->body->color;
+			}
+			invertColorCount--;
+
+		}
 	//Health bar stuff
 		int x = body->getCenterX();
 		int y = body->getCenterY();
