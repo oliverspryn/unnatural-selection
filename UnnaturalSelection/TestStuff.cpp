@@ -155,7 +155,7 @@ void TestStuff::initialize(HWND hwnd)
 	//testProjectile->init
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&projectileTM))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
-	levels[0]->testProjectile = testProjectile;
+	levels[currentLevel]->testProjectile = testProjectile;
 
 	for (int i = 1; i < testMap->totalCharacters; i++) {
 		reinterpret_cast<AI*>(testMap->characters[i])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);
@@ -366,7 +366,7 @@ void TestStuff::update()
 
 		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
 			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
-
+		levels[currentLevel]->testProjectile = testProjectile;
 		for(int i = 0; i < testMap->totalCharacters; i++)
 		{
 			if(testMap->characters[i]!=0)
