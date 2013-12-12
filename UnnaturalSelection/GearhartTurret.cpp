@@ -47,7 +47,6 @@ void Turret::update(float frameTime,bool fire)
 	if(fire)
 		gun->act(frameTime,true,false,false,false,false);
 	float xPos = this->getX() + this->getVelocity().x*frameTime*direction;
-	this->setX(xPos);
 	if(motion==CHASE)
 	{
 		if(target->getY()<this->getY())
@@ -64,7 +63,14 @@ void Turret::update(float frameTime,bool fire)
 		}
 	}
 	float yPos = this->getY() + this->getVelocity().y*frameTime*yDirection;
-	this->setY(yPos);
+	if(abs((this->getCenterX()-target->getCenterX()))>100)
+	{
+		this->setX(xPos);
+	}
+	if(abs(this->getCenterY()-target->getCenterY())>300)
+	{
+		this->setY(yPos);
+	}
 	gun->setX(this->getX());
 	gun->setY(this->getY());
 	this->generateSideEquations();
