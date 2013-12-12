@@ -10,7 +10,7 @@ class Turret : public TerrainElement
 {
 public:
 	~Turret();
-	Turret(VECTOR2 position, Gun* g,Magazine* m,Character*);
+	Turret(VECTOR2 position, Gun* g,Magazine* m,Character* c);
 	void update(float frameTime);
 	Gun* gun;
 	Character* target;

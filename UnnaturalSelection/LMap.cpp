@@ -419,6 +419,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	totalMags=0;
 	first = true;
 	numKills = 0;
 	targetsDestroyed = true;
@@ -805,9 +806,10 @@ void LMap::givePlayerGun()
 	this->characters[0]->currentWeapon = testGun;
 	this->characters[0]->currentMag = testMag;
 	this->mags[0] = testMag;
-
+	totalMags++;
 	for(int i(1); i < totalCharacters; i++)
 	{
+		totalMags++;
 		testMag = new Magazine(3000, 8, 8, 0, 0, 0, ONE, testProjectile); 
 		testGun = new Gun(*gunz[rand()%3+1]);
 		testGun->loadNewMag(testMag);
