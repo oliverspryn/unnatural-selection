@@ -34,6 +34,7 @@ private :
 protected : 
 	Image bar;
 	DWORD boundaryColor;
+	int boundaryMargin;
 	DWORD color;
 	int height;
 	Image indicator1;
@@ -48,11 +49,17 @@ public :
 	Bar(Game* game, Graphics* graphics);
 	virtual ~Bar();
 
+	virtual DWORD getBoundaryColor();
+	virtual int   getBoundaryMargin();
+	virtual Mode  getBoundaryMode();
 	virtual int   getHeight();
 	virtual float getPercent();
 	virtual int   getWidth();
 	virtual float getX();
 	virtual float getY();
+	virtual void  setBoundaryColor(DWORD color);
+	virtual void  setBoundaryMargin(int margin);
+	virtual void  setBoundaryMode(Mode mode);
 	virtual void  setCenterX(float x);
 	virtual void  setColor(DWORD color);
 	virtual void  setHeight(int height);

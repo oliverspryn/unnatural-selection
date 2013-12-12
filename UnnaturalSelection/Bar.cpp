@@ -1,14 +1,27 @@
 #include "Bar.h"
 
 Bar::Bar(Game* game, Graphics* graphics) :
-	boundaryMode(barNS::BOUNDARY_MODE), boundaryColor(barNS::BOUNDARY_COLOR), color(barNS::DEFAULT_COLOR),
-	fill(barNS::FILL), height(barNS::HEIGHT), game(game), graphics(graphics), percent(barNS::DEFAULT_PERCENT),
+	boundaryColor(barNS::BOUNDARY_COLOR), boundaryMargin(barNS::BOUNDARY_MARGIN), 
+	boundaryMode(barNS::BOUNDARY_MODE), color(barNS::DEFAULT_COLOR), fill(barNS::FILL),
+	height(barNS::HEIGHT), game(game), graphics(graphics),percent(barNS::DEFAULT_PERCENT),
 	width(barNS::WIDTH), x(0.0f), xShould(0.0f), y(0.0f) {
 
 }
 
 Bar::~Bar() {
 
+}
+
+DWORD Bar::getBoundaryColor() {
+	return boundaryColor;
+}
+
+int Bar::getBoundaryMargin() {
+	return boundaryMargin;
+}
+
+Mode Bar::getBoundaryMode() {
+	return boundaryMode;
 }
 
 void Bar::draw() {
@@ -56,15 +69,27 @@ void Bar::initialize(float health) {
 
 //Initialize the bar boundary(s)?
 	if (boundaryMode == BKG_COLOR) {
-		if (!indicator1.initialize(graphics, barNS::WIDTH + 2 * barNS::BOUNDARY_MARGIN, barNS::HEIGHT + 2 * barNS::BOUNDARY_MARGIN, 1, &tmBar)) {
+		if (!indicator1.initialize(graphics, width + 2 * boundaryMargin, height + 2 * boundaryMargin, 1, &tmBar)) {
 			throw GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize the bar boundary image");
 		}
 	} else if (boundaryMode == EDGE_BOUNDS) {
-		if (!indicator1.initialize(graphics, barNS::BOUNDARY_MARGIN, barNS::HEIGHT + 2 * barNS::BOUNDARY_MARGIN, 1, &tmBar) || 
-			!indicator2.initialize(graphics, barNS::BOUNDARY_MARGIN, barNS::HEIGHT + 2 * barNS::BOUNDARY_MARGIN, 1, &tmBar)) {
+		if (!indicator1.initialize(graphics, boundaryMargin, height + 2 * boundaryMargin, 1, &tmBar) || 
+			!indicator2.initialize(graphics, boundaryMargin, height + 2 * boundaryMargin, 1, &tmBar)) {
 			throw GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize the bar boundary image");
 		}
 	}
+}
+
+void Bar::setBoundaryColor(DWORD color) {
+	boundaryColor = color;
+}
+
+void Bar::setBoundaryMargin(int margin) {
+	this->boundaryMargin = margin;
+}
+
+void Bar::setBoundaryMode(Mode mode) {
+	boundaryMode = mode;
 }
 
 void Bar::setCenterX(float x) {
