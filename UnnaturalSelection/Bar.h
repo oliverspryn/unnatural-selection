@@ -32,13 +32,11 @@ private :
 	Fill fill;
 
 protected : 
-	Image bar;
+	
 	DWORD boundaryColor;
 	int boundaryMargin;
-	DWORD color;
 	int height;
-	Image indicator1;
-	Image indicator2;
+	
 	float percent;
 	int width;
 	float x;
@@ -46,6 +44,11 @@ protected :
 	float y;
 
 public : 
+	Image bar;
+	Image indicator1;
+	Image indicator2;
+	DWORD color;
+
 	Bar(Game* game, Graphics* graphics);
 	virtual ~Bar();
 

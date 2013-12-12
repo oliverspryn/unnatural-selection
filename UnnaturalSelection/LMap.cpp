@@ -329,6 +329,14 @@ void LMap::draw()
 		{
 			if(characters[i]!=0)
 			{
+				if(i > 0)
+				{
+				AI* tempAI = reinterpret_cast<AI*>(characters[i]);
+				//camera->draw(tempAI->hb->indicator2, graphicsNS::ORANGE);
+				camera->draw(tempAI->hb->indicator1, graphicsNS::ORANGE);
+				camera->draw(tempAI->hb->bar, graphicsNS::LIME);				
+				}
+
 				camera->draw(*characters[i]->body);
 //				camera->draw(*characters[i]->head);
 				characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());

@@ -7,16 +7,13 @@
 #include "graphics.h"
 
 class AI : public Character {
-private : 
-	HealthBar* hb;
-
 public : 
 	AI(Game* game, Graphics* graphics);
 
 	virtual void draw() {
 		Character::draw();
 
-		hb->draw();
+		//hb->draw();
 	}
 
 	virtual void initialize() {
@@ -37,10 +34,10 @@ public :
 
 		}
 	//Health bar stuff
-		int x = body->getCenterX();
+		int x = body->getCenterX()-hb->getWidth()/2;
 		int y = body->getCenterY();
 		hb->setCenterX(x);
-		hb->setY(y);
+		hb->setY(y-100);
 		hb->setPercent(healthPoints / characterNS::HEALTH_POINTS);
 		hb->update(frameTime);
 
@@ -176,6 +173,8 @@ public :
 	int sightDistance;
 	int shootDistance;
 	int minShootDistance;
+	HealthBar* hb;
+
 
 };
 
