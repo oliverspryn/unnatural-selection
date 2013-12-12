@@ -343,7 +343,10 @@ void LMap::draw()
 //				camera->draw(*characters[i]->head);
 				characters[i]->cursor->setXY(input->getMouseX(),input->getMouseY());
 				//camera->draw(*characters[i]->cursor);
-				characters[i]->cursor->draw();
+				if(i == 0)
+				{
+					characters[i]->cursor->draw();
+				}
 				characters[i]->draw();
 				if(characters[i]->currentWeapon != 0)
 				{

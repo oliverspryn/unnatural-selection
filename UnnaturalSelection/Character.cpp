@@ -327,6 +327,10 @@ void Character::update(float frameTime) {
 			}
 		}
 		currentWeapon->act(frameTime, input->getMouseLButton(), false, false, false, false);
+		if(input->getMouseLButton())
+		{
+			cursor->setDegrees(frameTime*360 + cursor->getDegrees());
+		}
 	}
 }
 

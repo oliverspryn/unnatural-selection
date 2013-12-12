@@ -2,7 +2,7 @@
 
 Cursor::Cursor(Game* game, Graphics* graphics) : game(game), graphics(graphics) {
 	x = y = 0;
-	//ShowCursor(FALSE);
+	ShowCursor(FALSE);
 }
 
 void Cursor::hideCursor() {
