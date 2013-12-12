@@ -31,9 +31,9 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[2]->generateSideEquations();
 		LMap::addTerrain(doors[2]);
 		//run and shoot door
-		/*doors[4] = new TerrainElement(438,146,VECTOR2(4096,-1428));
-		doors[4]->initialize(gamePtr,textureM,ncols);
-		doors[4]->generateSideEquations();
+		/*doors[3] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		doors[3]->initialize(gamePtr,textureM,ncols);
+		doors[3]->generateSideEquations();
 		LMap::addTerrain(doors[4]);*/
 		camera->zoom = zoomValue;
 		turrets = new Turret*[this->numTurrets];
