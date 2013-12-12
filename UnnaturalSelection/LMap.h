@@ -2,6 +2,7 @@
 #define __LMAP_H
 #define WIN32_LEAN_AND_MEAN
 #include "terrainElement.h"
+#include "GearhartTurret.h"
 #include "Character.h"
 #include "AI.h"
 #include <cstdlib>
@@ -90,6 +91,7 @@ public:
 	bool collidesWithMovingRay(D3DXVECTOR2 movingPos, D3DXVECTOR2 movingVelocity, float slope, float b, D3DXVECTOR2 corner1, D3DXVECTOR2 corner2, float &frameTime);
 	bool collidesWithCharacter(Character* c, TerrainElement* t, float& fT);
 	bool collidesWithCharacter(Character* c, Projectile* p, float& fT);
+	bool collidesWithTurret(TerrainElement* t, Projectile* p, float& fT);
 	//	bool checkCornerCollision(float& fT, TerrainElement* t, Character* c);
 	static float getXIntercept(float m1, float b1, float m2, float b2);
 	void collide(Character* ent, TerrainElement* t, int side);

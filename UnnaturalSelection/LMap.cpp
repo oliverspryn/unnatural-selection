@@ -176,14 +176,16 @@ void LMap::update(float frameTime)
 					float tempTime = frameTime;
 					for(int k(0); k < numTerrain && terrain[k] != 0; k++)
 					{
-						if(i<totalCharacters && projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
+						if(!terrain[k]->destructable && i<totalCharacters && projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
 						{
 							mags[i]->projArray[j]->setActive(false);
 							mags[i]->projArray[j]->setVisible(false);
-							if(terrain[k]->destructable)
-							{
- 								terrain[k]->setHealth(terrain[k]->getHealth()-mags[i]->projArray[j]->damage);
-							}
+						}
+						if(terrain[k]->destructable && i<totalCharacters && collidesWithTurret(terrain[k],mags[i]->projArray[j], tempTime))
+						{
+							mags[i]->projArray[j]->setActive(false);
+							mags[i]->projArray[j]->setVisible(false);
+							terrain[k]->setHealth(terrain[k]->getHealth()-mags[i]->projArray[j]->damage);
 						}
 					}
 				}
@@ -800,7 +802,40 @@ bool LMap::collidesWithCharacter(Character* c, Projectile* p, float& fT)
 			return true;
 		}
 	}
+	return false;
+}
+bool LMap::collidesWithTurret(TerrainElement* t,Projectile* p, float& fT)
+{
+	for(int i(0); i < 1; i++)
+	{
+		VECTOR2 characterStartP = VECTOR2(t->getCenterX(),t->getCenterY()+20*i-30);
+		VECTOR2 characterV = t->getVelocity();
+		VECTOR2 bulletStartP = VECTOR2(p->getCenterX(),p->getCenterY());
+		VECTOR2 bulletV = p->getVelocity();
+		//end positions
+		VECTOR2 characterEndP = characterStartP + fT*characterV;
+		VECTOR2 bulletEndP = bulletStartP + fT*bulletV;
+		//difference between ends
+		VECTOR2 diff = bulletEndP-characterEndP;
 
+		//needs work here
+		float d = (p->getHeight()/2)+(t->getWidth()/2);
+		d/=2;
+		float magDiff = graphics->Vector2Length(&diff);
+
+		if((magDiff*magDiff)<(d*d))
+		{
+			//calculate time of collision
+			VECTOR2 A = bulletStartP-characterStartP;
+			VECTOR2 B = bulletV-characterV;
+			float aDotB = graphics->Vector2Dot(&A,&B);
+			float aSquared = graphics->Vector2Dot(&A,&A);
+			float bSquared = graphics->Vector2Dot(&B,&B);
+			float top = (-1*aDotB)-sqrt(aDotB-(bSquared*(aSquared-(d*d))));
+			fT = top/bSquared;
+			return true;
+		}
+	}
 	return false;
 }
 

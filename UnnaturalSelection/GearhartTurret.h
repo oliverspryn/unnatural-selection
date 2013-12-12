@@ -6,16 +6,19 @@
 #include "gun.h"
 #include "Character.h"
 //need to make turret fire
+enum turretPattern {FOLLOW,HORIZONTAL};
 class Turret : public TerrainElement
 {
 public:
 	~Turret();
-	Turret(VECTOR2 position, Gun* g,Magazine* m,Character* c);
-	void update(float frameTime);
+	Turret(int height,int width,VECTOR2 position, Gun* g,Magazine* m,Character* c,turretPattern mo = HORIZONTAL);
+	void update(float frameTime,bool fire);
 	Gun* gun;
 	Character* target;
 	int direction;
 	int fireTime;
+	int sight;
+	turretPattern motion;
 private:
 };
 

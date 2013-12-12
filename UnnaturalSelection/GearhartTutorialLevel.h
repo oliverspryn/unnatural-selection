@@ -3,7 +3,6 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "LMap.h"
-#include "GearhartTurret.h"
 
 class TutorialLevel : public LMap
 {

@@ -4,8 +4,8 @@ extern Gun* gunz[4];
 
 TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10,false)
 {
-	numDoors = 3;
-	numTurrets = 1;
+	numDoors = 5;
+	numTurrets = 4;
 	currentDoor = 0;
 	this->room2TurretsKilled = 0;
 	zoomValue = .5;
@@ -26,19 +26,27 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[1]->initialize(gamePtr,textureM,ncols);
 		doors[1]->generateSideEquations();
 		LMap::addTerrain(doors[1]);
-		//run and shoot door
-		/*doors[2] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		doors[2] = new TerrainElement(128,2752,VECTOR2(-1603,800));
 		doors[2]->initialize(gamePtr,textureM,ncols);
 		doors[2]->generateSideEquations();
-		LMap::addTerrain(doors[2]);*/
+		LMap::addTerrain(doors[2]);
+		//run and shoot door
+		/*doors[4] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		doors[4]->initialize(gamePtr,textureM,ncols);
+		doors[4]->generateSideEquations();
+		LMap::addTerrain(doors[4]);*/
 		camera->zoom = zoomValue;
 		turrets = new Turret*[this->numTurrets];
-		for(int i = 0; i < this->numTurrets; i++)
+
+		turrets[0] = new Turret(100,100,VECTOR2(-700,-500),gunz[0],m,characters[0],FOLLOW);
+		turrets[0]->initialize(gamePtr,turretTexture,ncols);
+		turrets[0]->generateSideEquations();
+		LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[0]));
+		
+		for(int i = 1; i <4; i++)
 		{
-			//turrets[i] = new Turret(VECTOR2(-1135,430+(i*100)),new Gun(*reinterpret_cast<Gun*>(characters[0]->currentWeapon)),new Magazine(30000,30000,30000,0,0,0,ONE,reinterpret_cast<Gun*>(characters[0]->currentWeapon)->mag->projectile));
-			turrets[i] = new Turret(VECTOR2(-1135,-500),gunz[0],m,characters[0]);
-			turrets[i]->initialize(gamePtr,300,420,1,turretTexture);
-			
+			turrets[i] = new Turret(100,100,VECTOR2(-700,100+(i*120)),gunz[0],m,characters[0]);
+			turrets[i]->initialize(gamePtr,turretTexture,ncols);
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
 		}
@@ -68,18 +76,35 @@ void TutorialLevel::update(float frameTime)
 	}
 
 	//alter for situation
-	if(this->room2TurretsKilled == this->numTurrets)
+	if(this->room2TurretsKilled == 1)
 	{
 		doors[1]->setActive(false);
 		doors[1]->setVisible(false);
 	}
 
+	if(this->room2TurretsKilled == 4)
+	{
+		doors[2]->setActive(false);
+		doors[2]->setVisible(false);
+	}
+
+	int fireNumber = 1+rand()%3;
+	bool fire = false;
 	if(this->activeTargets!=0)
 	{
 		for(int i = 0; i < this->numTurrets; i++)
 		{
-			if(turrets[i]->getActive())
-				turrets[i]->update(frameTime);
+			if(i==0&&turrets[i]->getActive())
+				turrets[i]->update(frameTime,true);
+			if(this->room2TurretsKilled>=1&&turrets[i]->getActive())
+			{
+				if(i==fireNumber)
+				{
+					fire = true;
+				}
+				turrets[i]->update(frameTime,fire);
+				fire = false;
+			}
 		}
 	}
 
@@ -116,11 +141,11 @@ void TutorialLevel::draw()
 void TutorialLevel::givePlayerGun()
 {
 	LMap::givePlayerGun();
-	testMag = new Magazine(3000, 1234567, 1234567, 0, 0, 0, ONE, testProjectile); 
-	testGun = new Gun(*gunz[0]);
-	testGun->loadNewMag(testMag);
 	for(int i = 0; i < this->numTurrets; i++)
 	{
+		testMag = new Magazine(3000, 1234567, 1234567, 0, 0, 0, ONE, testProjectile); 
+		testGun = new Gun(*gunz[0]);
+		testGun->loadNewMag(testMag);
 		turrets[i]->gun = testGun;
 		turrets[i]->gun->mag = testMag;
 		this->mags[this->totalMags] = testMag;

@@ -28,7 +28,7 @@ TestStuff::TestStuff()
 
 // Test gun Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
 	gunz[0] = new Gun(-10, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
-	gunz[1] = new Gun(0, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[1] = new Gun(10, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
 	gunz[2] = new Gun(0, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
 	gunz[3] = new Gun(0, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
 
@@ -94,7 +94,7 @@ void TestStuff::initialize(HWND hwnd)
 	if (!gunTM.initialize(graphics,"pictures\\AssultRifle(128x32).png"))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing gun texture"));
 
-	if (!turretTexture.initialize(graphics,"pictures\\birmingham.png"))
+	if (!turretTexture.initialize(graphics,NEBULA_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing turret texture"));
 
     // Weapon texture
