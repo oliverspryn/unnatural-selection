@@ -13,13 +13,13 @@ enum Mode { NO_BOUNDARY, BKG_COLOR, EDGE_BOUNDS };
 namespace barNS {
 	const char  BACKGROUND[]    = "pictures\\bar.jpg";
 	const int   BOUNDARY_COLOR  = SETCOLOR_ARGB(255, 128, 128, 128);
-	const int   BOUNDARY_MARGIN = 3;
+	const int   BOUNDARY_MARGIN = 1;
 	const Mode  BOUNDARY_MODE   = BKG_COLOR;
 	const DWORD DEFAULT_COLOR   = SETCOLOR_ARGB(255, 4, 193, 208);
 	const float DEFAULT_PERCENT = 1.0f;
 	const Fill  FILL            = FILL_LR;
-	const int   HEIGHT          = 3;
-	const int   WIDTH           = 400;
+	const int   HEIGHT          = 1;
+	const int   WIDTH           = 100;
 }
 
 class Bar {

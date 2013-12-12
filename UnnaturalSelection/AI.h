@@ -2,15 +2,39 @@
 #define AI_H
 
 #include "Character.h"
+#include "HealthBar.h"
 #include "game.h"
 #include "graphics.h"
 
-
 class AI : public Character {
+private : 
+	HealthBar* hb;
+
 public : 
 	AI(Game* game, Graphics* graphics);
+
+	virtual void draw() {
+		Character::draw();
+
+		hb->draw();
+	}
+
+	virtual void initialize() {
+		Character::initialize();
+
+		hb->initialize();
+	}
+
 	virtual void update(float frameTime)
 	{
+	//Health bar stuff
+		int x = body->getCenterX();
+		int y = body->getCenterY();
+		hb->setCenterX(x);
+		hb->setY(y);
+		hb->setPercent(healthPoints / characterNS::HEALTH_POINTS);
+		hb->update(frameTime);
+
 		bool goRight(false), goLeft(false), callJump(false);
 		D3DXVECTOR2 distance = characters[0]->getCenter()-this->getCenter();
 		float minDist = (distance.x*distance.x + distance.y*distance.y);

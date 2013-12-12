@@ -7,4 +7,6 @@ AI::AI(Game* game, Graphics* graphics) : Character(game, graphics) {
 	sightDistance = 500;
 	minShootDistance = 50;
 	shootDistance = 1400;
+
+	hb = new HealthBar(game, graphics);
 }
