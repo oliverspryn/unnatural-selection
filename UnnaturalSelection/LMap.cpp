@@ -335,8 +335,8 @@ void LMap::draw()
 				{
 				AI* tempAI = reinterpret_cast<AI*>(characters[i]);
 				//camera->draw(tempAI->hb->indicator2, graphicsNS::ORANGE);
-				camera->draw(tempAI->hb->indicator1, graphicsNS::ORANGE);
-				camera->draw(tempAI->hb->bar, graphicsNS::LIME);				
+				camera->draw(tempAI->hb->indicator1, graphicsNS::WHITE);
+				camera->draw(tempAI->hb->bar, graphicsNS::BLACK);				
 				}
 
 				camera->draw(*characters[i]->body);
