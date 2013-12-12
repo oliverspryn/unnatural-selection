@@ -35,7 +35,7 @@ void Turret::update(float frameTime)
 		{
 			direction = 0;
 		}
-		float aimAngle = atan2(target->getCenterY()-this->getCenterY(), target->getCenterX()-this->getCenterX());
+		float aimAngle = atan2(target->getCenterY()-this->gun->getCenterY(), target->getCenterX()-this->gun->getCenterX());
 		gun->setAngle(aimAngle);
 		gun->act(frameTime,true,false,false,false,false);
 		gun->setX(this->getX());
