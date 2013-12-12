@@ -176,7 +176,7 @@ void LMap::update(float frameTime)
 					float tempTime = frameTime;
 					for(int k(0); k < numTerrain && terrain[k] != 0; k++)
 					{
-						if(projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
+						if(i<totalCharacters && projectileCollide(*mags[i]->projArray[j], *terrain[k], tempTime))
 						{
 							mags[i]->projArray[j]->setActive(false);
 							mags[i]->projArray[j]->setVisible(false);
