@@ -809,7 +809,7 @@ bool LMap::collidesWithCharacter(Character* c, Projectile* p, float& fT)
 }
 bool LMap::collidesWithTurret(TerrainElement* t,Projectile* p, float& fT)
 {
-	for(int i(0); i < 1; i++)
+	for(int i(0); i < 4; i++)
 	{
 		VECTOR2 characterStartP = VECTOR2(t->getCenterX(),t->getCenterY()+20*i-30);
 		VECTOR2 characterV = t->getVelocity();
