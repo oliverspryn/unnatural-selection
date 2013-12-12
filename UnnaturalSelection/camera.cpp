@@ -12,17 +12,16 @@ void Camera::draw(Image in)
 	if(in.getVisible())
 	{
 		//Checks x
-		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScaleX())
+		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScale())
 		{
 			//Checks y
-			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScaleY())
+			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScale())
 			{
 				float relX = (in.getCenterX()-centerPosition.x)*zoom;
 				float relY = (in.getCenterY()-centerPosition.y)*zoom;
-				in.setScaleX(in.getScaleX()*zoom);
-				in.setScaleY(in.getScaleY()*zoom);
-				in.setX(realPosition.x + relX + (width/2) - in.getScaleX()*in.getWidth()/2);
-				in.setY(realPosition.y + relY + (height/2) - in.getScaleY()*in.getHeight()/2);
+				in.setScale(in.getScale()*zoom);
+				in.setX(realPosition.x + relX + (width/2) - in.getScale()*in.getWidth()/2);
+				in.setY(realPosition.y + relY + (height/2) - in.getScale()*in.getHeight()/2);
 
 				in.draw();
 			}
@@ -34,17 +33,16 @@ void Camera::draw(Image in, DWORD tint)
 	if(in.getVisible())
 	{
 		//Checks x
-		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScaleX())
+		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScale())
 		{
 			//Checks y
-			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScaleY())
+			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScale())
 			{
 				float relX = (in.getCenterX()-centerPosition.x)*zoom;
 				float relY = (in.getCenterY()-centerPosition.y)*zoom;
-				in.setScaleX(in.getScaleX()*zoom);
-				in.setScaleY(in.getScaleY()*zoom);
-				in.setX(realPosition.x + relX + (width/2) - in.getScaleX()*in.getWidth()/2);
-				in.setY(realPosition.y + relY + (height/2) - in.getScaleY()*in.getHeight()/2);
+				in.setScale(in.getScale()*zoom);
+				in.setX(realPosition.x + relX + (width/2) - in.getScale()*in.getWidth()/2);
+				in.setY(realPosition.y + relY + (height/2) - in.getScale()*in.getHeight()/2);
 
 				in.draw(tint);
 			}
@@ -56,17 +54,16 @@ void Camera::draw(Image in, DWORD tint, bool hoizontalFlip, bool virticalFlip)
 	if(in.getVisible())
 	{
 		//Checks x
-		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScaleX())
+		if(centerPosition.x + (width/2)/zoom > in.getX() && centerPosition.x - (width/2)/zoom < in.getX()+in.getWidth()*in.getScale())
 		{
 			//Checks y
-			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScaleY())
+			if(centerPosition.y + (height/2)/zoom > in.getY() && centerPosition.y - (height/2)/zoom < in.getY()+in.getHeight()*in.getScale())
 			{
 				float relX = (in.getCenterX()-centerPosition.x)*zoom;
 				float relY = (in.getCenterY()-centerPosition.y)*zoom;
-				in.setScaleX(in.getScaleX()*zoom);
-				in.setScaleY(in.getScaleY()*zoom);
-				in.setX(realPosition.x + relX + (width/2) - in.getScaleX()*in.getWidth()/2);
-				in.setY(realPosition.y + relY + (height/2) - in.getScaleY()*in.getHeight()/2);
+				in.setScale(in.getScale()*zoom);
+				in.setX(realPosition.x + relX + (width/2) - in.getScale()*in.getWidth()/2);
+				in.setY(realPosition.y + relY + (height/2) - in.getScale()*in.getHeight()/2);
 				in.flipVertical(hoizontalFlip);
 				in.flipVertical(virticalFlip);
 				in.draw(tint);
