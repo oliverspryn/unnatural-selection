@@ -40,7 +40,7 @@ void ArenaLevel::update(float frameTime)
 	}
 	for(int i = 0; i < this->totalCharacters; i++)
 	{
-		if(characters[i]->getX()<minX || characters[i]->getX()>maxX || characters[i]->getY()<minY)
+		if(characters[i]->getX()<minX || characters[i]->getX()>maxX || characters[i]->getY()>maxY)
 		{
 			this->chooseSpawnPoint(characters[i]);
 		}
