@@ -41,9 +41,6 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 			
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
-			//put their magazine in the total array in the LMap
-			this->mags[totalMags] = turrets[i]->gun->mag;
-			totalMags++;
 		}
 		return true;
 	}
@@ -113,5 +110,20 @@ void TutorialLevel::draw()
 	{
 		if(turrets[i]!=0)
 			;//this->camera->draw(*turrets[i]);
+	}
+}
+
+void TutorialLevel::givePlayerGun()
+{
+	LMap::givePlayerGun();
+	testMag = new Magazine(3000, 1234567, 1234567, 0, 0, 0, ONE, testProjectile); 
+	testGun = new Gun(*gunz[0]);
+	testGun->loadNewMag(testMag);
+	for(int i = 0; i < this->numTurrets; i++)
+	{
+		turrets[i]->gun = testGun;
+		turrets[i]->gun->mag = testMag;
+		this->mags[this->totalMags] = testMag;
+		totalMags++;
 	}
 }

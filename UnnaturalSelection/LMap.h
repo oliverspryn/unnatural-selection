@@ -114,7 +114,7 @@ public:
 	int activeTargets;
 	bool targetsDestroyed;
 	int numKills;
-	void givePlayerGun();
+	virtual void givePlayerGun();
 	Projectile* testProjectile;
 	Magazine* testMag;
 	Gun* testGun;

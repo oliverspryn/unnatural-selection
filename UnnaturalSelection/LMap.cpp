@@ -815,8 +815,6 @@ void LMap::givePlayerGun()
 		testGun->loadNewMag(testMag);
 		this->characters[i]->currentWeapon = testGun;
 		this->characters[i]->currentMag = testMag;
-		this->characters[i]->currentWeapon = testGun;
-		this->characters[i]->currentMag = testMag;
 		this->mags[i] = testMag;
 
 	}
