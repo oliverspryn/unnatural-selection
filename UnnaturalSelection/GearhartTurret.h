@@ -6,7 +6,7 @@
 #include "gun.h"
 #include "Character.h"
 //need to make turret fire
-enum turretPattern {FOLLOW,HORIZONTAL};
+enum turretPattern {FOLLOW,HORIZONTAL,CHASE};
 class Turret : public TerrainElement
 {
 public:
@@ -16,6 +16,7 @@ public:
 	Gun* gun;
 	Character* target;
 	int direction;
+	int yDirection;
 	int fireTime;
 	int sight;
 	turretPattern motion;

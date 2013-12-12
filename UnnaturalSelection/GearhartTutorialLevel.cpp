@@ -5,7 +5,7 @@ extern Gun* gunz[4];
 TutorialLevel::TutorialLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,5,10,false)
 {
 	numDoors = 5;
-	numTurrets = 4;
+	numTurrets = 7;
 	currentDoor = 0;
 	this->room2TurretsKilled = 0;
 	zoomValue = .5;
@@ -46,6 +46,13 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		for(int i = 1; i <4; i++)
 		{
 			turrets[i] = new Turret(100,100,VECTOR2(-700,100+(i*120)),gunz[0],m,characters[0]);
+			turrets[i]->initialize(gamePtr,turretTexture,ncols);
+			turrets[i]->generateSideEquations();
+			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
+		}
+		for(int i = 4; i < 7;i++)
+		{
+			turrets[i] = new Turret(100,100,VECTOR2(1600,1694-((i-4)*1200)),gunz[0],m,characters[0],CHASE);
 			turrets[i]->initialize(gamePtr,turretTexture,ncols);
 			turrets[i]->generateSideEquations();
 			LMap::addTerrain(reinterpret_cast<TerrainElement*>(turrets[i]));
@@ -94,9 +101,9 @@ void TutorialLevel::update(float frameTime)
 	{
 		for(int i = 0; i < this->numTurrets; i++)
 		{
-			if(i==0&&turrets[i]->getActive())
+			if(characters[0]->getCenter().x>-1550 && i==0&&turrets[i]->getActive())
 				turrets[i]->update(frameTime,true);
-			if(this->room2TurretsKilled>=1&&turrets[i]->getActive())
+			if(characters[0]->getCenter().x>-1550 && i<=3&&this->room2TurretsKilled>=1&&turrets[i]->getActive())
 			{
 				if(i==fireNumber)
 				{
@@ -104,6 +111,14 @@ void TutorialLevel::update(float frameTime)
 				}
 				turrets[i]->update(frameTime,fire);
 				fire = false;
+			}
+			if(i>3&&characters[0]->getX()>1259 && turrets[i]->getActive())
+			{
+				if(i==fireNumber)
+				{
+					fire = true;
+				}
+				turrets[i]->update(frameTime,fire);
 			}
 		}
 	}
