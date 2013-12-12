@@ -64,7 +64,7 @@ void LMap::update(float frameTime)
 	{
 		this->levelDone=true;
 	}*/
-	if(first)
+	if(!editor&&first)
 	{
 		this->givePlayerGun();
 		first = false;
