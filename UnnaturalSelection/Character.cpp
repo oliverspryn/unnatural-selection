@@ -27,6 +27,7 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 	weaponPos = D3DXVECTOR2(20, 0);
 	reloadTimer = 0;
 	reloadStep = 0;
+	invertColorCount = 0;
 }
 
 Character::~Character() {
@@ -202,6 +203,15 @@ int Character::sign(float x) {
 }
 
 void Character::update(float frameTime) {
+	if(invertColorCount > 0)
+	{
+		if(invertColorCount == 1)
+		{
+			this->body->color = D3DCOLOR_ARGB(510,255,255,255) - this->body->color;
+		}
+		invertColorCount--;
+
+	}
 
 //Show the Character angle
 	#ifdef SHOW_ANGLE

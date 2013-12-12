@@ -220,6 +220,13 @@ void LMap::update(float frameTime)
 							mags[i]->projArray[j]->setActive(false);
 							characters[k]->charFrameTime=fT;
 							characters[k]->healthPoints-=mags[i]->projArray[j]->damage;
+							if(characters[k]->invertColorCount == 0)
+							{
+								characters[k]->body->color = D3DCOLOR_ARGB(510,255,255,255) - characters[k]->body->color;
+							}
+							characters[k]->invertColorCount = 5;
+
+
 							if(characters[k]->healthPoints < 0)
 							{
 								this->chooseSpawnPoint(characters[k]);
