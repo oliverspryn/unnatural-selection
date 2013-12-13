@@ -14,6 +14,7 @@
 #include "Menu.h"
 #include "Background.h"
 #include "HealthBar.h"
+#include "Hud.h"
 #include <vector>
 using std::vector;
 #include <ctime>
@@ -67,6 +68,7 @@ public:
 	Menu* menu;
 	Background* background;
 	HealthBar* healthBar;
+	Hud* hud;
 	
 private:
 	TextureManager terrainTexture;
