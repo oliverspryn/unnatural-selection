@@ -80,14 +80,17 @@ void Hud::initialize(float health, float reload, float time) {
 
 void Hud::setHealth(float health) {
 	this->health = health;
+	hb->setPercent(health);
 }
 
 void Hud::setReload(float relaod) {
 	this->reload = reload;
+	rb->setPercent(reload);
 }
 
 void Hud::setTime(float time) {
 	this->time = time;
+	tb->setPercent(time);
 }
 
 void Hud::update(float frameTime) {
