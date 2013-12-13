@@ -1,17 +1,11 @@
 Things to do:(add you feed back)
--Give damage display (LOW)
--Give Ai Diffrent weapons (MED)
--REDO HUD (LOW)
 -Make game quieter(MED)
--Redo damage drop off(LOW)
 -A scorring system(HI)
--Make final level(HI)
 -Make a way to exit the game(MED)
 -add splash screens and menus between levels(HI)
 -save high scores(MED)
 -achivements(MED)
 -return to main menu(MED)
--Recolor face off(QMED)
 
 -balence (end)
--add spawn points()
+-add spawn points()w
