@@ -68,6 +68,9 @@ namespace levelNS
 class LMap
 {
 public:
+	float mapTime;
+	float mapStartTime;
+
 	bool guns;
 	~LMap();
 	int minX, maxX, minY, maxY;

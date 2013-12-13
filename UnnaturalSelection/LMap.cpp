@@ -59,6 +59,12 @@ void LMap::collide(Character* ent, TerrainElement* t, int side)
 
 void LMap::update(float frameTime)
 {
+	if(mapTime > 0)
+	{
+		mapTime -= frameTime;
+	}else{
+		mapTime = 0;
+	}
 	//should be removed later
 	/*if(this->activeTargets==0)
 	{
@@ -431,6 +437,8 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	mapStartTime = 60;
+	mapTime = 60;
 	guns = !edit;
 	totalMags=0;
 	first = true;
