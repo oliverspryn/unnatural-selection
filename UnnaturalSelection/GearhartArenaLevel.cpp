@@ -28,6 +28,8 @@ bool ArenaLevel::initialize(Game *gamePtr, int width, int height, int ncols, Tex
 			this->mags[i] = testMag;
 		}
 	}
+	this->mapStartTime=180;
+	this->mapTime = 180;
 	return true;
 }
 

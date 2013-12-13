@@ -73,6 +73,7 @@ public:
 	HealthBar* healthBar;
 	Hud* hud;
 	int spawnNumToPrint;
+	int totalScore;
 	int terrainNumToPrint;
 	Menu* betweenLevel;
 	MenuCol gunList;

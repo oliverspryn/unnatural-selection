@@ -65,5 +65,7 @@ bool BossLevel::initialize(Game *gamePtr, int width, int height, int ncols, Text
 		characters[1]->setX(this->spawnPoints[0]->getX());
 		characters[1]->setY(this->spawnPoints[0]->getY());
 	}
+	this->mapStartTime=120;
+	this->mapTime = 120;
 	return true;
 }

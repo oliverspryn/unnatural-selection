@@ -16,6 +16,7 @@ void endGameNow(int a, string b){
 
 TestStuff::TestStuff()
 {
+	this->totalScore = 0;
 	this->fpsOn=true;
 	gameTime = 180;
 	currentLevel=0;
@@ -378,6 +379,16 @@ void TestStuff::update()
 
 	if(testMap->levelDone)
 	{
+		int levelScore = 0;
+		if(currentLevel==0)
+		{
+			levelScore = 1000+(testMap->targetsDestroyed*50)+(reinterpret_cast<TutorialLevel*>(testMap)->room2TurretsKilled*100);
+		}
+		if(currentLevel==1)
+		{
+			levelScore+=(testMap->numKills*100);
+		}
+		levelScore+=(((int)testMap->mapTime)*50);
 		currentLevel++;
 		if(currentLevel >= 3)
 		{
@@ -418,6 +429,7 @@ void TestStuff::update()
 
 		if(currentLevel==1)
 		{
+			
 			AI* a = new AI(this,graphics);
 			testMap->addCharacter(a);
 			a = new AI(this,graphics);
