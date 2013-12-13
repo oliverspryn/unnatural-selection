@@ -762,7 +762,7 @@ void TestStuff::save()
 	std::ofstream fout;
 	std::stringstream s;
 	scoreString = "";
-	fout.open("scores.cow");
+	fout.open("scores.txt");
 	for(int i(0); i < 9; i++)
 	{
 		fout << scores[i] << std::endl;
