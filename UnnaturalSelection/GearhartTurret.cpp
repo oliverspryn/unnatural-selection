@@ -63,12 +63,11 @@ void Turret::update(float frameTime,bool fire)
 		}
 	}
 	float yPos = this->getY() + this->getVelocity().y*frameTime*yDirection;
-	if(abs((this->getCenterX()-target->getCenterX()))>100)
+	//here
+	D3DXVECTOR2 tempDist = target->getCenter() - *const_cast<D3DXVECTOR2*>(getCenter());
+	if(tempDist.x*tempDist.x + tempDist.y*tempDist.y > 200*200)
 	{
 		this->setX(xPos);
-	}
-	if(abs(this->getCenterY()-target->getCenterY())>300)
-	{
 		this->setY(yPos);
 	}
 	gun->setX(this->getX());
