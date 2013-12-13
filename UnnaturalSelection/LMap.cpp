@@ -229,7 +229,7 @@ void LMap::update(float frameTime)
 							characters[k]->invertColorCount = 5;
 
 
-							if(characters[k]->healthPoints < 0)
+							if(characters[k]->healthPoints <= 0)
 							{
 								this->chooseSpawnPoint(characters[k]);
 								//if it was killed by the player
