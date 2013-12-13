@@ -1,12 +1,12 @@
 #include "TestStuff.h"
 //hi just a test to make sure github is working // its working Jake
-Gun* gunz[7];
+Gun* gunz[19];
 int gunzCount;
 int weaponSelected;
 
 void incrementCounter(int index, string text) {
 	controlState = 4;
-	weaponSelected = 4+index;
+	weaponSelected = 4+index+3*4;
 }
 
 void endGameNow(int a, string b){
@@ -26,18 +26,35 @@ TestStuff::TestStuff()
 	currentLevel=0;
 	levels = new LMap*[this->numLevels];
 
-// Test gun Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
-	gunz[0] = new Gun(-10, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
-	gunz[1] = new Gun(1, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
-	gunz[2] = new Gun(1, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
-	gunz[3] = new Gun(1, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
-	gunz[4] = new Gun(10, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
-	gunz[5] = new Gun(10, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
-	gunz[6] = new Gun(10, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+//Turret Gun
+	gunz[0] = new Gun(1, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
+	//AI weapons
+	gunz[1] = new Gun(10, 10*60, 500, 1000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[2] = new Gun(20, 5*60, 500, 1500, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[3] = new Gun(15, 5*60*60, 500, 600, 1000, 0, 20, 1.5, 0, ONE);
+	//Tear 1 weapons
+	gunz[4] = new Gun(1, 10*60, 500, 1000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[5] = new Gun(2, 15*60, 500, 1500, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[6] = new Gun(1, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+	//Tear 2 weapons
+	gunz[7] = new Gun(15, 10*60, 500, 1000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[8] = new Gun(25, 15*60, 500, 1500, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[9] = new Gun(7, 10*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+	//Tear 3 weapons
+	gunz[10] = new Gun(2, 120*60, 500, 600, 1400, 0, 15, 0.01, 0, ONE);
+	gunz[11] = new Gun(23, 50*60, 500, 1000, 1300, 0, 4, 0.01, 7, ONE);
+	gunz[12] = new Gun(9, 15*60*60, 500, 600, 1000, 0, 20, 0.4, 0, ONE);
+	//Tear 4 weapons
+	gunz[13] = new Gun(110, 3*60, 500, 1000, 1500, 0, 5, 0.01, 0, ONE);
+	gunz[14] = new Gun(301, 1*60, 500, 2000, 2500, 0, 0, 0.01, 1, ONE);
+	gunz[15] = new Gun(30, 20*60*60, 300, 400, 1200, 0, 10, 1.0, 20, ONE);
+	//Tear 5 weapons
+	gunz[16] = new Gun(5, 10*60*60, 500, 2000, 2000, 0, 15, 0.01, 0, ONE);
+	gunz[17] = new Gun(5, 10*60*60, 500, 2000, 300, 0, 180, 0.01, 0, ONE);
+	gunz[18] = new Gun(200, 40*60, 500, 2000, -1400, 0, 3, 0.01, 0, ONE);
 
+	gunzCount = 19;
 
-
-	gunzCount = 7;
 }
 
 TestStuff::~TestStuff()
