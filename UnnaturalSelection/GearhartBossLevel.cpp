@@ -3,6 +3,7 @@
 BossLevel::BossLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,50,1000)
 {
 	pressed = false;
+	numKills=-1;
 }
 
 void BossLevel::update(float frameTime)
@@ -21,7 +22,7 @@ void BossLevel::update(float frameTime)
 	{
 		pressed = false;
 	}
-	if(numKills==1)
+	if(numKills>0&&numKills<2) 
 	{
 		for(int i = 3; i < 15; i++)
 		{
