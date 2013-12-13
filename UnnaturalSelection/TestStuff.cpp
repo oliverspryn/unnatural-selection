@@ -226,6 +226,10 @@ void TestStuff::initialize(HWND hwnd)
 
 void TestStuff::update()
 {
+	if(controlState == -1)
+	{
+		return;
+	}
 	/*if(input->isKeyDown(VK_SPACE))
 	{
 		audio->playCue(GUN_SHOT);
@@ -375,9 +379,10 @@ void TestStuff::update()
 	if(testMap->levelDone)
 	{
 		currentLevel++;
-		if(currentLevel > 3)
+		if(currentLevel >= 3)
 		{
 			endGame = true;
+			controlState = -1;
 			return;
 		}
 		delete testMap;
