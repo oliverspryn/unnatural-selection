@@ -845,7 +845,12 @@ bool LMap::collidesWithTurret(TerrainElement* t,Projectile* p, float& fT)
 
 void LMap::givePlayerGun()
 {
-	testMag = new Magazine(3000, 5*((weaponSelected/3)-1), 5*((weaponSelected/3)-1), 0, 0, 0, ONE, testProjectile);
+	int ammos = 5*((weaponSelected/3)-1);
+	if(ammos == 0)
+	{
+		ammos = 5;
+	}
+	testMag = new Magazine(3000, ammos, ammos, 0, 0, 0, ONE, testProjectile);
 	testGun = new Gun(*gunz[weaponSelected]);
 	testGun->loadNewMag(testMag);
 	this->characters[0]->currentWeapon = testGun;
