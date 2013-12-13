@@ -375,7 +375,7 @@ void TestStuff::update()
 	if(testMap->levelDone)
 	{
 		currentLevel++;
-		if(currentLevel > 4)
+		if(currentLevel > 3)
 		{
 			endGame = true;
 			return;
@@ -508,7 +508,7 @@ void TestStuff::render()
 
 	testMap->draw();
 	hud->setHealth(testMap->characters[0]->healthPoints/300.0);
-	hud->setTime(this->gameTime/180);
+	hud->setTime(testMap->mapTime/testMap->mapStartTime);
 	hud->setReload(1);
 
 	hud->draw();
