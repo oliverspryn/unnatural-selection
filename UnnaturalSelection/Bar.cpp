@@ -63,7 +63,7 @@ void Bar::initialize(float health) {
 	}
 
 //Initialize the bar images
-	if (!bar.initialize(graphics, barNS::WIDTH, height, 1, &tmBar)) {
+	if (!bar.initialize(graphics, width, height, 1, &tmBar)) {
 		throw GameError(gameErrorNS::FATAL_ERROR, "Failed to initialize the bar image");
 	}
 
@@ -148,24 +148,24 @@ void Bar::update(float frameTime) {
 //Update the bar boundary(s)?
 	if (boundaryMode == BKG_COLOR) {
 		if (this->fill == FILL_LR) {
-			indicator1.setX(x - barNS::BOUNDARY_MARGIN);
+			indicator1.setX(x - boundaryMargin);
 		} else {
-			indicator1.setX(xShould - barNS::BOUNDARY_MARGIN);
+			indicator1.setX(xShould - boundaryMargin);
 		}
 
-		indicator1.setY(y - barNS::BOUNDARY_MARGIN);
+		indicator1.setY(y - boundaryMargin);
 		indicator1.update(frameTime);
 	} else if (boundaryMode == EDGE_BOUNDS) {
 		if (this->fill == FILL_LR) {
-			indicator1.setX(x - 2 * barNS::BOUNDARY_MARGIN);
-			indicator2.setX(x + width + barNS::BOUNDARY_MARGIN);
+			indicator1.setX(x - 2 * boundaryMargin);
+			indicator2.setX(x + width + boundaryMargin);
 		} else {
-			indicator1.setX(xShould - 2 * barNS::BOUNDARY_MARGIN);
-			indicator2.setX(xShould + width + barNS::BOUNDARY_MARGIN);
+			indicator1.setX(xShould - 2 * boundaryMargin);
+			indicator2.setX(xShould + width + boundaryMargin);
 		}
 
-		indicator1.setY(y - barNS::BOUNDARY_MARGIN);
-		indicator2.setY(y - barNS::BOUNDARY_MARGIN);
+		indicator1.setY(y - boundaryMargin);
+		indicator2.setY(y - boundaryMargin);
 		indicator1.update(frameTime);
 		indicator2.update(frameTime);
 	}
