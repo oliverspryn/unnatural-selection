@@ -517,13 +517,11 @@ void TestStuff::render()
 	tempWords << "Time: " << gameTime;
 	hudFont.print(tempWords.str().c_str(), 500, 550); 
 	tempWords.str("");
-	tempWords << "Targets Remaining: " << testMap->activeTargets;
+	tempWords <<  this->recentAchievement.c_str();
 	hudFont.print(tempWords.str().c_str(), 700, 550);
 	tempWords.str("");
 	tempWords << "Score: " << (this->totalScore + levels[currentLevel]->levelScore);
  	hudFont.print(tempWords.str().c_str(), 100, 550);
-	tempWords << recentAchievement;
-	hudFont.print(tempWords.str().c_str(), 100, 550);
 	//healthBar->draw();
 	graphics->spriteEnd();
 }
@@ -647,32 +645,32 @@ void TestStuff::achievements()
 		doneAchievements[4]=true;
 		totalScore+=500;
 	}
-	if(!doneAchievements[5] && true)
+	/*if(!doneAchievements[5] && true)
 	{
-		this->recentAchievement="";
+		this->recentAchievement="12345";
 		doneAchievements[5]=true;
 		totalScore+=500;
 	}
 	if(!doneAchievements[6] && true)
 	{
-		this->recentAchievement="";
+		this->recentAchievement="23456";
 		doneAchievements[6]=true;
 	}
 	if(!doneAchievements[7] && true)
 	{
-		this->recentAchievement="";
+		this->recentAchievement="34567";
 		doneAchievements[7]=true;
 	}
 	if(!doneAchievements[8] && true)
 	{
-		this->recentAchievement="";
+		this->recentAchievement="45678";
 		doneAchievements[8]=true;
 	}
 	if(!doneAchievements[9] && true)
 	{
-		this->recentAchievement="";
+		this->recentAchievement="56789";
 		doneAchievements[9]=true;
-	}
+	}*/
 }
 
 void TestStuff::consoleCommand()
