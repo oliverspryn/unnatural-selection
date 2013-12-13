@@ -83,6 +83,10 @@ void TestStuff::initialize(HWND hwnd)
 	healthBar = new HealthBar(this, graphics);
 	healthBar->initialize();
 
+//Create the HUD
+	hud = new Hud(this, graphics);
+	hud->initialize();
+
 	audio->playCue(MUSIC);
 
 	if(hudFont.initialize(graphics, 15, true, false, "Arial") == false)
@@ -209,6 +213,7 @@ void TestStuff::update()
 	healthBar->setX(100.0f);
 	healthBar->setY(100.0f);
 	healthBar->update(frameTime);
+	hud->update(frameTime);
 	if(!infiniteTime)
 		gameTime -= frameTime;
 	Character* player = testMap->characters[0];
@@ -433,6 +438,7 @@ void TestStuff::render()
 	graphics->setBackColor(graphicsNS::GRAY);
 	background->draw();
 	testMap->draw();
+	hud->draw();
 	std::stringstream tempWords;
 	tempWords << "Health: " << testMap->characters[0]->healthPoints;
 	hudFont.print(tempWords.str().c_str(), 300, 550);

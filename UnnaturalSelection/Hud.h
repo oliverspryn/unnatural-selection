@@ -11,11 +11,14 @@
 #include "textureManager.h"
 
 namespace hudNS {
-	const char  BACKGROUND[]     = "pictures\\hud-bkg.png";
-	const int   BACKGROUND_H     = 80;
-	const int   BACKGROUND_W     = 338;
+	const char  BKG[]           = "pictures\\hud.png";
+	const int   BKG_HEIGHT      = 80;
+	const int   BKG_WIDTH       = 338;
+	const int   BKG_X           = GAME_WIDTH / 2 - BKG_WIDTH / 2;
+	const int   BKG_Y           = GAME_HEIGHT - BKG_HEIGHT;
+
 	const float DEFAULT_HEALTH   = 1.0f;
-	const float DEFAULT_RELOAD    = 0.0f;
+	const float DEFAULT_RELOAD   = 0.0f;
 	const float DEFAULT_TIME     = 0.0f;
 
 	const Mode  HEALTH_BORDER    = NO_BOUNDARY;

@@ -35,16 +35,23 @@ void Hud::initialize(float health, float reload, float time) {
 	this->time = time;
 
 //Initialize the background texture
-	if (tmBkg.initialize(graphics, hudNS::BACKGROUND)) {
+	if (!tmBkg.initialize(graphics, hudNS::BKG)) {
 		throw GameError(gameErrorNS::WARNING, "Failed to initialize the HUD texture");
 	}
 
 //Initialize the background image
-	if (bkg.initialize(graphics, hudNS::BACKGROUND_W, hudNS::BACKGROUND_H, 1, &tmBkg)) {
+	if (!bkg.initialize(graphics, hudNS::BKG_WIDTH, hudNS::BKG_HEIGHT, 1, &tmBkg)) {
 		throw GameError(gameErrorNS::WARNING, "Failed to initialize the HUD image");
 	}
 
+	bkg.setX(hudNS::BKG_X);
+	bkg.setY(hudNS::BKG_Y);
+
 //Initialize the barz!
+	hb = new HealthBar(game, graphics);
+	rb = new Bar(game, graphics);
+	tb = new Bar(game, graphics);
+
 	hb->setBoundaryMargin(hudNS::HEALTH_BORDER_LB);
 	hb->setBoundaryMode(hudNS::HEALTH_BORDER);
 	hb->setCenterX(hudNS::HEALTH_X);
