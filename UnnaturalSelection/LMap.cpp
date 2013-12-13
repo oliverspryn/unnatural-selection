@@ -64,7 +64,7 @@ void LMap::update(float frameTime)
 	{
 		this->levelDone=true;
 	}*/
-	if(!editor&&first)
+	if(guns&&first)
 	{
 		this->givePlayerGun();
 		first = false;
@@ -432,6 +432,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	guns = !edit;
 	totalMags=0;
 	first = true;
 	numKills = 0;

@@ -8,6 +8,7 @@
 #include "textDX.h"
 #include "GearhartTutorialLevel.h"
 #include "GearhartArenaLevel.h"
+#include "GearhartBossLevel.h"
 #include "LMap.h"
 #include "gun.h"
 #include "Menu.h"

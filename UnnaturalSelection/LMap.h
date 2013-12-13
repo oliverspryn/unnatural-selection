@@ -68,6 +68,7 @@ namespace levelNS
 class LMap
 {
 public:
+	bool guns;
 	~LMap();
 	int minX, maxX, minY, maxY;
 	int numTerrain, numCharacters, numSpawns, numMags, totalSpawns;//totalSpawns is the number of active spawn points
