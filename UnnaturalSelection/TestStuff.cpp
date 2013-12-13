@@ -388,7 +388,12 @@ void TestStuff::update()
 		{
 			levelScore+=(testMap->numKills*100);
 		}
+		if(currentLevel==3)
+		{
+			levelScore+=500;
+		}
 		levelScore+=(((int)testMap->mapTime)*50);
+		totalScore+=levelScore;
 		currentLevel++;
 		if(currentLevel >= 3)
 		{
