@@ -21,7 +21,10 @@ using std::vector;
 #include <sstream>
 using std::stringstream;
 
+enum LEVEL { STORY, MENU, PLAY };
+
 static int controlState = 1;
+static LEVEL mode;
 static void incrementCounter(int index, string text);
 static void endGameNow(int a, string b);
 
@@ -71,6 +74,8 @@ public:
 	Hud* hud;
 	int spawnNumToPrint;
 	int terrainNumToPrint;
+	Menu* betweenLevel;
+	MenuCol gunList;
 	
 private:
 	TextureManager terrainTexture;
