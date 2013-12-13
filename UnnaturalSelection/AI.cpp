@@ -1,6 +1,6 @@
 #include "AI.h"
 
-AI::AI(Game* game, Graphics* graphics) : Character(game, graphics) {
+AI::AI(Game* game, Graphics* graphics, float hp) : Character(game, graphics, hp) {
 		//throw "ertyui";
 	target = 0;
 	firing = false;

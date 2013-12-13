@@ -8,7 +8,7 @@
 
 class AI : public Character {
 public : 
-	AI(Game* game, Graphics* graphics);
+	AI(Game* game, Graphics* graphics, float hp = 300);
 
 	virtual void draw() {
 		Character::draw();

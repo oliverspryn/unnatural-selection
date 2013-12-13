@@ -63,7 +63,7 @@ protected :
 	#endif
 
 public : 
-	Character(Game* game, Graphics* graphics);
+	Character(Game* game, Graphics* graphics, float hp = characterNS::HEALTH_POINTS);
 	virtual ~Character();
 
 	virtual bool collidesWith(Entity &ent, D3DXVECTOR2 &collisionVector);
@@ -105,6 +105,7 @@ public :
 	int             faceDir;
 	D3DXVECTOR2*    gravity;
 	//Head*           head;
+	float			startHealth;
 	float           healthPoints;
 	float           healthRegenRate;
 	float           initialSpeed;

@@ -1,6 +1,6 @@
 #include "Character.h"
 
-Character::Character(Game* game, Graphics* graphics) : game(game), graphics(graphics){
+Character::Character(Game* game, Graphics* graphics, float hp) : game(game), graphics(graphics){
 //	head = 0;
 	body = 0;
 	aimAngle = 0.0f;
@@ -10,7 +10,8 @@ Character::Character(Game* game, Graphics* graphics) : game(game), graphics(grap
 	energyRegenRate = characterNS::ENERGY_REGEN_RATE;
 	faceDir = 0;
 	gravity = new D3DXVECTOR2(characterNS::GRAVITY_X, characterNS::GRAVITY_Y);
-	healthPoints = characterNS::HEALTH_POINTS;
+	startHealth = hp;
+	healthPoints = hp;
 	healthRegenRate = characterNS::HEALTH_REGEN_RATE;
 	initialSpeed = characterNS::INITIAL_SPEED;
 	input = game->getInput();

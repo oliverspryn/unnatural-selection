@@ -426,7 +426,7 @@ void LMap::chooseSpawnPoint(Character* c)
 	c->setVelocityY(0);
 	c->setX(spawnPoints[point]->getX());
 	c->setY(spawnPoints[point]->getY());
-	c->healthPoints = characterNS::HEALTH_POINTS;
+	c->healthPoints = c->startHealth;
 }
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
