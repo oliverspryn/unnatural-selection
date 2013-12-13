@@ -18,10 +18,10 @@ namespace menuNS {
 	const int        ALIGN_LEFT          = DT_LEFT;
 	const int        ALIGN_RIGHT         = DT_RIGHT;
 
-	const int        BOUND_BOTTOM        = 200;
+	const int        BOUND_BOTTOM        = 100;
 	const int        BOUND_LEFT          = 100;
 	const int        BOUND_RIGHT         = 100;
-	const int        BOUND_TOP           = 300;
+	const int        BOUND_TOP           = 200;
 
 	const char       FONT[]              = "Arial";
 	const COLOR_ARGB FONT_COLOR_DISABLED = D3DCOLOR_ARGB(255, 100, 100, 100); // Greyish
