@@ -1,6 +1,6 @@
 #include "GearhartBossLevel.h"
 
-BossLevel::BossLevel(Input* i, Graphics* g) : LMap(i,g)
+BossLevel::BossLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,50,1000)
 {
 	pressed = false;
 }

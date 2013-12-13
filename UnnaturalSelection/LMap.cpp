@@ -260,7 +260,6 @@ void LMap::update(float frameTime)
 				}
 				characters[i]->charFrameTime = -1;
 			}
-
 		}
 	}
 }
