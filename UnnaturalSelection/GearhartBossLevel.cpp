@@ -3,7 +3,7 @@
 BossLevel::BossLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,50,1000)
 {
 	pressed = false;
-	numKills=-1;
+	numKills=0;
 	levelScore=0;
 }
 
