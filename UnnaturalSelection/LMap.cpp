@@ -210,6 +210,7 @@ void LMap::update(float frameTime)
 								targets[k]->setActive(false);
 								targets[k]->setVisible(false);
 								this->activeTargets--;
+								this->levelScore+=50;
 							}
 						}
 					}
@@ -242,6 +243,7 @@ void LMap::update(float frameTime)
 								if(i==0)
 								{
 									numKills++;
+									this->levelScore+=100;
 								}
 							}
 						}

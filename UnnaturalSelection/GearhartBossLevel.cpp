@@ -4,6 +4,7 @@ BossLevel::BossLevel(Input* i, Graphics* g) : LMap(i,g,1000,1000,10,50,1000)
 {
 	pressed = false;
 	numKills=-1;
+	levelScore=0;
 }
 
 void BossLevel::update(float frameTime)
@@ -13,15 +14,15 @@ void BossLevel::update(float frameTime)
 		this->levelDone = true;
 	}
 	LMap::update(frameTime);
-	if(!pressed && input->isKeyDown(VK_RETURN))
-	{
-		numKills++;
-		pressed = true;
-	}
-	if(pressed && !input->isKeyDown(VK_RETURN))
-	{
-		pressed = false;
-	}
+	//if(!pressed && input->isKeyDown(VK_RETURN))
+	//{
+	//	numKills++;
+	//	pressed = true;
+	//}
+	//if(pressed && !input->isKeyDown(VK_RETURN))
+	//{
+	//	pressed = false;
+	//}
 	if(numKills>0&&numKills<2) 
 	{
 		for(int i = 3; i < 15; i++)

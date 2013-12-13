@@ -70,7 +70,7 @@ class LMap
 public:
 	float mapTime;
 	float mapStartTime;
-
+	int levelScore;
 	bool guns;
 	~LMap();
 	int minX, maxX, minY, maxY;

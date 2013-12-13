@@ -7,6 +7,7 @@ ArenaLevel::ArenaLevel(Input* i, Graphics* g,int numKills) : LMap(i,g,1000,1000,
 {
 	killsToWin = numKills;
 	totalKills = 0;
+	levelScore=0;
 }
 
 bool ArenaLevel::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM, Magazine* m)
