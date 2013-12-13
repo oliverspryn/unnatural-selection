@@ -27,7 +27,7 @@ TestStuff::TestStuff()
 	numLevels = 3;
 	currentLevel=0;
 	levels = new LMap*[this->numLevels];
-	mode = PLAY;
+	mode = MENU;
 
 //Turret Gun
 	gunz[0] = new Gun(1, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
@@ -209,20 +209,13 @@ void TestStuff::initialize(HWND hwnd)
 	}
 	oldTargets = testMap->activeTargets;
 
-//Crap for the starting stuff
-	if (openTM.initialize(graphics, "pictures\\splash.jpg") && 
-		storyTM.initialize(graphics, "pictures\\story.png") && 
-		controlTM.initialize(graphics, "pictures\\controls.png") && 
-		endTM.initialize(graphics, "pictures\\endGame.png")) {
-			//cool
-	} else {
-		throw GameError(gameErrorNS::FATAL_ERROR, "Can't find images");
-	}
-
-	open.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &openTM);
-	story.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &storyTM);
-	control.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &controlTM);
-	end.initialize(graphics, GAME_WIDTH, GAME_HEIGHT, 0, &endTM);
+//Add the alides
+	slides = new Slides(this, graphics);
+	slides->addImage("pictures\\splash.jpg");
+	slides->addImage("pictures\\splash-1.jpg");
+	slides->addImage("pictures\\controls.png");
+	slides->addImage("pictures\\endGame.png");
+	slides->initialize();
 }
 
 void TestStuff::update()
@@ -257,6 +250,7 @@ void TestStuff::update()
 	healthBar->setY(100.0f);
 	healthBar->update(frameTime);
 	hud->update(frameTime);
+	slides->update(frameTime);
 	if(!infiniteTime)
 		gameTime -= frameTime;
 	Character* player = testMap->characters[0];
@@ -392,7 +386,7 @@ void TestStuff::update()
 		{
 			levelScore+=500;
 		}
-		levelScore+=(((int)testMap->mapTime)*50);
+ 		levelScore+=(((int)testMap->mapTime)*50);
 		totalScore+=levelScore;
 		currentLevel++;
 		if(currentLevel >= 3)
@@ -404,7 +398,6 @@ void TestStuff::update()
 		delete testMap;
 		
 		mode = STORY;
-		mode = MENU;
 		testMap = levels[currentLevel];
 		this->buildFromFile(fileNames[currentLevel]);
 		Character* c = new Character(this,graphics);
@@ -489,40 +482,29 @@ void TestStuff::collisions()
 void TestStuff::render()
 {
 	auto testMap = levels[currentLevel];
+
 	graphics->spriteBegin();
-
-	if (controlState == 1) {
-		open.draw();
-		menu->draw();
-		graphics->spriteEnd();
-		return;
-	}
-
-	if (controlState == 2) {
-		story.draw();
-		graphics->spriteEnd();
-		return;
-	}
-
-	if (controlState == 3) {
-		control.draw();
-		graphics->spriteEnd();
-		return;
-	}
-
-	if (controlState == -1) {
-		end.draw();
-		graphics->spriteEnd();
-		return;
-	}
-
-	//FIX
-	//testMap->camera->centerPosition = testMap->characters[0]->getCenter();
-
 	graphics->setBackColor(graphicsNS::GRAY);
-	background->draw();
-
+	
 //Interrupt for menus and stories
+	if (mode == STORY || mode == MENU) {
+		slides->enable();
+		slides->setSlide(currentLevel);
+		slides->draw();
+
+		if (mode == STORY && (input->anyKeyPressed() || input->getMouseLButton())) {
+			mode = MENU;
+		}
+
+		if (mode == STORY) {
+			return;
+		}
+	}
+
+	if (mode != MENU) {
+		background->draw();
+	}
+
 	if (mode == MENU) {
 		menu->draw();
 		return;

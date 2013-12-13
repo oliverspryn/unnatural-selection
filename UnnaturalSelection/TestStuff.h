@@ -15,6 +15,7 @@
 #include "Background.h"
 #include "HealthBar.h"
 #include "Hud.h"
+#include "Slides.h"
 #include <vector>
 using std::vector;
 #include <ctime>
@@ -77,6 +78,7 @@ public:
 	int terrainNumToPrint;
 	Menu* betweenLevel;
 	MenuCol gunList;
+	Slides *slides;
 	
 private:
 	TextureManager terrainTexture;
@@ -85,9 +87,6 @@ private:
 	//LMap* testMap;
 	int numLevels;
 	//TutorialLevel* introMap;
-
-	TextureManager openTM, storyTM, controlTM, endTM;
-	Image open, story, control, end;
 };
 
 #endif
