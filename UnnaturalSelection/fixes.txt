@@ -1,11 +1,6 @@
 Things to do:(add you feed back)
--Make game quieter(MED)
 -A scorring system(HI)
--Make a way to exit the game(MED)
--add splash screens and menus between levels(HI)
+-add splash screens(HI)
 -save high scores(MED)
 -achivements(MED)
--return to main menu(MED)
 
--balence (end)
--add spawn points()w
