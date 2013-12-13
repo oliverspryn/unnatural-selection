@@ -17,10 +17,10 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 	{
 		doors = new TerrainElement*[numDoors];
 		//target door
-		/*doors[0] = new TerrainElement(438,146,VECTOR2(-1726,-1542));
+		doors[0] = new TerrainElement(438,146,VECTOR2(-1726,-1542));
 		doors[0]->initialize(gamePtr,textureM,ncols);
 		doors[0]->generateSideEquations();
-		LMap::addTerrain(doors[0]);*/
+		LMap::addTerrain(doors[0]);
 		//duck and cover door
 		doors[1] = new TerrainElement(128,2752,VECTOR2(-1603,68));
 		doors[1]->initialize(gamePtr,textureM,ncols);
@@ -31,10 +31,10 @@ bool TutorialLevel::initialize(Game *gamePtr, int width, int height, int ncols, 
 		doors[2]->generateSideEquations();
 		LMap::addTerrain(doors[2]);
 		//run and shoot door
-		/*doors[3] = new TerrainElement(438,146,VECTOR2(4096,-1428));
+		doors[3] = new TerrainElement(438,146,VECTOR2(4096,-1428));
 		doors[3]->initialize(gamePtr,textureM,ncols);
 		doors[3]->generateSideEquations();
-		LMap::addTerrain(doors[4]);*/
+		LMap::addTerrain(doors[3]);
 		camera->zoom = zoomValue;
 		turrets = new Turret*[this->numTurrets];
 
@@ -67,12 +67,17 @@ void TutorialLevel::update(float frameTime)
 {
 	LMap::update(frameTime);
 	//maybe modify later to check in a different way...
+	if(this->room2TurretsKilled>=this->numTurrets)
+	{
+		doors[3]->setActive(false);
+		doors[3]->setVisible(false);
+	}
 	if(characters[0]->getCenterX() > 6607 && characters[0]->getCenterY() > 282)
 	{
 		this->levelDone = true;
 	}
 	//need to modify the implementation of this
-	if(this->activeTargets==0)
+	if(this->activeTargets==4)
 	{
 		//testing only
 		//levelDone = false;
@@ -114,7 +119,7 @@ void TutorialLevel::update(float frameTime)
 			}
 			if(i>3&&characters[0]->getX()>1259 && turrets[i]->getActive())
 			{
-				if(i==fireNumber)
+ 				if((i-4)==fireNumber)
 				{
 					fire = true;
 				}

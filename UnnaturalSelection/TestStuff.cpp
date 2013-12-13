@@ -1,12 +1,12 @@
 #include "TestStuff.h"
 //hi just a test to make sure github is working // its working Jake
-Gun* gunz[4];
+Gun* gunz[7];
 int gunzCount;
 int weaponSelected;
 
 void incrementCounter(int index, string text) {
 	controlState = 4;
-	weaponSelected = 1+index;
+	weaponSelected = 4+index;
 }
 
 void endGameNow(int a, string b){
@@ -28,13 +28,16 @@ TestStuff::TestStuff()
 
 // Test gun Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
 	gunz[0] = new Gun(-10, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
-	gunz[1] = new Gun(10, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
-	gunz[2] = new Gun(0, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
-	gunz[3] = new Gun(0, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+	gunz[1] = new Gun(1, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[2] = new Gun(1, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[3] = new Gun(1, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+	gunz[4] = new Gun(10, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[5] = new Gun(10, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[6] = new Gun(10, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
 
 
 
-	gunzCount = 4;
+	gunzCount = 7;
 }
 
 TestStuff::~TestStuff()
