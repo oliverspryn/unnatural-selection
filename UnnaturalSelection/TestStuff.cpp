@@ -6,7 +6,7 @@ int weaponSelected;
 
 void incrementCounter(int index, string text) {
 	controlState = 4;
-	weaponSelected = 4+index+3*4;
+	weaponSelected = 4+index+3*0;
 }
 
 void endGameNow(int a, string b){
@@ -82,9 +82,27 @@ void TestStuff::initialize(HWND hwnd)
 	menu = new Menu(this, graphics);
 
 	MenuCol items2;
-	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
-	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
-	items2.push_back(MenuItem("Schrodinger Shotgun (Semi) - Pellets: 6, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 1
+	items2.push_back(MenuItem("Broken Old Reliable (Auto) - Fire Rate: 10 rps, Damage: 1, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("Damagaed Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 2, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Deceased Schrodinger Shotgun (Auto) - Pellets: 5, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 2
+	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 10 rps, Damage: 15, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 25, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Schrodinger Shotgun (Auto) - Pellets: 10, Damage: 7, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 3
+	items2.push_back(MenuItem("The Destructinator (Auto) - Fire Rate: 120 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("The Nemesis (Burst 7) - Fire Rate: 50 rps, Damage: 23, Accuracy: High", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("The Hole Punch (Auto) - Pellets: 15, Damage: 9, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 4
+	items2.push_back(MenuItem("Doom Rhino (Auto) - Fire Rate: 3 rps, Damage: 110, Accuracy: High", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("Galloping Slinger (Semi) - Fire Rate: 1 rps, Damage: 333, Accuracy: Very High", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Mama's Salt Shaker (Semi) - Pellets: 20, Damage: 30, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 5
+	items2.push_back(MenuItem("Meteor Shower (Auto) - Fire Rate: 600 rps, Damage: 5, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("Super Nova (Auto) - Fire Rate: 600 rps, Damage: 5, Accuracy: DNE", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Moonwalker (Auto) - Fire Rate: 40 rps, Damage: 200, Accuracy: High", menuNS::ALIGN_CENTER, incrementCounter));
+
 
 	MenuCol items;
 	items.push_back(MenuItem("Play", menuNS::ALIGN_CENTER, true, items2));
