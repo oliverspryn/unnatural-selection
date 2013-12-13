@@ -33,7 +33,8 @@ TestStuff::TestStuff()
 	{
 		doneAchievements[i]=false;
 	}
-	recentAchievement="No achievements yet";
+	recentAchievement="No achievements yet";          
+
 
 	totalScore = 0;
 	
@@ -185,7 +186,7 @@ void TestStuff::initialize(HWND hwnd)
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	TutorialLevel* intro = new TutorialLevel(input,graphics);
 	levels[0] = reinterpret_cast<LMap*>(intro);
-	ArenaLevel* arena = new ArenaLevel(input,graphics);
+	ArenaLevel* arena = new ArenaLevel(input,graphics, 20);
 	levels[1] = reinterpret_cast<LMap*>(arena);
 	BossLevel* boss = new BossLevel(input,graphics);
 	levels[2] = reinterpret_cast<LMap*>(boss);
@@ -566,14 +567,15 @@ void TestStuff::render()
 
 	hud->draw();
 	std::stringstream tempWords;
-	tempWords << "Health: " << testMap->characters[0]->healthPoints;
-	hudFont.print(tempWords.str().c_str(), 300, 550);
 	tempWords.str("");
-	tempWords << "Time: " << gameTime;
-	hudFont.print(tempWords.str().c_str(), 500, 550); 
-	tempWords.str("");
-	tempWords <<  this->recentAchievement.c_str();
-	hudFont.print(tempWords.str().c_str(), 700, 550);
+	tempWords << recentAchievement.c_str();
+	hudFont.print(tempWords.str().c_str(), 800, 550); 
+	if(currentLevel==1)
+	{
+		tempWords << "Kills: " << levels[currentLevel]->numKills;
+		hudFont.print(tempWords.str().c_str(), 500, 550); 
+	}
+
 	tempWords.str("");
 	tempWords << "Score: " << (totalScore + levels[currentLevel]->levelScore);
  	hudFont.print(tempWords.str().c_str(), 100, 550);
@@ -688,7 +690,7 @@ void TestStuff::achievements()
 		doneAchievements[2]=true;
 		totalScore+=500;
 	}
-	if(!doneAchievements[3] && levels[currentLevel]->targetsDestroyed==8)
+	if(!doneAchievements[3] && levels[currentLevel]->activeTargets==0)
 	{
 		this->recentAchievement="Grover Achiever: Break all targets";
 		doneAchievements[3]=true;

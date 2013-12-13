@@ -111,7 +111,7 @@ void Game::initialize(HWND hw)
     graphics->initialize(hwnd, GAME_WIDTH, GAME_HEIGHT, FULLSCREEN);
 
     // initialize input, do not capture mouse
-    input->initialize(hwnd, true);             // throws GameError
+    input->initialize(hwnd, false);             // throws GameError
 
     // initialize console
     console = new Console();
