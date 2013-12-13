@@ -2,6 +2,7 @@
 #define _TESTSTUFF_H	          // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
+#include <Windows.h>
 #include "game.h"
 #include "textureManager.h"
 #include "image.h"

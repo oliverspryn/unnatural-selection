@@ -28,6 +28,7 @@ void endGameNow(int a, string b){
 
 TestStuff::TestStuff()
 {
+	this->load();
 
 	for(int i =0; i <10; i++)
 	{
@@ -393,6 +394,8 @@ void TestStuff::update()
 		if(currentLevel >= 3)
 		{
 			endGame = true;
+			addScore(totalScore);
+			save();
 			controlState = -1;
 			return;
 		}
@@ -489,6 +492,12 @@ void TestStuff::render()
 	graphics->setBackColor(graphicsNS::GRAY);
 	slides->disable();
 	
+	if(controlState==-1)
+	{
+		PostQuitMessage(0);
+		return;
+	}
+
 //Interrupt for menus and stories
 	if (controlState == 1) {
 		slides->enable();
