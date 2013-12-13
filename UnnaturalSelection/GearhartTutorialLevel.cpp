@@ -103,29 +103,27 @@ void TutorialLevel::update(float frameTime)
 
 	int fireNumber = 1+rand()%3;
 	bool fire = false;
-	if(this->activeTargets!=0)
+	
+	for(int i = 0; i < this->numTurrets; i++)
 	{
-		for(int i = 0; i < this->numTurrets; i++)
+		if(characters[0]->getCenter().x>-1550 && i==0&&turrets[i]->getActive())
+			turrets[i]->update(frameTime,true);
+		if(characters[0]->getCenter().x>-1550 && i<=3&&this->room2TurretsKilled>=1&&turrets[i]->getActive())
 		{
-			if(characters[0]->getCenter().x>-1550 && i==0&&turrets[i]->getActive())
-				turrets[i]->update(frameTime,true);
-			if(characters[0]->getCenter().x>-1550 && i<=3&&this->room2TurretsKilled>=1&&turrets[i]->getActive())
+			if(i==fireNumber)
 			{
-				if(i==fireNumber)
-				{
-					fire = true;
-				}
-				turrets[i]->update(frameTime,fire);
-				fire = false;
+				fire = true;
 			}
-			if(i>3&&characters[0]->getX()>1259 && turrets[i]->getActive())
+			turrets[i]->update(frameTime,fire);
+			fire = false;
+		}
+		if(i>3&&characters[0]->getX()>1259 && turrets[i]->getActive())
+		{
+ 			if((i-4)==fireNumber)
 			{
- 				if((i-4)==fireNumber)
-				{
-					fire = true;
-				}
-				turrets[i]->update(frameTime,fire);
+				fire = true;
 			}
+			turrets[i]->update(frameTime,fire);
 		}
 	}
 
