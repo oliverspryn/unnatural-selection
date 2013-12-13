@@ -79,6 +79,10 @@ public:
 	Menu* betweenLevel;
 	MenuCol gunList;
 	Slides *slides;
+
+	void achievements();
+	string recentAchievement;
+	bool doneAchievements[10];
 	
 private:
 	TextureManager terrainTexture;

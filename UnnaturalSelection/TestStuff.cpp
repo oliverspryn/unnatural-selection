@@ -16,8 +16,15 @@ void endGameNow(int a, string b){
 
 TestStuff::TestStuff()
 {
+
+	for(int i =0; i <10; i++)
+	{
+		doneAchievements[i]=false;
+	}
+	recentAchievement="No achievements yet";
+
 	this->totalScore = 0;
-	this->fpsOn=true;
+	
 	gameTime = 180;
 	currentLevel=0;
 	endGame = false;
@@ -373,21 +380,7 @@ void TestStuff::update()
 
 	if(testMap->levelDone)
 	{
-		int levelScore = 0;
-		if(currentLevel==0)
-		{
-			levelScore = 1000+(testMap->targetsDestroyed*50)+(reinterpret_cast<TutorialLevel*>(testMap)->room2TurretsKilled*100);
-		}
-		if(currentLevel==1)
-		{
-			levelScore+=(testMap->numKills*100);
-		}
-		if(currentLevel==3)
-		{
-			levelScore+=500;
-		}
- 		levelScore+=(((int)testMap->mapTime)*50);
-		totalScore+=levelScore;
+		totalScore+=levels[currentLevel]->levelScore;
 		currentLevel++;
 		if(currentLevel >= 3)
 		{
@@ -469,6 +462,7 @@ void TestStuff::update()
 		audio->playCue(TARGET_SHATTER);
 	}
 	oldTargets = testMap->activeTargets;
+	this->achievements();
 }
 
 void TestStuff::ai()
@@ -526,7 +520,9 @@ void TestStuff::render()
 	tempWords << "Targets Remaining: " << testMap->activeTargets;
 	hudFont.print(tempWords.str().c_str(), 700, 550);
 	tempWords.str("");
-	tempWords << "Score: " << levels[currentLevel]->numKills;
+	tempWords << "Score: " << (this->totalScore + levels[currentLevel]->levelScore);
+ 	hudFont.print(tempWords.str().c_str(), 100, 550);
+	tempWords << recentAchievement;
 	hudFont.print(tempWords.str().c_str(), 100, 550);
 	//healthBar->draw();
 	graphics->spriteEnd();
@@ -616,6 +612,66 @@ void TestStuff::buildFromFile(std::string fileName)
 		}
 		getline(fin,line);
 		i++;
+	}
+}
+
+void TestStuff::achievements()
+{
+	if(!doneAchievements[0] && currentLevel==1)
+	{
+		this->recentAchievement="Knowedgable: completed tutorial";
+		doneAchievements[0]=true;
+		totalScore+=500;
+	}
+	if(!doneAchievements[1] && currentLevel==2)
+	{
+		this->recentAchievement="Warrior's tale: completed arena";
+		doneAchievements[1]=true;
+		totalScore+=500;
+	}
+	if(!doneAchievements[2] && currentLevel==3)
+	{
+		this->recentAchievement="The End? Beat the champion";
+		doneAchievements[2]=true;
+		totalScore+=500;
+	}
+	if(!doneAchievements[3] && levels[currentLevel]->targetsDestroyed==8)
+	{
+		this->recentAchievement="Grover Achiever: Break all targets";
+		doneAchievements[3]=true;
+		totalScore+=500;
+	}
+	if(!doneAchievements[4] && this->totalScore>9000)
+	{
+		this->recentAchievement="Dr. Adams: OVER 9000!";
+		doneAchievements[4]=true;
+		totalScore+=500;
+	}
+	if(!doneAchievements[5] && true)
+	{
+		this->recentAchievement="";
+		doneAchievements[5]=true;
+		totalScore+=500;
+	}
+	if(!doneAchievements[6] && true)
+	{
+		this->recentAchievement="";
+		doneAchievements[6]=true;
+	}
+	if(!doneAchievements[7] && true)
+	{
+		this->recentAchievement="";
+		doneAchievements[7]=true;
+	}
+	if(!doneAchievements[8] && true)
+	{
+		this->recentAchievement="";
+		doneAchievements[8]=true;
+	}
+	if(!doneAchievements[9] && true)
+	{
+		this->recentAchievement="";
+		doneAchievements[9]=true;
 	}
 }
 
