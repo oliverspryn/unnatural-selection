@@ -368,7 +368,12 @@ void TestStuff::update()
 		Character* c = new Character(this,graphics);
 		//c->initialize();
 		testMap->addCharacter(c);
-
+		if(currentLevel==2)
+		{
+			AI* boss = new AI(this,graphics);
+			testMap->addCharacter(reinterpret_cast<Character*>(boss));
+			reinterpret_cast<AI*>(testMap->characters[1])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);
+		}
 		//WeaponStuff
 		if(currentLevel == 1)
 		{
@@ -391,8 +396,16 @@ void TestStuff::update()
 
 		testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 
-		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
-			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		if(currentLevel==1)
+		{
+			if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
+				throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		}
+		if(currentLevel==2)
+		{
+			if (!testMap->initialize(this,0,0,0,&terrainTexture,&terrainTexture,&turretTexture,testMag))
+				throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		}
 		levels[currentLevel]->testProjectile = testProjectile;
 		for(int i = 0; i < testMap->totalCharacters; i++)
 		{
@@ -487,7 +500,7 @@ void TestStuff::resetAll()
 
 void TestStuff::buildFromFile(std::string fileName)
 {
-	auto testMap = levels[currentLevel];
+	LMap* testMap = levels[currentLevel];
 	fstream fin;
 	fin.open(fileName);
 	string line = "";
@@ -497,10 +510,10 @@ void TestStuff::buildFromFile(std::string fileName)
 	testMap->camera->zoom;
 	getline(fin,line);
 	int numTerrain = atoi(line.c_str());
-	//this->terrainNumToPrint = numTerrain;
+	this->terrainNumToPrint = numTerrain;
 	getline(fin,line);
 	int numSpawn = atoi(line.c_str());
-	//this->spawnNumToPrint = numSpawn;
+	this->spawnNumToPrint = numSpawn;
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
 	DWORD color;

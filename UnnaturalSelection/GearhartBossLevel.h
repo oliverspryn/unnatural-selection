@@ -7,7 +7,10 @@
 class BossLevel : public LMap
 {
 public:
+	bool pressed;
 	BossLevel(Input* i, Graphics* g);
+	bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM, TextureManager *targetTM, TextureManager *turretTM, Magazine* m);
+	void update(float frameTime);
 private:
 };
 

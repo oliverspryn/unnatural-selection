@@ -69,6 +69,8 @@ public:
 	Background* background;
 	HealthBar* healthBar;
 	Hud* hud;
+	int spawnNumToPrint;
+	int terrainNumToPrint;
 	
 private:
 	TextureManager terrainTexture;
