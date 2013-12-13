@@ -28,6 +28,7 @@ static int controlState = 1;
 static LEVEL mode;
 static void incrementCounter(int index, string text);
 static void endGameNow(int a, string b);
+static int totalScore;
 
 namespace teststuffNS
 {
@@ -74,7 +75,6 @@ public:
 	HealthBar* healthBar;
 	Hud* hud;
 	int spawnNumToPrint;
-	int totalScore;
 	int terrainNumToPrint;
 	Menu* betweenLevel;
 	MenuCol gunList;

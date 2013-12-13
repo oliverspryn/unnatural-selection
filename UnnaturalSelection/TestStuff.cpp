@@ -5,11 +5,23 @@ int gunzCount;
 int weaponSelected;
 
 void incrementCounter(int index, string text) {
-	controlState = 4;
 	weaponSelected = 4+index;
-	mode = PLAY;
-}
+	int needed = (weaponSelected - 4) / 3 * 1000;
 
+	if (totalScore >= needed) {
+		controlState = 4;
+		mode = PLAY;
+	} else {
+		stringstream ss;
+		ss << "You need ";
+		ss << needed;
+		ss << " points to obtain this gun. You currently have ";
+		ss << totalScore;
+		ss << " points.";
+
+		MessageBox(NULL, ss.str().c_str(), "Not There Yet, Bud", MB_OK);
+	}
+}
 void endGameNow(int a, string b){
 	PostQuitMessage(0);
 }
@@ -23,7 +35,7 @@ TestStuff::TestStuff()
 	}
 	recentAchievement="No achievements yet";
 
-	this->totalScore = 0;
+	totalScore = 0;
 	
 	gameTime = 180;
 	currentLevel=0;
@@ -520,7 +532,7 @@ void TestStuff::render()
 	tempWords <<  this->recentAchievement.c_str();
 	hudFont.print(tempWords.str().c_str(), 700, 550);
 	tempWords.str("");
-	tempWords << "Score: " << (this->totalScore + levels[currentLevel]->levelScore);
+	tempWords << "Score: " << (totalScore + levels[currentLevel]->levelScore);
  	hudFont.print(tempWords.str().c_str(), 100, 550);
 	//healthBar->draw();
 	graphics->spriteEnd();
@@ -639,7 +651,7 @@ void TestStuff::achievements()
 		doneAchievements[3]=true;
 		totalScore+=500;
 	}
-	if(!doneAchievements[4] && this->totalScore>9000)
+	if(!doneAchievements[4] && totalScore>9000)
 	{
 		this->recentAchievement="Dr. Adams: OVER 9000!";
 		doneAchievements[4]=true;
