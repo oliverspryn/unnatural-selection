@@ -83,7 +83,14 @@ public:
 	void achievements();
 	string recentAchievement;
 	bool doneAchievements[10];
+
+	void TestStuff::save();
+	void TestStuff::load();
+	void addScore(int in);
 	
+	std::string scoreString;
+	int scores[10];
+	int scoreIndex;
 private:
 	TextureManager terrainTexture;
 	//make an array of levels

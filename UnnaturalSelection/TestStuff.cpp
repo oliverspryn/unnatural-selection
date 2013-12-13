@@ -747,3 +747,64 @@ void TestStuff::consoleCommand()
 		return;
 	}
 }
+
+void TestStuff::save()
+{
+	std::ofstream fout;
+	std::stringstream s;
+	scoreString = "";
+	fout.open("scores.cow");
+	for(int i(0); i < 9; i++)
+	{
+		fout << scores[i] << std::endl;
+		if(i == scoreIndex)
+		{
+			s << "*";
+		}
+		s << i+1 << ": " <<scores[i] << std::endl;
+		
+	}
+	scoreString = s.str();
+	fout.close();
+}
+void TestStuff::load()
+{
+	std::ifstream fin;
+	fin.open("cowScores.cow");
+	if(!fin.fail())
+	{
+		int temp;
+		for(int i(0); i < 10; i++)
+		{
+			fin >> temp;
+			scores[i] = temp;
+		}
+
+		fin.close();
+	}else{
+		fin.close();
+		std::ofstream fout;
+		fout.open("cowScores.cow");
+		for(int i(0); i < 10; i++)
+		{
+			fout << "0\n";
+			scores[i] = 0;
+		}
+		fout.close();
+	}
+}
+void TestStuff::addScore(int in)
+{
+	scoreIndex = 11;
+	for(int i(0); i < 10; i++)
+	{
+		if(scores[i] < in)
+		{
+			if(i < scoreIndex)
+			{
+				scoreIndex = i;
+			}
+			std::swap(scores[i], in);
+		}
+	}
+}
