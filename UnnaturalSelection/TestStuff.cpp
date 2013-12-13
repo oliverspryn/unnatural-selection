@@ -163,21 +163,21 @@ void TestStuff::initialize(HWND hwnd)
 	if (!testTerrain->initialize(this, &terrainTexture,1))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the terrain object");*/
 	TutorialLevel* intro = new TutorialLevel(input,graphics);
-	levels[1] = reinterpret_cast<LMap*>(intro);
+	levels[0] = reinterpret_cast<LMap*>(intro);
 	ArenaLevel* arena = new ArenaLevel(input,graphics);
-	levels[0] = reinterpret_cast<LMap*>(arena);
+	levels[1] = reinterpret_cast<LMap*>(arena);
 	BossLevel* boss = new BossLevel(input,graphics);
 	levels[2] = reinterpret_cast<LMap*>(boss);
 	auto testMap = levels[currentLevel];
 
-	fileNames[1] = "maps//introLevel.txt";
-	fileNames[0] = "maps//faceOff.txt";
+	fileNames[0] = "maps//introLevel.txt";
+	fileNames[1] = "maps//faceOff.txt";
 	fileNames[2] = "maps//boss.txt";
 	fileNames[3] = "maps//level4.txt";
 	fileNames[4] = "maps//level5.txt";
 	currentLevel = 0;
 	this->buildFromFile(fileNames[currentLevel]);
-
+	
 
 	for(int i(0); i < gunzCount; i++)
 	{
@@ -185,7 +185,7 @@ void TestStuff::initialize(HWND hwnd)
 	}
 	Character* c = new Character(this,graphics);
 	testMap->addCharacter(c);
-	AI* a = new AI(this,graphics);
+	/*AI* a = new AI(this,graphics);
 	testMap->addCharacter(a);
 	a = new AI(this,graphics);
 	testMap->addCharacter(a);
@@ -194,10 +194,11 @@ void TestStuff::initialize(HWND hwnd)
 	a = new AI(this,graphics);
 	testMap->addCharacter(a);
 	a = new AI(this,graphics);
-	testMap->addCharacter(a);
+	testMap->addCharacter(a);*/
 	testProjectile = new Projectile(&projectileTM, this, 32, 8, entityNS::CIRCLE, 1);
+	testMag = new Magazine(30000,5,5,0,0,0,ONE,testProjectile);
 	//testProjectile->init
-	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&projectileTM))
+	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&this->turretTexture,testMag))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 	levels[currentLevel]->testProjectile = testProjectile;
 
@@ -385,7 +386,7 @@ void TestStuff::update()
 		this->buildFromFile(fileNames[currentLevel]);
 		Character* c = new Character(this,graphics);
 		//c->initialize();
-		testMap->addCharacter(c);
+		
 		if(currentLevel==2)
 		{
 			AI* boss = new AI(this,graphics);
@@ -416,11 +417,26 @@ void TestStuff::update()
 
 		if(currentLevel==1)
 		{
-			if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
+			testMap->addCharacter(c);
+			AI* a = new AI(this,graphics);
+			testMap->addCharacter(a);
+			a = new AI(this,graphics);
+			testMap->addCharacter(a);
+			a = new AI(this,graphics);
+			testMap->addCharacter(a);
+			a = new AI(this,graphics);
+			testMap->addCharacter(a);
+			a = new AI(this,graphics);
+			testMap->addCharacter(a);
+			if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&projectileTM))
 				throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+			for (int i = 1; i < testMap->totalCharacters; i++) {
+				if(testMap->characters[i]!=0)reinterpret_cast<AI*>(testMap->characters[i])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);
+			}
 		}
 		if(currentLevel==2)
 		{
+			testMap->addCharacter(c);
 			if (!testMap->initialize(this,0,0,0,&terrainTexture,&terrainTexture,&turretTexture,testMag))
 				throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
 		}

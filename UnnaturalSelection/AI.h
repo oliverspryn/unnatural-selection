@@ -119,6 +119,7 @@ public :
 	
 	bool canSee(Character* enemy)
 	{
+		if(enemy==0)return false;
 		D3DXVECTOR2 delta = enemy->getCenter() - getCenter();
 		myLines::Ray rayOfSight(getCenter(), delta, sightDistance);
 		for(int i(0); i < terrainSize; i++)
