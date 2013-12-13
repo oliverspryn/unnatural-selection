@@ -55,8 +55,8 @@ private :
 	float time;
 
 	HealthBar* hb;
-	Bar*      rb;
-	Bar*      tb;
+	HealthBar*      rb;
+	HealthBar*      tb;
 
 public : 
 	Hud(Game* game, Graphics* graphics);

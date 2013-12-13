@@ -49,8 +49,8 @@ void Hud::initialize(float health, float reload, float time) {
 
 //Initialize the barz!
 	hb = new HealthBar(game, graphics);
-	rb = new Bar(game, graphics);
-	tb = new Bar(game, graphics);
+	rb = new HealthBar(game, graphics);
+	tb = new HealthBar(game, graphics);
 
 	hb->setBoundaryMargin(hudNS::HEALTH_BORDER_LB);
 	hb->setBoundaryMode(hudNS::HEALTH_BORDER);

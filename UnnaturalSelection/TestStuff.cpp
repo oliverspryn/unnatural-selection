@@ -487,6 +487,10 @@ void TestStuff::render()
 	graphics->setBackColor(graphicsNS::GRAY);
 	background->draw();
 	testMap->draw();
+	hud->setHealth(testMap->characters[0]->healthPoints/300.0);
+	hud->setTime(this->gameTime/180);
+	hud->setReload(1);
+
 	hud->draw();
 	std::stringstream tempWords;
 	tempWords << "Health: " << testMap->characters[0]->healthPoints;
