@@ -8,8 +8,8 @@ void incrementCounter(int index, string text) {
 	weaponSelected = 4+index;
 	int needed = (weaponSelected - 4) / 3 * 1000;
 
-	if (totalScore >= needed) {
-		controlState = 4;
+	if (true) {
+		controlState++;
 		mode = PLAY;
 	} else {
 		stringstream ss;
@@ -231,37 +231,31 @@ void TestStuff::initialize(HWND hwnd)
 //Add the alides
 	slides = new Slides(this, graphics);
 	slides->addImage("pictures\\splash.jpg");
-	slides->addImage("pictures\\splash-1.jpg");
 	slides->addImage("pictures\\controls.png");
-	slides->addImage("pictures\\endGame.png");
+	slides->addImage("pictures\\splash-1.jpg");
+	slides->addImage("pictures\\splash-2.jpg");
+	slides->addImage("pictures\\splash-3.jpg");
 	slides->initialize();
 }
 
 void TestStuff::update()
 {
-	if(controlState == -1)
-	{
+	LMap* testMap = levels[currentLevel];
+	if(controlState == -1) {
 		return;
 	}
-	/*if(input->isKeyDown(VK_SPACE))
-	{
-		audio->playCue(GUN_SHOT);
-	}*/
-	auto testMap = levels[this->currentLevel];
-	if (controlState < 4 && controlState!=-1) {
-		//if(input->wasKeyPressed(VK_SPACE))
-		//	++controlState;
 
-		//return;
-	}
-
-	if (controlState == 1 || mode == MENU) {
+	if (controlState == 1 || controlState == 3 || controlState == 6 || controlState == 9) {
 		menu->update(frameTime);
 		return;
 	}
 
-	if(endGame)
-	{
+	if (controlState == 2 || controlState == 3 || controlState == 5 || controlState == 6 || controlState == 8 || controlState == 9) {
+		slides->update(frameTime);
+		return;
+	}
+
+	if(endGame) {
 		controlState = -1;
 	}
 	background->update(frameTime);
@@ -394,6 +388,7 @@ void TestStuff::update()
 	{
 		totalScore+=levels[currentLevel]->levelScore;
 		currentLevel++;
+		controlState++;
 		if(currentLevel >= 3)
 		{
 			endGame = true;
@@ -491,30 +486,78 @@ void TestStuff::render()
 
 	graphics->spriteBegin();
 	graphics->setBackColor(graphicsNS::GRAY);
+	slides->disable();
 	
 //Interrupt for menus and stories
-	if (mode == STORY || mode == MENU) {
+	if (controlState == 1) {
 		slides->enable();
-		slides->setSlide(currentLevel);
+		slides->setSlide(0);
 		slides->draw();
 
-		if (mode == STORY && (input->anyKeyPressed() || input->getMouseLButton())) {
-			mode = MENU;
-		}
-
-		if (mode == STORY) {
-			return;
-		}
-	}
-
-	if (mode != MENU) {
-		background->draw();
-	}
-
-	if (mode == MENU) {
 		menu->draw();
 		return;
 	}
+
+	if (controlState == 2 || controlState == 3) {
+		slides->enable();
+		slides->setSlide(controlState - 1);
+		slides->draw();
+
+		if (!down && (input->anyKeyPressed() || input->getMouseLButton())) {
+			controlState++;
+			return;
+		}
+
+		if (down && !input->anyKeyPressed() && !input->getMouseLButton()) {
+			down = false;
+		}
+
+		return;
+	}
+
+	if (controlState == 5 || controlState == 6) {
+		slides->enable();
+		slides->setSlide(3);
+		slides->draw();
+
+		if (!down && (input->anyKeyPressed() || input->getMouseLButton()) && controlState == 5) {
+			controlState++;
+			return;
+		}
+
+		if (down && !input->anyKeyPressed() && !input->getMouseLButton()) {
+			down = false;
+		}
+
+		if (controlState == 6) {
+			menu->draw();
+		}
+
+		return;
+	}
+
+	if (controlState == 8 || controlState == 9) {
+		slides->enable();
+		slides->setSlide(4);
+		slides->draw();
+
+		if (!down && (input->anyKeyPressed() || input->getMouseLButton())) {
+			controlState++;
+			return;
+		}
+
+		if (down && !input->anyKeyPressed() && !input->getMouseLButton()) {
+			down = false;
+		}
+
+		if (controlState == 9) {
+			menu->draw();
+		}
+
+		return;
+	}
+
+	background->draw();
 
 	testMap->draw();
 	hud->setHealth(testMap->characters[0]->healthPoints/300.0);
@@ -693,6 +736,7 @@ void TestStuff::consoleCommand()
 	if(command == "skip_level")
 	{
 		levels[currentLevel]->levelDone = true;
+		//controlState++;
 		return;
 	}
 	if(command == "infinite_time")

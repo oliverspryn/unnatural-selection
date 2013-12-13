@@ -91,6 +91,7 @@ private:
 	//LMap* testMap;
 	int numLevels;
 	//TutorialLevel* introMap;
+	bool down;
 };
 
 #endif
