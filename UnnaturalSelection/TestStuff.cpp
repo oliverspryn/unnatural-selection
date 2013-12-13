@@ -1,12 +1,12 @@
 #include "TestStuff.h"
 //hi just a test to make sure github is working // its working Jake
-Gun* gunz[7];
+Gun* gunz[19];
 int gunzCount;
 int weaponSelected;
 
 void incrementCounter(int index, string text) {
 	controlState = 4;
-	weaponSelected = 4+index;
+	weaponSelected = 4+index+3*0;
 }
 
 void endGameNow(int a, string b){
@@ -26,18 +26,35 @@ TestStuff::TestStuff()
 	currentLevel=0;
 	levels = new LMap*[this->numLevels];
 
-// Test gun Gun(0, 16*60*60, 100, 2000, 1000, 100, 10, 0.3, 0, ONE);
-	gunz[0] = new Gun(-10, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
-	gunz[1] = new Gun(1, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
-	gunz[2] = new Gun(1, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
-	gunz[3] = new Gun(1, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
-	gunz[4] = new Gun(10, 10*60, 500, 2000, 1000, 0, 15, 0.01, 0, ONE);
-	gunz[5] = new Gun(10, 15*60, 500, 2000, 1000, 0, 10, 0.01, 1, ONE);
-	gunz[6] = new Gun(10, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+//Turret Gun
+	gunz[0] = new Gun(1, 300, 500, 2000, 1000, 0, 0, 0.01, 0, ONE);
+	//AI weapons
+	gunz[1] = new Gun(10, 10*60, 500, 1000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[2] = new Gun(20, 5*60, 500, 1500, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[3] = new Gun(15, 5*60*60, 500, 600, 1000, 0, 20, 1.5, 0, ONE);
+	//Tear 1 weapons
+	gunz[4] = new Gun(1, 10*60, 500, 1000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[5] = new Gun(2, 15*60, 500, 1500, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[6] = new Gun(1, 5*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+	//Tear 2 weapons
+	gunz[7] = new Gun(15, 10*60, 500, 1000, 1000, 0, 15, 0.01, 0, ONE);
+	gunz[8] = new Gun(25, 15*60, 500, 1500, 1000, 0, 10, 0.01, 1, ONE);
+	gunz[9] = new Gun(7, 10*60*60, 500, 600, 1000, 0, 20, 0.5, 0, ONE);
+	//Tear 3 weapons
+	gunz[10] = new Gun(2, 120*60, 500, 600, 1400, 0, 15, 0.01, 0, ONE);
+	gunz[11] = new Gun(23, 50*60, 500, 1000, 1300, 0, 4, 0.01, 7, ONE);
+	gunz[12] = new Gun(9, 15*60*60, 500, 600, 1000, 0, 20, 0.4, 0, ONE);
+	//Tear 4 weapons
+	gunz[13] = new Gun(110, 3*60, 500, 1000, 1500, 0, 5, 0.01, 0, ONE);
+	gunz[14] = new Gun(301, 1*60, 500, 2000, 2500, 0, 0, 0.01, 1, ONE);
+	gunz[15] = new Gun(30, 20*60*60, 300, 400, 1200, 0, 10, 1.0, 20, ONE);
+	//Tear 5 weapons
+	gunz[16] = new Gun(5, 10*60*60, 500, 2000, 2000, 0, 15, 0.01, 0, ONE);
+	gunz[17] = new Gun(5, 10*60*60, 500, 2000, 300, 0, 180, 0.01, 0, ONE);
+	gunz[18] = new Gun(200, 40*60, 500, 2000, -1400, 0, 3, 0.01, 0, ONE);
 
+	gunzCount = 19;
 
-
-	gunzCount = 7;
 }
 
 TestStuff::~TestStuff()
@@ -65,9 +82,27 @@ void TestStuff::initialize(HWND hwnd)
 	menu = new Menu(this, graphics);
 
 	MenuCol items2;
-	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 30 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
-	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 3, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
-	items2.push_back(MenuItem("Schrodinger Shotgun (Semi) - Pellets: 6, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 1
+	items2.push_back(MenuItem("Broken Old Reliable (Auto) - Fire Rate: 10 rps, Damage: 1, Accuracy: Low", menuNS::ALIGN_CENTER, true, incrementCounter));
+	items2.push_back(MenuItem("Damagaed Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 2, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Deceased Schrodinger Shotgun (Auto) - Pellets: 5, Damage: 1, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 2
+	items2.push_back(MenuItem("Old Reliable (Auto) - Fire Rate: 10 rps, Damage: 15, Accuracy: Low", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Little Awesome (Semi) - Fire Rate: 15 rps, Damage: 25, Accuracy: Medium", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Schrodinger Shotgun (Auto) - Pellets: 10, Damage: 7, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 3
+	items2.push_back(MenuItem("The Destructinator (Auto) - Fire Rate: 120 rps, Damage: 2, Accuracy: Low", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("The Nemesis (Burst 7) - Fire Rate: 50 rps, Damage: 23, Accuracy: High", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("The Hole Punch (Auto) - Pellets: 15, Damage: 9, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 4
+	items2.push_back(MenuItem("Doom Rhino (Auto) - Fire Rate: 3 rps, Damage: 110, Accuracy: High", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Galloping Slinger (Semi) - Fire Rate: 1 rps, Damage: 333, Accuracy: Very High", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Mama's Salt Shaker (Semi) - Pellets: 20, Damage: 30, Accuracy: Very Low", menuNS::ALIGN_CENTER, incrementCounter));
+	//Teir 5
+	items2.push_back(MenuItem("Meteor Shower (Auto) - Fire Rate: 600 rps, Damage: 5, Accuracy: Low", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Super Nova (Auto) - Fire Rate: 600 rps, Damage: 5, Accuracy: DNE", menuNS::ALIGN_CENTER, incrementCounter));
+	items2.push_back(MenuItem("Moonwalker (Auto) - Fire Rate: 40 rps, Damage: 200, Accuracy: High", menuNS::ALIGN_CENTER, incrementCounter));
+
 
 	MenuCol items;
 	items.push_back(MenuItem("Play", menuNS::ALIGN_CENTER, true, items2));
@@ -131,12 +166,13 @@ void TestStuff::initialize(HWND hwnd)
 	levels[1] = reinterpret_cast<LMap*>(intro);
 	ArenaLevel* arena = new ArenaLevel(input,graphics);
 	levels[0] = reinterpret_cast<LMap*>(arena);
-	levels[2] = new LMap(input,graphics);
+	BossLevel* boss = new BossLevel(input,graphics);
+	levels[2] = reinterpret_cast<LMap*>(boss);
 	auto testMap = levels[currentLevel];
 
 	fileNames[1] = "maps//introLevel.txt";
 	fileNames[0] = "maps//faceOff.txt";
-	fileNames[2] = "maps//level3.txt";
+	fileNames[2] = "maps//boss.txt";
 	fileNames[3] = "maps//level4.txt";
 	fileNames[4] = "maps//level5.txt";
 	currentLevel = 0;
@@ -350,7 +386,12 @@ void TestStuff::update()
 		Character* c = new Character(this,graphics);
 		//c->initialize();
 		testMap->addCharacter(c);
-
+		if(currentLevel==2)
+		{
+			AI* boss = new AI(this,graphics);
+			testMap->addCharacter(reinterpret_cast<Character*>(boss));
+			reinterpret_cast<AI*>(testMap->characters[1])->giveInfo(testMap->totalCharacters,testMap->characters,testMap->addedElements,testMap->terrain);
+		}
 		//WeaponStuff
 		if(currentLevel == 1)
 		{
@@ -373,8 +414,16 @@ void TestStuff::update()
 
 		testGun->initialize(this, 128, 32, entityNS::NONE, &gunTM);
 
-		if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
-			throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		if(currentLevel==1)
+		{
+			if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture,&turretTexture,testMag))
+				throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		}
+		if(currentLevel==2)
+		{
+			if (!testMap->initialize(this,0,0,0,&terrainTexture,&terrainTexture,&turretTexture,testMag))
+				throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
+		}
 		levels[currentLevel]->testProjectile = testProjectile;
 		for(int i = 0; i < testMap->totalCharacters; i++)
 		{
@@ -469,7 +518,7 @@ void TestStuff::resetAll()
 
 void TestStuff::buildFromFile(std::string fileName)
 {
-	auto testMap = levels[currentLevel];
+	LMap* testMap = levels[currentLevel];
 	fstream fin;
 	fin.open(fileName);
 	string line = "";
@@ -479,10 +528,10 @@ void TestStuff::buildFromFile(std::string fileName)
 	testMap->camera->zoom;
 	getline(fin,line);
 	int numTerrain = atoi(line.c_str());
-	//this->terrainNumToPrint = numTerrain;
+	this->terrainNumToPrint = numTerrain;
 	getline(fin,line);
 	int numSpawn = atoi(line.c_str());
-	//this->spawnNumToPrint = numSpawn;
+	this->spawnNumToPrint = numSpawn;
 	int height = 0, width = 0, x = 0, y = 0;
 	double degree = 0;
 	DWORD color;

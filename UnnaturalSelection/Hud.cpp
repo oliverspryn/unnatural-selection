@@ -11,7 +11,7 @@ Hud::~Hud() {
 }
 
 void Hud::draw() {
-	bkg.draw();
+	bkg.draw(D3DCOLOR_ARGB(100, 255, 255, 255));
 	hb->draw();
 	rb->draw();
 	tb->draw();

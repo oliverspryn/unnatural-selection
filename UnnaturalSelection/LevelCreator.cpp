@@ -51,7 +51,7 @@ void LevelCreator::initialize(HWND hwnd)
 	if(!targetTexture.initialize(graphics,TARGET_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing target texture"));
 
-	testMap = new LMap(input,graphics,10000,1000,10,5,100,true);
+	testMap = new LMap(input,graphics,10000,1000,10,50,100,true);
 
 	if (!testMap->initialize(this,0,0,0,&terrainTexture,&targetTexture))
 		throw GameError(gameErrorNS::FATAL_ERROR, "Error initializing the LMap object");
@@ -582,6 +582,7 @@ TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 			{
 				found = true;
 				spawnChosen = false;
+				targetSelected=false;
 				return ent;
 			}
 		}
@@ -597,6 +598,7 @@ TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
 			{
 				found = true;
+				targetSelected = false;
 				spawnChosen = true;
 				return ent;
 			}
@@ -613,6 +615,7 @@ TerrainElement* LevelCreator::findEntityByClick(int x, int y, bool& found)
 			if(x >= entityX && x <=entityX+ent->getWidth() && y >= entityY && y <= entityY + ent->getHeight())
 			{
 				found = true;
+				spawnChosen = false;
 				targetSelected = true;
 				return ent;
 			}

@@ -64,7 +64,7 @@ void LMap::update(float frameTime)
 	{
 		this->levelDone=true;
 	}*/
-	if(!editor&&first)
+	if(guns&&first)
 	{
 		this->givePlayerGun();
 		first = false;
@@ -260,7 +260,6 @@ void LMap::update(float frameTime)
 				}
 				characters[i]->charFrameTime = -1;
 			}
-
 		}
 	}
 }
@@ -432,6 +431,7 @@ void LMap::chooseSpawnPoint(Character* c)
 
 LMap::LMap(Input* i, Graphics* g, int numT, int numM, int numC, int numS, int numTarget, bool edit)
 {
+	guns = !edit;
 	totalMags=0;
 	first = true;
 	numKills = 0;
@@ -844,7 +844,12 @@ bool LMap::collidesWithTurret(TerrainElement* t,Projectile* p, float& fT)
 
 void LMap::givePlayerGun()
 {
-	testMag = new Magazine(3000, 5, 5, 0, 0, 0, ONE, testProjectile); 
+	int ammos = 5*((weaponSelected/3)-1);
+	if(ammos == 0)
+	{
+		ammos = 5;
+	}
+	testMag = new Magazine(3000, ammos, ammos, 0, 0, 0, ONE, testProjectile);
 	testGun = new Gun(*gunz[weaponSelected]);
 	testGun->loadNewMag(testMag);
 	this->characters[0]->currentWeapon = testGun;

@@ -8,6 +8,7 @@
 #include "textDX.h"
 #include "GearhartTutorialLevel.h"
 #include "GearhartArenaLevel.h"
+#include "GearhartBossLevel.h"
 #include "LMap.h"
 #include "gun.h"
 #include "Menu.h"
@@ -68,6 +69,8 @@ public:
 	Background* background;
 	HealthBar* healthBar;
 	Hud* hud;
+	int spawnNumToPrint;
+	int terrainNumToPrint;
 	
 private:
 	TextureManager terrainTexture;
