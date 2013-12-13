@@ -25,13 +25,19 @@ void BossLevel::update(float frameTime)
 	{
 		for(int i = 3; i < 15; i++)
 		{
-			terrain[i]->setActive(false);
-			terrain[i]->setVisible(false);
+			if(terrain[i]!=0)
+			{
+				terrain[i]->setActive(false);
+				terrain[i]->setVisible(false);
+			}
 		}
 		for(int i = 0; i < this->numTargets; i++)
 		{
-			targets[i]->setActive(false);
-			targets[i]->setVisible(false);
+			if(targets[i]!=0)
+			{
+				targets[i]->setActive(false);
+				targets[i]->setVisible(false);
+			}
 		}
 	}
 	if(numKills==2)
