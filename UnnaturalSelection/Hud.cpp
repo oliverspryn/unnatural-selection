@@ -91,6 +91,10 @@ void Hud::setTime(float time) {
 }
 
 void Hud::update(float frameTime) {
+	hb->setPercent(health);
+	rb->setPercent(reload);
+	tb->setPercent(time);
+
 	bkg.update(frameTime);
 	hb->update(frameTime);
 	rb->update(frameTime);
